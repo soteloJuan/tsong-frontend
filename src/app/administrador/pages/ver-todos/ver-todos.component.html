@@ -1,0 +1,156 @@
+<body>
+    
+    <div class="content" *ngIf="arrayAdministradores; else spinner2">
+
+        <div class="header">
+
+            <div class="titulo">
+                <h1>ADMINISTRADORES DE <span>TSONG</span> </h1>
+            </div>
+
+            <div class="search">
+                <label for="search"> Buscar </label>
+                <input type="text" id="search" placeholder="Ingrese el nombre o correo" (input)="consultarAdministradorPorTermino()" #termino>
+
+                <div *ngIf="banderas.busquedaTermino" class="x" (click)="limpiarInputSearch()">
+                    <i class="fa fa-times-circle"></i>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="body">
+
+            <div class="card" *ngFor="let admin of arrayAdministradores; let i = index">
+                <div class="imagen">
+
+                    <img src="./assets/images/add-administrador.png" alt="">
+
+                </div>
+
+                <div class="card-body">
+
+                        <h5 class="card-title">{{admin.nombre | titlecase}}</h5>
+                        <p class="card-text">{{admin.apellidos}}</p>
+                        <p class="card-text">{{admin.email}}</p>
+
+                </div>
+    
+                <div class="buttons">
+
+                    <div class="modificar">
+                        <button class="btn" (click)="asignarDatosAdministradorAModificar(i)">
+                            MODIFICAR
+                        </button>
+                    </div>
+                    <div class="eliminar">
+                        <button class="btn" (click)="eliminarAdministrador(admin._id)">
+                            ELIMINAR
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="buttons-controls">
+
+                <div class="previous" *ngIf="controlPaginacion.anteriorPagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.anteriorPagina)">
+                        ANTERIOR
+                    </button>
+                </div>
+
+
+                <div class="next" *ngIf="controlPaginacion.siguientePagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.siguientePagina)">
+                        SIGUIENTE
+                    </button>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div class="updateAdministrador" *ngIf="banderas.mostrarFormulario">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormulario()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR ADMINISTRADOR</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarModificacionAdministradorSeleccionado()" [formGroup]="formModificarAdministrador">
+
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡  El nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-apellidos">
+                            <input type="text" class="input" placeholder=" Ingrese sus apeliidos"  formControlName="apellidos">
+                            <span *ngIf="esCampoValido('apellidos')" class="span"> ¡  Los apellidos son obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-email">
+                            <input type="email" class="input" placeholder=" Ingrese su correo"  formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡  El email es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-grupo">
+
+                            <div class="formulario-grupo-bloqueado">
+                                <label id="bloqueado">Bloqueado : </label>
+                                <select class="bloqueado select" name="bloqueado" id="bloqueado" formControlName="bloqueado">
+                                    <option value="" selected disabled> Seleccionar </option>
+                                    <option value="true"  > True </option>
+                                    <option value="false" > False </option>
+                                </select>
+                            </div>
+
+                            <div class="formulario-grupo-confirmarCorreo">
+                                <label id="confirmarCorreo">ConfirmarCorreo : </label>
+                                <select class="confirmarCorreo select" name="confirmarCorreo" id="confirmarCorreo"  formControlName="confirmarCorreo">
+                                    <option value="" selected disabled> Seleccionar </option>
+                                    <option value="true"  > True </option>
+                                    <option value="false" > False </option>
+                                </select>
+                            </div>
+                                                        
+                            <span *ngIf="esCampoValido('confirmarCorreo')" class="span"> ¡  ConfirmarCorreo es obligatorio !</span>
+
+                        </div>
+
+
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    
+    <ng-template #spinner2>
+        <app-spinner2 ></app-spinner2>
+    </ng-template>
+</body>
+
+
+<!--
+
+    SOLO FALTAS CONFIGURAR LO QUE ES LA IMAGEN PARA QUE PASE POR MEDIO DE UN PIPE
+
+-->

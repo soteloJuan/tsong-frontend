@@ -1,0 +1,45 @@
+<nav class="nav">
+
+
+    <div class="nav__body">
+
+
+        <div class="nav__brand">
+            <a href="#" class="nav__logo" routerLink="/administrador">TSONG</a>
+        </div>
+
+
+        <div class="nav__list" *ngFor="let item of menuService.menu">
+
+            <a *ngIf="!item.submenu" href="#" class="nav__link" [routerLink]="item.url"
+                routerLinkActive="active">
+                <i [class]="item.icon"></i>
+                <span class="nav__name">{{item.titulo}}</span>
+            </a>
+
+
+            <div class="nav__link collapse" routerLinkActive="active" *ngIf="item.submenu">
+                
+                <i [class]="item.icon"></i>
+                <span class="nav__name">{{item.titulo}}</span>
+
+                <i class="fa fa-caret-down collapse__link" (click)="clickSubmenu($event)"></i>
+
+                <ul class="collapse__menu">
+                    <div *ngFor="let submenu of item.submenu">
+                        <a [routerLink]="submenu.url" class="collapse__sublink"> {{submenu.titulo}}</a>
+                    </div>
+                </ul>
+        
+            </div>
+
+        </div>
+
+    </div>
+
+    <a  class="nav__logout" (click)="logout()">
+        <i class="fa fa-sign-out nav__icon"></i>
+        <span class="nav__name">Log Out</span>
+    </a>
+
+</nav>

@@ -1,0 +1,153 @@
+<body>
+    
+    
+    <div class="content" *ngIf="administradorService.getAdministrador; else spinner2">
+        
+        <div class="title">
+            
+            <h1> MI  PERFIL <span>TSOG</span></h1>
+            
+        </div>
+        
+        <div class="body">
+            
+            <div class="contentImage">
+                
+                <div class="img">
+                    <div class="img__border">
+                        <img *ngIf="!imagenTemporal" [src]="administradorService.getAdministrador.imagenURL | noImage" (click)="changeIMG.click()">
+                        <img *ngIf="imagenTemporal" [src]="imagenTemporal" (click)="changeIMG.click()">
+
+                    </div>
+                </div>
+                
+                <div class="buttoImage">
+                    <button *ngIf="banderas.agregarFoto" class="btn" (click)="changeIMG.click()"> {{administradorService.getAdministrador.imagenURL | buttonTextImg}}</button>
+                    <button *ngIf="banderas.guardarFoto" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                    <button *ngIf="banderas.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+                    <button *ngIf="administradorService.getAdministrador.imagenURL && !imagenTemporal" class="btn" (click)="eliminarFoto()"> ELIMINAR FOTO </button>
+
+                    <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                </div>
+
+            </div>
+
+            <div class="contentData">
+                
+                <div class="card">
+                    
+                    <div class="card-text">
+                        <h1> {{administradorService.getAdministrador.nombre | titlecase}}</h1>
+                        <p> Apellidos: <span> {{administradorService.getAdministrador.apellidos | titlecase}}  </span> </p>
+                        <p> Correo: <span>  {{administradorService.getAdministrador.email}}  </span> </p>
+                    </div>
+                    
+                    <div class="card-button">
+                        <button class="btn" (click)="mostrarFormularioActualizarData()">MODIFICAR</button>
+                    </div>
+                    
+                    <div class="card-changePassword">
+                        <p (click)="mostrarFormularioActualizarPassword()">¡ Cambiar contraseña !</p>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+
+        <div class="updateProfile" *ngIf="banderas.mostrarFormularioUpdateData">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioActualizarData()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR DATOS</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarCambiosProfile()" [formGroup]="formProfile">
+
+                        
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-apellidos">
+                            <input type="text" class="input" placeholder=" Ingrese su apellidos" formControlName="apellidos">
+                            <span *ngIf="esCampoValido('apellidos')" class="span"> ¡ El apellidos es obligatorio !</span>
+                        </div>
+                        
+                        <div class="formulario-email">
+                            <input type="email" class="input" placeholder=" Ingrese su Correo" formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡ El Email es obligatorio !</span>
+                        </div>
+
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="updateProfile" *ngIf="banderas.mostrarFormularioUpdatePassword">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioActualizarPassword()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR PASSWORD</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarCambiosPassword()" [formGroup]="formPassword">
+
+                        <div class="formulario-password">
+                            <input type="password" class="input" placeholder=" Ingrese su Contraseña Actual" formControlName="password">
+                            <span *ngIf="esCampoValido('password')" class="span"> ¡ La contraseña Actual es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-newPassword">
+                            <input type="password" class="input" placeholder=" Ingrese su Nueva Contraseña" formControlName="newPassword">
+                            <span *ngIf="esCampoValido('newPassword')" class="span"> ¡ La Nueva Contraseña es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-ConfirmNewPassword">
+                            <input type="password" class="input" placeholder=" Confirme su Nueva Contraseña" formControlName="ConfirmNewPassword">
+                            <span *ngIf="esCampoValido('ConfirmNewPassword')" class="span"> ¡ Su nueva contraseña no coincide !</span>
+                        </div>
+
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <ng-template #spinner2>
+        <app-spinner2 ></app-spinner2>
+    </ng-template>
+    
+
+
+</body>

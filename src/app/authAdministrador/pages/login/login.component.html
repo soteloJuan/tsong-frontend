@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+
+        <div class="content">
+
+
+            <div class="card1">
+
+                <div class="card1-text">
+
+                    <h1> ¡ HELLO ! </h1>
+
+                    <p> Si deseas regresar a la página principal, da click en el siguiente botón.</p>
+
+                </div>
+
+                <div class="card1-button">
+
+                    <button (click)="regresarPaginaInicio()" class="btn">REGRESAR</button>
+
+                </div>
+
+            </div>
+
+
+            <div class="card2">
+
+                <div class="card2-titulo">
+                    <h1>LOGIN</h1>
+                </div>
+
+                <div class="card2-formulario">
+
+                    <form class="formulario" (ngSubmit)="enviarDatos()" autocomplete="off"
+                        [formGroup]="formLogin">
+
+                        <div class="formulario-email">
+                            <input type="email" class="input" placeholder=" Ingrese su Correo"
+                                formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡ El Email es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-password">
+                            <input type="password" class="input" placeholder=" Ingrese Su Password"
+                            formControlName="password">
+                            <span *ngIf="esCampoValido('password')" class="span"> ¡ El Password es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> LOGIN </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card2-forgotPassword">
+                    <p (click)="forgotPassword()"> ¿Recuperar contraseña? </p>
+                </div>
+
+                
+            </div>
+
+
+        </div>
+
+    </section>
+
+    
+</body>
+</html>

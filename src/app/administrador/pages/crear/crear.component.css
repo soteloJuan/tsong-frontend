@@ -1,0 +1,433 @@
+
+.content{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* START titulo */
+
+.title{
+    width: 100%;
+    height: 13vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title h1{
+    text-align: center;
+    letter-spacing: 1px;
+    color: var(--purple2);
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.title h1 span{
+    font-weight: 900;
+    font-family: 'Merienda', cursive;
+}
+
+/* END titulo */
+
+
+
+/* START Body */
+
+.body{
+    width: 100%;
+    height: 87vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+/* START IMAGE */
+
+.body .contentImage{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.body .contentImage .img{
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.body .contentImage .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.body .contentImage .buttoImage{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+/* END IMAGE */
+
+
+/* START DATA */
+
+.body .contentData{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.cardForm{
+    width: 80%;
+    height: 95%;
+    background: var(--purple1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:0px 0px 42px 7px #adadad;
+    -moz-box-shadow:0px 0px 42px 7px #adadad;
+    -webkit-box-shadow:0px 0px 42px 7px #adadad;
+    position: relative;
+}
+
+
+.cardForm-titulo{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardForm-titulo h1{
+    color: var(--gold1);
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    padding: 0px 15px;
+}
+
+
+.cardForm-formulario{
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.cardForm-formulario .formulario{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.formulario-email,
+.formulario-nombre,
+.formulario-apellidos,
+.formulario-password,
+.formulario-ConfirmPassword,
+.formulario-button
+{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.input{
+    font-family: "font Awesome 5 free";
+    /* font-weight: 900; */
+    width: 70%;
+    height: 50%;
+    background: none;
+    text-decoration: none;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+    color: var(--gold1);
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.input:focus{
+    outline: none;
+    color: var(--gold2);
+    border: 1px solid var(--gold2);
+}
+
+
+.span{
+    position: absolute;
+    color: red;
+    bottom: -10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+.formulario-button button{
+    width: 50%;
+    height: 65%;
+    color: var(--gold1);
+    border: 1px solid var(--gold1); 
+    padding: 10px 20px;
+    font-size: 22px;
+    font-weight: 500;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    transition: all 0.5s;
+}
+
+.formulario-button button:hover{
+    background: var(--gold2);
+    color: var(--purple2);
+    border: 1px solid var(--gray2); 
+    box-shadow:-10px 14px 21px -7px var(--gray2);
+    -moz-box-shadow:-10px 14px 21px -7px var(--gray2);
+    -webkit-box-shadow:-10px 14px 21px -7px var(--gray2);
+    scale: 1.09;
+}
+
+
+/* END DATA */
+
+/* END Body */
+
+
+
+@media screen and (max-width:1250px){
+
+    .body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .body .contentImage{
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body .contentData{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+
+    .cardForm{
+        width: 50%;
+        height: 98%;
+    }
+
+}
+
+
+@media screen and (max-width:1000px){
+
+    .title h1{
+        letter-spacing: 0px;
+        font-size: 43px;
+        font-weight: 700;
+    }
+
+    .cardForm{
+        width: 70%;
+    }
+
+}
+
+
+@media screen and (max-width:800px){
+    .title{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .title h1{
+        font-size: 35px;
+        font-weight: 600;
+        margin-right: 8px;
+    }
+
+    .cardForm{
+        width: 80%;
+    }
+
+}
+
+
+@media screen and (max-width:600px){
+
+    .title h1{
+        font-size: 25px;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+    }
+
+}
+
+@media screen and (max-width:450px){
+
+    .title h1{
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+        height: 80%;
+    }
+
+    .cardForm-titulo{
+        width: 100%;
+        height: 10%;
+    }
+    .cardForm-titulo h1{
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+
+    .cardForm-formulario{
+        width: 100%;
+        height: 90%;
+
+    }
+
+    .cardForm-formulario .formulario{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .input{
+        font-family: "font Awesome 5 free";
+        /* font-weight: 900; */
+        width: 80%;
+        height: 50%;
+        font-size: 15px;
+    }
+
+    .span{
+        font-size: 13px;
+    }
+
+
+    .formulario-button button{
+        width: 70%;
+        height: 60%;
+        padding: 5px 15px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+}
+
+@media screen and (max-width:300px){
+
+
+    .title h1{
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+        height: 70%;
+    }
+
+
+    .cardForm-titulo h1{
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .input{
+        width: 90%;
+        height: 50%;
+        font-size: 13px;
+    }
+
+    .span{
+        font-size: 10px;
+    }
+
+
+    .formulario-button button{
+        width: 80%;
+        height: 50%;
+        padding: 5px 15px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+
+}
+
+@media screen and (max-width:250px){
+
+    
+    .title h1{
+        font-size: 11px;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+
+}
