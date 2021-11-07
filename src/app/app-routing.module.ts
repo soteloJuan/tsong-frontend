@@ -12,6 +12,7 @@ import { NopagefoundComponent } from './nopagefound/nopagefound.component';
 
 // Guards
 import { AuthAdministradorGuard } from './guards/auth-administrador.guard';
+import { AuthUsuarioGuard } from './guards/auth-usuario.guard';
 
 const routes: Routes = [
     {
@@ -32,8 +33,8 @@ const routes: Routes = [
         loadChildren: () => import('./administrador/administrador.module').then( m => m.AdministradorModule),
     },{
         path:'usuario',
-        canActivate: [],
-        canLoad: [],
+        canActivate: [AuthUsuarioGuard],
+        canLoad: [AuthUsuarioGuard],
         loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule)
 
     },

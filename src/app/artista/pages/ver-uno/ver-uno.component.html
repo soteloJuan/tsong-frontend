@@ -1,0 +1,236 @@
+<body>
+
+
+    <app-spinner2 *ngIf="!artista"> </app-spinner2>
+
+    <div class="content" *ngIf="artista">
+        
+
+        <div class="contentbody"> 
+
+
+            
+            <div class="cardContent">
+
+                <div class="card">
+
+                    <div class="cardImage">
+    
+                        
+                        <div class="imageContent">
+        
+                            <img *ngIf="!imagenTemporal" [src]="artista.imagenURL | noImage">
+                            <img *ngIf="imagenTemporal" [src]="imagenTemporal">
+    
+                        </div>
+    
+                        <div class="buttoImage">
+        
+                            <button  *ngIf="banderas.agregarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="changeIMG.click()"> {{artista.imagenURL | buttonTextImg}}</button>
+                            <button  *ngIf="banderas.guardarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button  *ngIf="banderas.cancelarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+                            <button  *ngIf="artista.imagenURL && !imagenTemporal && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="eliminarFoto()"> ELIMINAR FOTO </button>
+    
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="cardBody">
+    
+                        <div class="texto">
+    
+                            <p> Nombre:  <span> {{artista.nombre |titlecase}}   </span> </p>
+                            <p> Descripcion : <span> {{artista.descripcion |titlecase}} </span> </p>
+                            <p> Fecha de Inicio:  <span> {{artista.fechaInicio |date}} </span>  </p> 
+                            <p> Pais <span> {{artista.pais |titlecase}} </span> </p>
+                            <!-- Lo sigueinte solo lo puede ver un administrador -->
+                            <p *ngIf="menuService.getRole == 'ADMINISTRADOR'" > Bloqueado <span> {{artista.bloqueado}} </span> </p>
+
+    
+                        </div>
+    
+    
+                        <div class="buttons">
+        
+                            <button *ngIf="menuService.getRole == 'ADMINISTRADOR'" class="btn" (click)="mostrarFormularioActualizarData()"> MODIFICAR </button>
+    
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+
+            <div class="listaAlbums">
+
+                <div class="listaAlbumsTitulo">
+
+                    <h2 *ngIf="arrayAlbums"> ALBUMS DEL ARTISTA </h2>
+                    <h2 *ngIf="!arrayAlbums"> ¡ ESTE ARTISTA NO TIENE ALBUMS !</h2>
+
+                </div>
+
+
+
+                <div class="listaAlbumsCuerpo">
+                    
+                    <div class="line" *ngFor="let album of arrayAlbums">
+
+                        <hr class="style6">
+    
+                        <div class="info">
+                            <i class="fas fa-compact-disc"></i>
+
+                            <p>
+                                {{album.nombre |uppercase}}
+                            </p>
+    
+                            <i class="icon fas fa-ellipsis-v">
+                                <!-- En el siguiente ira la condicion de si es un administrador -->
+                                <ul class="ul" *ngIf="menuService.getRole == 'ADMINISTRADOR'">
+                                    <li class="li" (click)="albumAReproducir(album._id)"> Reproducir Album</li>
+                                    <li class="li" (click)="verMasDelAlbum(album._id)" > Ver Más</li>
+                                    <li class="li" (click)="eliminarAlbum(album._id)"> Eliminar</li>
+                                </ul>
+    
+                                <ul class="ul" *ngIf="menuService.getRole == 'USUARIO'">
+                                    <li class="li" (click)="albumAReproducir(album._id)"> Reproducir Album</li>
+                                    <li class="li" (click)="verMasDelAlbum(album._id)"> Ver Más</li>
+                                </ul>
+    
+                            </i>
+                            
+                        </div>
+
+                    </div>
+
+
+                    <div class="buttons-controls">
+
+                        <div class="previous" *ngIf="controlPaginacion.anteriorPagina">
+                            <button class="btn" (click)="consultarAlbumsPorArtistaPaginado(controlPaginacion.anteriorPagina)">
+                                ANTERIOR
+                            </button>
+                        </div>
+        
+        
+                        <div class="next" *ngIf="controlPaginacion.siguientePagina">
+                            <button class="btn" (click)="consultarAlbumsPorArtistaPaginado(controlPaginacion.siguientePagina)">
+                                SIGUIENTE
+                            </button>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+        
+        
+        <div class="updateArtista" *ngIf="banderas.mostrarFormularioUpdateDataArtista">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioActualizarData()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR DATOS</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarCambiosArtistaModificado()"
+                    [formGroup]="formArtista">
+
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-grupo">
+
+                            <div class="formulario-grupo-artista">
+                                <label>País : </label>
+                                <select class="select" formControlName="pais">
+                                    <option [value]="artista.pais" [selected]="true"> {{artista.pais |uppercase}} </option>
+                                    <option [selected]="false" *ngFor="let pais of artistaService.paises" [value]="pais" > {{pais}} </option>
+                                </select>
+                            </div>
+
+                            <div class="formulario-grupo-fechaLanzamiento">
+                                <label>Fecha Inicio: </label>
+                                <input type="date" class="input" formControlName="fechaInicio">
+                            </div>
+
+                            <span *ngIf="esCampoValido('pais') || esCampoValido('fechaInicio')" class="span"> ¡  El País y Fecha de Inicio son obligatorios !</span>
+
+                        </div>
+
+                        <div class="formulario-descripcion">
+                            <input type="text" class="input" placeholder=" Ingrese la descripción" formControlName="descripcion">
+                            <span *ngIf="esCampoValido('descripcion')" class="span"> ¡ La descripción es obligatorio !</span>
+                        </div>
+
+
+                        <div class="formulario-bloqueado">
+                            <label>Bloqueado : </label>
+                            <input class="radio-true" type="radio" id="true" value="true" [checked]="artista.bloqueado === true" formControlName="bloqueado">
+                            <label for="true">True</label>
+
+                            <input class="radio-false" type="radio" id="false" value="false" [checked]="artista.bloqueado === false" formControlName="bloqueado">
+                            <label for="false">False</label>
+                        </div>
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+    
+
+    
+    
+    
+</body>
+
+
+
+
+<!-- 
+
+Datos Artistas :
+
+- imagen
+- nombre
+_ descripcion
+- fecha de inicio
+- Pais 
+- bloqueado
+
+
+
+Datos allbum :
+
+- nombre
+
+
+-->
+
+
+
+

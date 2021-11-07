@@ -1,0 +1,384 @@
+
+.content{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+.contentbody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* START CARD */
+
+.cardContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card{
+    width: 80%;
+    height: 600px;
+    margin: 50px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: var(--purple1);
+    border-radius: 30px;
+}
+
+.cardImage{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.imageContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imageContent img{
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+}
+
+
+
+/* END buttonsImages */
+
+
+
+
+.cardBody{
+    width: 90%;
+    height: 100%;
+}
+
+.cardBody .texto{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardBody .texto p{
+    text-align: center;
+    color: var(--gold1);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.cardBody .texto p span{
+    background: var(--gold1);
+    color: var(--purple1);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.cardBody .texto p .click{
+    cursor: pointer;
+    background: var(--purple1);
+    color: var(--gold1);
+    border: 1px solid var(--gold1);
+}
+.cardBody .texto p .click:hover{
+    background: var(--gold1);
+    color: var(--purple1);
+    border: 1px solid var(--gold1);
+}
+
+
+/* END CARD */
+
+
+
+/* START LISTAALBUMS */
+
+
+.listasContent{
+    width: 100%;
+    height: 900px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.listaCanciones{
+    width: 100%;
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    overflow-y: scroll;
+}
+
+.listaCancionesTitulo
+{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.listaCancionesTitulo h2
+{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.listaCancionesCuerpo
+{
+    width: 100%;
+    /* height:  */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.listaCancionesCuerpo .line{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-left: 20px;
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+
+.listaCancionesCuerpo .line:hover{
+    background: var(--purple1);
+    color: var(--gold1);
+}
+
+.listaCancionesCuerpo .line .info{
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.listaCancionesCuerpo .line .info p{
+    margin-left: 10px;
+}
+
+.listaCancionesCuerpo .line .info .icon{
+    position: absolute;
+    padding: 20px;
+    top: 0;
+    right: 30px;
+}
+
+.listaCancionesCuerpo .line .icon .ul{
+    width: 120px;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 30px;
+    background: var(--purple1);
+    color: var(--gold1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+.listaCancionesCuerpo .line .icon .ul .li{
+    width: 100%;
+    text-decoration: none;
+    list-style: none;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+    margin: 5px 0px;
+}
+.listaCancionesCuerpo .line .icon .ul .li:hover{
+    border-bottom: 1px solid var(--gold1);
+}
+
+.listaCancionesCuerpo .line .icon:hover .ul{
+    display: inline-block;
+}
+
+
+/* END body */
+
+/* END LISTAALBUMS */
+
+
+
+
+@media screen and (max-width: 1250px){
+
+    /* START CARD */
+
+    .cardContent{
+        width: 100%;
+        height: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+    }
+    .card{
+        width: 80%;
+        height: 800px;
+        margin: 50px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--purple1);
+        border-radius: 30px;
+    }
+        
+
+    /* END CARD */
+
+    
+}
+
+@media screen and (max-width: 1250px){
+
+    /* START LISTAALBUMS */
+
+
+    .listaCancionesCuerpo .card{
+        width: 60%;
+        height: 300px;
+    }
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+@media screen and (max-width: 800px){
+
+        /* start listas  */
+
+        .listasContent{
+            width: 100%;
+            height: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .listaCanciones{
+            width: 95%;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            overflow-y: scroll;
+        }
+
+
+        /* end listas */
+}
+
+
+@media screen and (max-width: 600px){
+
+
+    .card{
+        width: 90%;
+    }
+
+    /* START CARD */
+
+
+    .imageContent img{
+        width: 100%;
+        height: 100%;
+    }
+
+
+
+    /* END CARD */
+
+
+
+}
+
+
+@media screen and (max-width: 500px){
+
+    /* START LISTAALBUMS */
+
+    .listaCancionesCuerpo .card{
+        width: 90%;
+        height: 300px;
+    }
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+@media screen and (max-width: 450px){
+
+
+    .card{
+        width: 95%;
+    }
+
+    
+
+}
+
+@media screen and (max-width: 350px){
+
+}
+
+
+
+@media screen and (max-width: 250px){
+
+    /* START LISTAALBUMS */
+
+
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+
+

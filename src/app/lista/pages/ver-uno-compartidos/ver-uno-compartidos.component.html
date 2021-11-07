@@ -1,0 +1,88 @@
+<body>
+
+    <app-spinner2 *ngIf="!listaReproduccion"> </app-spinner2>
+    
+    <div class="content" *ngIf="listaReproduccion">
+
+
+        <div class="contentbody"> 
+            
+            <div class="cardContent">
+
+                <div class="card">
+
+                    <div class="cardImage">
+    
+                        <div class="imageContent">
+        
+                            <img [src]="listaReproduccion.imagenURL">
+    
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="cardBody">
+    
+                        <div class="texto">
+    
+                            <p> Nombre:  <span> {{listaReproduccion.nombre |titlecase}}   </span> </p>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+            <div class="listasContent">
+
+                <div class="listaCanciones">
+
+                    <div class="listaCancionesTitulo">
+    
+                        <h2 *ngIf="cancionesArray"> CANCIONES </h2>
+                        <h2 *ngIf="!cancionesArray"> ¡ ESTE LISTA NO TIENE CANCIONES !</h2>
+                        
+                    </div>
+    
+                    <div class="listaCancionesCuerpo">
+                        
+                        <div class="line" *ngFor="let cancion of cancionesArray">
+    
+                            <hr class="style6">
+        
+                            <div class="info">
+                                <i class="fas fa-compact-disc"></i>
+    
+                                <p (click)="cancionListaReproduccionAReproducir(cancion._id)">
+                                    {{cancion.nombre |uppercase}}
+                                </p>
+        
+                                <i class="icon fas fa-ellipsis-v">
+                                    <ul class="ul">
+                                        <li class="li" (click)="cancionListaReproduccionAReproducir(cancion._id)"> Reproducir Canción</li>
+                                        <li class="li" (click)="verMasDelCancionListaReproduccion(cancion._id)" > Ver Más</li>
+                                    </ul>    
+                                </i>
+                                
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+            
+        </div>
+
+    </div>
+    
+
+</body>
+
+

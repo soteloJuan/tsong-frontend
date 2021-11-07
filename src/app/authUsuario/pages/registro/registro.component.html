@@ -1,3 +1,81 @@
-<h1>
-    Estamos en Registro de un usuario
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section>
+
+        <div class="content">
+
+            <div class="card1">
+                <img src="./assets/images/registro.png" alt="">
+            </div>
+
+
+            <div class="card2">
+
+                <div class="card2-titulo">
+                    <h1>REGISTRO</h1>
+                </div>
+
+                <div class="card2-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="crearUsuarioNuevo()" [formGroup]="formResgistroUsuario">
+
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre" >
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-apellidos">
+                            <input type="text" class="input" placeholder=" Ingrese sus apellidos" formControlName="apellidos">
+                            <span *ngIf="esCampoValido('apellidos')" class="span"> ¡ Los apellidos son obligatorios !</span>
+                        </div>
+
+                        <div class="formulario-email">
+                            <input type="email" class="input" placeholder=" Ingrese su Correo" formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡ El Email es obligatorio !</span>
+                        </div>
+                        
+                        <div class="formulario-password">
+                            <input type="password" class="input" placeholder=" Ingrese Su Password" formControlName="password">
+                            <span *ngIf="esCampoValido('password')" class="span"> ¡ El Password es obligatorio !</span>
+                        </div>
+                        
+                        <div class="formulario-confirmarPassword">
+                            <input type="password" class="input" placeholder=" Confirme Su Password" formControlName="confirmarPassword">
+                            <span *ngIf="esCampoValido('confirmarPassword')" class="span"> ¡ La confirmacion de su contraseña no es la misma que la anterior !</span>
+                        </div>
+
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> ENVIAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card2-google">
+
+                    <p>REGISTRO CON </p>
+
+                    <div id="my-signin2"></div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+    
+</body>
+</html>

@@ -1,0 +1,148 @@
+<body>
+    
+    <div class="content">
+        
+        <div class="title">
+            
+            <h1> CREAR ARTISTA <span>TSOG</span></h1>
+            
+        </div>
+        
+        <div class="body">
+            
+            <div class="contentImage">
+                
+                <div class="img">
+                        <img src="./assets/images/artist.png">
+                </div>
+                
+            </div>
+
+            <div class="contentData">
+                
+                <div class="cardForm">
+    
+                    <div class="cardForm-titulo">
+                        <h1>INGRESE LOS DATOS</h1>
+                    </div>
+    
+                    <div class="cardForm-formulario">
+    
+                        <form class="formulario"  autocomplete="off" (ngSubmit)="guardarNuevoArtista()"
+                        [formGroup]="formRegistroArtista">
+    
+                            <div class="formulario-nombre">
+                                <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                                <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                            </div>
+    
+                            <div class="formulario-grupo">
+
+                                <div class="formulario-grupo-pais">
+                                    <label>País : </label>
+                                    <select class="select" formControlName="pais">
+                                        <option value="" selected> Seleccionar </option>
+                                        <option *ngFor="let pais of artistaService.paises" [value]="pais" > {{pais}} </option>
+                                    </select>
+                                </div>
+    
+                                <div class="formulario-grupo-fechaInicio">
+                                    <label>Fecha de Inicio : </label>
+                                    <input type="date" class="input"  formControlName="fechaInicio">
+                                </div>
+                                                            
+                                <span *ngIf="esCampoValido('pais') || esCampoValido('fechaInicio')" class="span"> ¡  Pais y Fecha de inicio son obligatorios !</span>
+    
+                            </div>
+
+
+                            <div class="formulario-descripcion">
+                                <input type="text" class="input" placeholder=" Ingrese la descripcion" formControlName="descripcion">
+                                <span *ngIf="esCampoValido('descripcion')" class="span"> ¡ La Descripción es obligatorio !</span>
+                            </div>
+    
+                            <div class="formulario-button">
+                                <button type="submit" class="btn"> GUARDAR </button>
+                            </div>
+    
+                        </form>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+
+        </div>
+
+
+        <div class="updatePhoto" *ngIf="banderas.mostrarCardUpdatePhoto">
+
+            <div class="cardUpdatePhoto">
+
+                <p class="cardUpdatePhoto-x"><i class="fa fa-times-circle" (click)="cerrarCardUpdatePhoto()"></i></p>
+
+                <div class="cardUpdatePhoto-titulo">
+                    <h1>CAMBIAR FOTO</h1>
+                </div>
+
+                <div class="cardUpdatePhoto-content">
+
+                    <div class="contentImage">
+                
+                        <div class="img">
+                            <div class="img__border">
+                                <img *ngIf="!imagenTemporal" [src]="artistaAModificar.imagenURL | noImage" (click)="changeIMG.click()">
+                                <img *ngIf="imagenTemporal" [src]="imagenTemporal" (click)="changeIMG.click()">
+                            </div>
+                        </div>
+                        
+                        <div class="buttoImage">
+                            <button *ngIf="banderas.agregarFoto" class="btn" (click)="changeIMG.click()"> {{artistaAModificar.imagenURL | buttonTextImg}}</button>
+                            <button *ngIf="banderas.guardarFoto" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button *ngIf="banderas.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+        
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+<!-- 
+Los datos que son necesarios para crear un artista son los siguientes: 
+
+- "nombre":"Primera cancion",
+- "pais":"España",
+- "descripcion":"Descriopcion cualquiera",
+- "fechaInicio": "2020/04/19"
+
+-->
+
+
+
+<!-- 
+Datos que contiene al ser creado un Artista:
+
+- idArtista
+- Nombre
+- Pais
+- Descripcion
+- ImagenID
+- ImagenURL
+- FechaInicio
+- Bloqueado
+-->
+
+
+

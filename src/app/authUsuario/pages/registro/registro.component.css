@@ -1,0 +1,415 @@
+section::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(244,189,118);
+    background: radial-gradient(circle, rgba(244,189,118,1) 50%, rgba(31,14,57,1) 100%); 
+
+    clip-path: circle(25% at 10% 10%); /* PAra darle esa forma circular  y posicionarlo del lado derecho con un cierto porcentaje para que se esconda */
+    
+}
+
+section::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(var(--gold1), var(--purple1)); /* Para los colores combinados*/
+    clip-path: circle(40% at right 70%); /* PAra darle esa forma circular  y posicionarlo del lado derecho con un cierto porcentaje para que se esconda */
+    
+}
+
+.btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+section{
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content{
+    width:80%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:0px 0px 42px 7px #adadad;
+    -moz-box-shadow:0px 0px 42px 7px #adadad;
+    -webkit-box-shadow:0px 0px 42px 7px #adadad;
+    z-index: 1;
+    border: 1px solid var(--purple1);
+}
+
+/* START card1 */
+
+.card1{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background: var(--purple1);
+}
+
+
+.card1 img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* END card1 */
+
+
+/* START card2 */
+
+.card2{
+    width: 50%;
+    height: 100%;
+    background: var(--purple1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card2-titulo{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card2-titulo h1{
+    color: var(--gold1);
+    font-size: 30px;
+    font-weight: 800;
+}
+
+
+
+.card2-formulario{
+    width: 100%;
+    height: 70%;
+    /* border: 1px solid yellow; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card2-formulario .formulario{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.formulario-nombre,
+.formulario-apellidos,
+.formulario-email,
+.formulario-password,
+.formulario-confirmarPassword,
+.formulario-button
+{
+    width: 100%;
+    height: 17%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.input{
+    font-family: "font Awesome 5 free";
+    /* font-weight: 900; */
+    width: 70%;
+    height: 50%;
+    background: none;
+    text-decoration: none;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+    color: var(--gold1);
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.input:focus{
+    outline: none;
+    color: var(--gold2);
+    border: 1px solid var(--gold2);
+}
+
+
+.span{
+    position: absolute;
+    color: red;
+    bottom: -10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+.formulario-button button{
+    width: 50%;
+    height: 65%;
+    color: var(--gold1);
+    border: 1px solid var(--gold1); 
+    padding: 10px 20px;
+    font-size: 22px;
+    font-weight: 500;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    transition: all 0.5s;
+}
+
+.formulario-button button:hover{
+    background: var(--gold2);
+    color: var(--purple2);
+    border: 1px solid var(--gray2); 
+    box-shadow:-10px 14px 21px -7px var(--gray2);
+    -moz-box-shadow:-10px 14px 21px -7px var(--gray2);
+    -webkit-box-shadow:-10px 14px 21px -7px var(--gray2);
+    scale: 1.09;
+}
+
+
+.card2-google{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card2-google p{
+    color: var(--gray);
+    margin-right: 5px;
+}
+
+
+/* END card2 */
+
+
+
+
+
+@media screen and (max-width:1250px){
+
+    .content{
+        width: 60%;
+    }
+
+}
+
+
+@media screen and (max-width:1050px){
+
+    .content{
+        width: 70%;
+    }
+
+}
+
+@media screen and (max-width:900px){
+
+    .content{
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width:750px){
+
+    .content{
+        width: 85%;
+    }
+}
+
+
+@media screen and (max-width:700px){
+
+    .content{
+        width: 90%;
+    }
+}
+
+@media screen and (max-width:650px){
+
+    .content{
+        width:65%;
+        height: 95%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* START card1*/
+    .card1{
+        width: 100%;
+        height: 40%;
+
+    }
+
+
+    /* END card1*/
+
+    /* START card2*/
+    .card2{
+        width: 100%;
+        height: 60%;
+    }
+    /* END card2*/
+}
+
+@media screen and (max-width:550px){
+
+    .content{
+        width:65%;
+        height: 95%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* START card1*/
+
+
+    .card1{
+        width: 100%;
+        height: 40%;
+
+    }
+    
+    /* END card1*/
+
+
+    /* START card2*/
+
+    .card2{
+        width: 100%;
+        height: 60%;
+    }
+
+    /* END card2*/
+}
+
+@media screen and (max-width:500px){
+    .content{
+        width:75%;
+    }
+}
+
+@media screen and (max-width:450px){
+    .content{
+        width:80%;
+    }
+}
+
+@media screen and (max-width:400px){
+    .content{
+        width:90%;
+    }
+}
+
+/* Nos quedamos en la medida 350 */
+
+@media screen and (max-width:350px){
+    .content{
+        width:90%;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* START card1 */
+
+
+    /* START card1 */
+
+
+    /* START card2 */
+
+    .card2-titulo{
+        height: 17%;
+    }
+    .card2-titulo h1{
+        color: var(--gold1);
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+
+    .input{
+        width: 80%;
+        font-size: 17px;
+        font-weight: 500;
+    }
+
+    .span{
+        font-size: 10px;
+    }
+
+
+    .formulario-button button{
+        font-size: 17px;
+        font-weight: 400;
+    }
+
+    .card2-forgotPassword p{
+        font-size: 17px;
+        font-weight: 400;
+    }
+    /* END card2 */
+}
+
+@media screen and (max-width:300px){
+
+
+    /* START card1 */
+    
+
+    
+    /* START card1 */
+
+
+    /* START card2 */
+
+    .card2-titulo h1{
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .input{
+        width: 88%;
+        font-size: 15px;
+    }
+
+    .formulario-button button{
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    .card2-forgotPassword p{
+        font-size: 15px;
+        font-weight: 300;
+    }
+    /* END card2 */
+
+}

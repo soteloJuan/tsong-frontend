@@ -1,0 +1,107 @@
+<body>
+    
+    <div class="content">
+        
+        <div class="title">
+            
+            <h1> CREAR LISTA DE REPRODUCCIÓN <span>TSOG</span></h1>
+            
+        </div>
+        
+        <div class="body">
+            
+            <div class="contentImage">
+                
+                <div class="img">
+                        <img src="./assets/images/list.png">
+                </div>
+                
+            </div>
+
+            <div class="contentData">
+                
+                <div class="cardForm">
+    
+                    <div class="cardForm-titulo">
+                        <h1>INGRESE LOS DATOS</h1>
+                    </div>
+    
+                    <div class="cardForm-formulario">
+    
+                        <form class="formulario"  autocomplete="off" (ngSubmit)="guardarNuevoLista()"
+                        [formGroup]="formRegistroLista">
+    
+                            <div class="formulario-nombre">
+                                <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                                <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                            </div>
+    
+                            <div class="formulario-button">
+                                <button type="submit" class="btn"> GUARDAR </button>
+                            </div>
+    
+                        </form>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+
+        </div>
+
+
+        <div class="updatePhoto" *ngIf="banderas.mostrarCardUpdatePhoto">
+
+            <div class="cardUpdatePhoto">
+
+                <p class="cardUpdatePhoto-x"><i class="fa fa-times-circle" (click)="cerrarCardUpdatePhoto()"></i></p>
+
+                <div class="cardUpdatePhoto-titulo">
+                    <h1>CAMBIAR FOTO</h1>
+                </div>
+
+                <div class="cardUpdatePhoto-content">
+
+                    <div class="contentImage">
+                
+                        <div class="img">
+                            <div class="img__border">
+                                <img *ngIf="!imagenTemporal" [src]="listaAModificar.imagenURL | noImage" (click)="changeIMG.click()">
+                                <img *ngIf="imagenTemporal" [src]="imagenTemporal" (click)="changeIMG.click()">
+                            </div>
+                        </div>
+                        
+                        <div class="buttoImage">
+                            <button *ngIf="banderas.agregarFoto" class="btn" (click)="changeIMG.click()"> {{listaAModificar.imagenURL | buttonTextImg}}</button>
+                            <button *ngIf="banderas.guardarFoto" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button *ngIf="banderas.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+        
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+
+<!-- 
+Datos para crear una lista de reproducción :
+
+id
+nombre
+imagenID
+imagenURL
+usuario
+
+-->

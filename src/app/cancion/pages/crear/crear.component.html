@@ -1,0 +1,228 @@
+
+
+
+<body>
+
+    <div class="content" *ngIf="arrayArtistas" >
+
+        <div class="title">
+            
+            <h1> CREAR CACION <span>TSOG</span></h1>
+            
+        </div>
+
+        <div class="body">
+            
+            <div class="contentImage">
+                
+                <div class="img">
+                        <img src="./assets/images/song.png">
+                </div>
+                
+            </div>
+
+            <div class="contentData">
+
+                <div class="cardForm">
+
+                    <div class="cardForm-titulo">
+                        <h1>INGRESE LOS DATOS</h1>
+                    </div>
+
+                    <div class="cardForm-formulario">
+
+                        <form class="formulario"  autocomplete="off" (ngSubmit)="guardarNuevaCancion()"
+                        [formGroup]="formRegistroCancion">
+
+                            <div class="formulario-nombre">
+                                <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                                <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                            </div>
+
+                            <div class="formulario-grupo">
+
+                                <div class="formulario-grupo-artista">
+                                    <label>Artista : </label>
+                                    <select class="select" formControlName="artista" (change)="consultarAlbumsPorIdArtista()">
+                                        <option value="" selected disabled> Seleccionar </option>
+                                        <option *ngFor="let artista of arrayArtistas"  [value]="artista._id" > {{artista.nombre}} </option>
+                                    </select>
+                                </div>
+
+                                <div class="formulario-grupo-fechaLanzamiento">
+                                    <label>Fecha Lanzamiento: </label>
+                                    <input type="date" class="input"  formControlName="fechaLanzamiento">
+                                </div>
+                                                            
+                                <span *ngIf="esCampoValido('artista') || esCampoValido('fechaLanzamiento')" class="span"> ¡  El artista y Fecha de lanzamiento son obligatorios !</span>
+    
+                            </div>
+
+                            <div class="formulario-grupo2">
+
+                                <div class="formulario-grupo-album">
+                                    <label>Album : </label>
+                                    <select class="select" formControlName="album" *ngIf="arrayAlbum">
+                                        <option value="" selected disabled> Seleccionar </option>
+                                        <option *ngFor="let album of arrayAlbum"  [value]="album._id" > {{album.nombre}} </option>
+                                    </select>
+                                </div>
+
+                                <div class="formulario-grupo-genero">
+                                    <label>Genero : </label>
+                                    <select class="select" formControlName="genero">
+                                        <option value="" selected disabled> Seleccionar </option>
+                                        <option *ngFor="let genero of cancionService.generosMusical" [value]="genero"> {{genero}} </option>
+                                    </select>
+                                </div>
+                                                            
+                                <span *ngIf="esCampoValido('album') || esCampoValido('genero')" class="span"> ¡ El Album y el Genero son obligatorios  !</span>
+    
+                            </div>
+
+                            <div class="formulario-grupo3">
+
+                                <div class="formulario-grupo-numero">
+                                    <label>Numero: </label>
+                                    <input type="number" class="input"  formControlName="numero">
+                                </div>
+
+                                <div class="formulario-grupo-duracion">
+                                    <label>Duración: </label>
+                                    <input type="number" class="input"  formControlName="duracion">
+                                </div>
+                                                            
+                                <span *ngIf="esCampoValido('numero') || esCampoValido('duracion')" class="span"> ¡  El numero  y la duracion de la canción son obligatorios !</span>
+    
+                            </div>
+    
+                            <div class="formulario-button">
+                                <button type="submit" class="btn"> GUARDAR </button>
+                            </div>
+
+                        </form>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+
+        </div>
+
+
+        <div class="updatePhoto" *ngIf="banderasPhoto.mostrarCardUpdatePhoto">
+
+            <div class="cardUpdatePhoto">
+
+                <p class="cardUpdatePhoto-x"><i class="fa fa-times-circle" (click)="cerrarCardUpdatePhoto()"></i></p>
+
+                <div class="cardUpdatePhoto-titulo">
+                    <h1>CAMBIAR FOTO</h1>
+                </div>
+
+                <div class="cardUpdatePhoto-content">
+
+                    <div class="contentImage">
+                
+                        <div class="img">
+                            <div class="img__border">
+                                <img *ngIf="!imagenTemporal" [src]="cancionAModificar.imagenURL | noImage" (click)="changeIMG.click()">
+                                <img *ngIf="imagenTemporal" [src]="imagenTemporal" (click)="changeIMG.click()">
+                            </div>
+                        </div>
+                        
+                        <div class="buttoImage">
+                            <button *ngIf="banderasPhoto.agregarFoto" class="btn" (click)="changeIMG.click()"> {{cancionAModificar.imagenURL | buttonTextImg}}</button>
+                            <button *ngIf="banderasPhoto.guardarFoto" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button *ngIf="banderasPhoto.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+        
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="updateArchivoMusica" *ngIf="banderasMusica.mostrarCardUpdateArchivoMusica">
+
+            <div class="cardUpdateArchivoMusica">
+
+                <p class="cardUpdateArchivoMusica-x"><i class="fa fa-times-circle" (click)="cerrrarCardUpdateArchivoMusica()"></i></p>
+
+                <div class="cardUpdateArchivoMusica-titulo">
+                    <h1>SUBIR ARCHIVO DE MUSICA</h1>
+                </div>
+
+                <div class="cardUpdateArchivoMusica-content">
+
+                    <div class="contentArchivoMusica">
+
+                        <div class="contentAudio">
+                            <audio #audio src="" controls autoplay> </audio>
+                        </div>
+
+                        <div class="buttoImage">
+                            <button *ngIf="banderasMusica.agregarMusica" class="btn" (click)="changeAUDIO.click()"> AGREGAR ARCHIVO </button>
+                            <button *ngIf="banderasMusica.cancelarMusica" class="btn" (click)="guardarArchivoMusica()"> GUARDAR ARCHIVO</button>
+                            <button *ngIf="banderasMusica.guardarMusica" class="btn" (click)="cancelarArchivoMusicaSeleccionado()"> CANCELAR </button>
+
+                            <input type="file" hidden="true" #changeAUDIO (change)="seleccionarArchivoAudio()">
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <app-spinner2 *ngIf="!arrayArtistas"></app-spinner2>
+
+</body>
+
+
+
+<!-- 
+
+Datos que se tiene que mandar para crear una nueva canción: 
+{
+    "nombre":"primera cancion"              *
+    "numero":"1",                                         
+    "duracion":"3.21",                      
+    "genero":"corrido",                     *
+    "fechaLanzamiento":"2020/08/28",        *
+    "album":"609016def3353617ec9477b9",     *
+    "artista":"6090169cf3353617ec9477b8"    *
+}
+
+-->
+
+<!--
+
+Datos que se recibe al crear exitosamente una nueva canción 
+
+-idCancion
+-Nombre
+-Numero
+-Duracion
+-ImagenID
+-ImagenURL
+-CancionID
+-CancionURL
+-Genero
+-fechaLanzamiento
+-Bloqueado
+-Artista
+-Album
+
+-->
+
+

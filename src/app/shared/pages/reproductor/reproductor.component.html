@@ -1,0 +1,98 @@
+
+<body>
+    
+    <div class="content"  *ngIf="reproductorService.getActivo && reproductorService.artista" >
+
+
+        <div class="cerrarReproductor">
+            <i class="fa fa-times-circle" (click)="cerrarReproductor()"></i>
+        </div>
+        
+        <div class="main">
+
+            <p id="logo"><i class="fa fa-music"></i>Tsong</p>
+    
+            <!--- left part --->
+            <div class="left">
+    
+                <!--- song img --->
+                <img id="track_image" [src]="reproductorService.cancion.imagenURL">
+                <div class="volume">
+                    <p id="volume_show">{{reproductorService.porcantajeVolumen}}</p>
+                    <i class="fa" aria-hidden="true" (click)="reproductorService.muteSong()" id="volume_icon" [ngClass]="{'fa-volume-mute': reproductorService.isMuteSong, 'fa-volume-up': !reproductorService.isMuteSong}"></i>
+                    <input type="range" min="0" max="100" value="100" (change)="reproductorService.changeVolume(volume)" #volume>
+                </div>
+            </div>
+
+    
+            <!--- right part --->
+            <div class="right">
+    
+                <div class="show_song_no">
+                    <p id="present">{{reproductorService.numeroCancionReproduccion}}</p>
+                    <p>/</p>
+                    <p id="total">{{reproductorService.totalCanciones}}</p>
+                </div>
+    
+                <!--- song title & artist name --->
+                <p id="title">{{reproductorService.cancion.nombre}}</p>
+
+
+                <p id="artist">{{reproductorService.artista.nombre}}</p>
+
+                <!--- middle part --->
+                <div class="middle">
+                    <button (click)="reproductorService.previousSong()" id="pre"><i class="fa fa-step-backward"
+                            aria-hidden="true"></i></button>
+                    <button (click)="reproductorService.playOrPause()" id="play"><i [ngClass]="{'fa-play': !reproductorService.isPlay, 'fa-pause':  reproductorService.isPlay }" class="fa" aria-hidden="true"></i></button>
+
+                    <button (click)="reproductorService.nextSong();" id="next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                </div>
+    
+                <!--- song duration part --->
+                <div class="duration">
+
+                    <div class="tiempo-reproduccion">
+                        <p>
+                            {{minutosCancion}} 
+                            :
+                            {{segundosCancion}}
+                        </p>
+                    </div>
+
+                    <input type="range" min="0" max="100" [value]="reproductorService.tiempoDeReproduccionPresente" #duration_slider (change)="reproductorService.cambioDeTiempoCancion(duration_slider.value)">
+
+                    <div class="tiempo-reproduccion">
+                        <p>
+                            {{reproductorService.track.duration | convertirTotalTiempo}} 
+                        </p>
+                    </div>
+
+                </div>
+
+                <button class="active" [class.active]="reproductorService.isAutoPlay" id="auto" (click)="reproductorService.repetirCancion()"> Repeat Track <i [class.active]="reproductorService.isAutoPlay" class="fa fa-circle-o-notch"
+                        aria-hidden="true"></i></button>
+            </div>
+    
+    
+        </div>
+
+    </div>
+
+</body>
+
+
+
+
+
+<!-- 
+
+La manera en que se utilizara esta pantalla del reproductor.
+
+- Reproducira un Album.
+- Reproducira una Lista.
+
+
+Tambien es importante que despues tenga un boton para poder regresar a la lista de reproduccion o a la cancion.
+
+-->

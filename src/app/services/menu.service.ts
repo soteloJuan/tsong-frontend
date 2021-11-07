@@ -9,14 +9,26 @@ import {Injectable} from '@angular/core'
 
 export class MenuService{
     public menu!: any[];
+    private role!: string;
     
     updateMenu(){
         this.menu = JSON.parse(localStorage.getItem('menu')!) || [];
     }
 
+    set setRole(role: string){
+        this.role = role;
+    }
+
+    get getRole(){
+        return this.role;
+    }
+
 
     menuAdminPro(){
+        // <i class="far fa-hand-scissors"></i>
+
         return JSON.stringify([
+            {titulo: 'Welcome', url: '/administrador/welcome', icon: 'far fa-hand-scissors nav__icon'},
             {titulo: 'Peril', url: '/administrador/perfil', icon: 'fa fa-user-circle nav__icon'},
             {titulo: 'Administrador', url: '/administrador/crear', icon: 'fas fa-users nav__icon',
             submenu: [
@@ -24,46 +36,65 @@ export class MenuService{
                 {titulo: 'Ver Todos', url: '/administrador/verTodos'},
             ]},
             {titulo: 'Usuarios', url: '/administrador/verTodosUsuarios', icon: 'fas fa-user-friends nav__icon'},
-            {titulo: 'Artista', url: '/administrador/canciones', icon: 'fas fa-microphone-alt nav__icon',
+            {titulo: 'Artista', icon: 'fas fa-microphone-alt nav__icon',
             submenu: [
-                {titulo: 'uno', url: '/#'},
-                {titulo: 'dos', url: '/#'},
+                {titulo: 'Crear', url: '/administrador/artista/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/artista/verTodos'},
             ]},
-            {titulo: 'Album', url: '/administrador/canciones', icon: 'fas fa-compact-disc nav__icon',
+            {titulo: 'Album', icon: 'fas fa-compact-disc nav__icon',
             submenu: [
-                {titulo: 'uno', url: '/#'},
-                {titulo: 'dos', url: '/#'},
+                {titulo: 'Crear', url: '/administrador/album/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/album/verTodos'},
             ]},
-            {titulo: 'Cancion', url: '/administrador/canciones', icon: 'fas fa-music nav__icon',
+            {titulo: 'Cancion', icon: 'fas fa-music nav__icon',
             submenu: [
-                {titulo: 'uno', url: '/#'},
-                {titulo: 'dos', url: '/#'},
+                {titulo: 'Crear', url: '/administrador/cancion/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/cancion/verTodos'},
             ]},
-
-            /* Nos quedamos en los subtitulos */
+            {titulo: 'Lista',  url: '/administrador/lista/verTodosGeneral', icon: 'fas fa-clipboard-list nav__icon'},
 
         ]);
     }
 
     menuAdmin(){
+
         return JSON.stringify([
-            {titulo: 'Peril', url: '/administrador/perfil'},
-            {titulo: 'Usuarios', url: '/administrador/usuarios'},
-            {titulo: 'Artistas', url: '/administrador/artistas'},
-            {titulo: 'Albums', url: '/administrador/albums'},
-            {titulo: 'Canciones', url: '/administrador/canciones'},
-            {titulo: 'Mis Listas', url: '//administrador/artistas'}
+            {titulo: 'Welcome', url: '/administrador/welcome', icon: 'far fa-hand-scissors nav__icon'},
+            {titulo: 'Peril', url: '/administrador/perfil', icon: 'fa fa-user-circle nav__icon'},
+            {titulo: 'Usuarios', url: '/administrador/verTodosUsuarios', icon: 'fas fa-user-friends nav__icon'},
+            {titulo: 'Artista', icon: 'fas fa-microphone-alt nav__icon',
+            submenu: [
+                {titulo: 'Crear', url: '/administrador/artista/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/artista/verTodos'},
+            ]},
+            {titulo: 'Album', icon: 'fas fa-compact-disc nav__icon',
+            submenu: [
+                {titulo: 'Crear', url: '/administrador/album/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/album/verTodos'},
+            ]},
+            {titulo: 'Cancion', icon: 'fas fa-music nav__icon',
+            submenu: [
+                {titulo: 'Crear', url: '/administrador/cancion/crear'},
+                {titulo: 'Ver Todos', url: '/administrador/cancion/verTodos'},
+            ]},
+            {titulo: 'Lista',  url: '/administrador/lista/verTodosGeneral', icon: 'fas fa-clipboard-list nav__icon'},
         ]);
     }
 
     menuUser(){
+
         return JSON.stringify([
-            {titulo: 'Peril', url: '/administrador/perfil'},
-            {titulo: 'Usuarios', url: '/administrador/usuarios'},
-            {titulo: 'Artistas', url: '/administrador/artistas'},
-            {titulo: 'Albums', url: '/administrador/albums'},
-            {titulo: 'Canciones', url: '/administrador/canciones'},
-            {titulo: 'Mis Listas', url: '//administrador/artistas'}
+            {titulo: 'Welcome', url: '/usuario/welcome', icon: 'far fa-hand-scissors nav__icon'},
+            {titulo: 'Perfil', url: '/usuario/perfil', icon: 'fa fa-user-circle nav__icon'},
+            {titulo: 'Artista', url: '/usuario/artista/verTodos', icon: 'fas fa-microphone-alt nav__icon'},
+            {titulo: 'Album',url: '/usuario/album/verTodos', icon: 'fas fa-compact-disc nav__icon'},
+            {titulo: 'Cancion', url: '/usuario/cancion/verTodos', icon: 'fas fa-music nav__icon'},
+            {titulo: 'Lista', icon: 'fas fa-clipboard-list nav__icon',
+            submenu: [
+                {titulo: 'Crear', url: '/usuario/lista/crear'},
+                {titulo: 'Propios', url: '/usuario/lista/verListasPropios'},
+                {titulo: 'Compartidos', url: '/usuario/lista/verListasCompartidos'},
+            ]},
         ]);
     }
 

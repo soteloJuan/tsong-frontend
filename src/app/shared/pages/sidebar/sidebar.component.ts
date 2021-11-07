@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/co
 import { LogoutService } from '../../../services/logout.service';
 import { MenuService } from '../../../services/menu.service';
 import { AlertasServices } from '../../../services/alertas.service';
+import { ReproductorService } from '../../../services/reproductor.service';
 
 // Routes
 import {Router} from '@angular/router';
@@ -18,12 +19,19 @@ export class SidebarComponent implements OnInit {
 
   bandera: boolean = false;
 
-  constructor(private render2: Renderer2, private router: Router, private logoutService: LogoutService,
-    public menuService: MenuService, private alertaService: AlertasServices) {
+  constructor(
+    private render2: Renderer2,
+    private router: Router,
+    private logoutService: LogoutService,
+    public menuService: MenuService,
+    private alertaService: AlertasServices,
+    private reproductorService: ReproductorService
+    ) {
       this.menuService.updateMenu();
     }
 
   ngOnInit(): void {
+
   }
 
   clickSubmenu(valor: any){
@@ -48,6 +56,14 @@ export class SidebarComponent implements OnInit {
         this.router.navigateByUrl('/');
       }  
     });
+  }
+
+  reproductorBandera(evento: any){
+    if(evento === "Play"){
+      this.reproductorService.setActivo = true
+    }else{
+      this.reproductorService.setActivo = false;
+    }
   }
 
 

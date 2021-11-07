@@ -1,0 +1,682 @@
+
+.content{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* START titulo */
+
+.title{
+    width: 100%;
+    height: 13vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title h1{
+    text-align: center;
+    letter-spacing: 1px;
+    color: var(--purple2);
+    font-size: 50px;
+    font-weight: 700;
+}
+
+.title h1 span{
+    font-weight: 900;
+    font-family: 'Merienda', cursive;
+}
+
+/* END titulo */
+
+
+
+/* START Body */
+
+.body{
+    width: 100%;
+    height: 87vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+/* START IMAGE */
+
+.body .contentImage{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.body .contentImage .img{
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.body .contentImage .img img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.body .contentImage .buttoImage{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+/* END IMAGE */
+
+
+/* START DATA */
+
+.body .contentData{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.cardForm{
+    width: 80%;
+    height: 70%;
+    background: var(--purple1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:0px 0px 42px 7px #adadad;
+    -moz-box-shadow:0px 0px 42px 7px #adadad;
+    -webkit-box-shadow:0px 0px 42px 7px #adadad;
+    position: relative;
+}
+
+
+.cardForm-titulo{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardForm-titulo h1{
+    color: var(--gold1);
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    padding: 0px 15px;
+}
+
+
+.cardForm-formulario{
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+.cardForm-formulario .formulario{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.formulario-nombre,
+.formulario-button
+{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.input{
+    font-family: "font Awesome 5 free";
+    /* font-weight: 900; */
+    width: 70%;
+    height: 50%;
+    background: none;
+    text-decoration: none;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+    color: var(--gold1);
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.input:focus{
+    outline: none;
+    color: var(--gold2);
+    border: 1px solid var(--gold2);
+}
+
+
+.span{
+    position: absolute;
+    color: red;
+    bottom: -10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+
+.formulario-button button{
+    width: 45%;
+    height: 60%;
+    color: var(--gold1);
+    border: 1px solid var(--gold1); 
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    transition: all 0.5s;
+}
+
+.formulario-button button:hover{
+    background: var(--gold2);
+    color: var(--purple2);
+    border: 1px solid var(--gray2); 
+    box-shadow:-10px 14px 21px -7px var(--gray2);
+    -moz-box-shadow:-10px 14px 21px -7px var(--gray2);
+    -webkit-box-shadow:-10px 14px 21px -7px var(--gray2);
+    scale: 1.09;
+}
+
+
+/* END DATA */
+
+
+/* END Body */
+
+
+/* START updateProfile */
+
+.updatePhoto{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: white;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardUpdatePhoto{
+    width: 40%;
+    height: 90%;
+    background: var(--purple1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:0px 0px 42px 7px #adadad;
+    -moz-box-shadow:0px 0px 42px 7px #adadad;
+    -webkit-box-shadow:0px 0px 42px 7px #adadad;
+    position: relative;
+}
+
+.cardUpdatePhoto-x{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.cardUpdatePhoto-x i{
+    color: var(--gold1);
+    font-size: 30px;
+    cursor: pointer;
+    transform: all 0.5s;
+}
+.cardUpdatePhoto-x i:hover{
+    color: var(--gold2);
+    scale: 1.3;
+}
+
+
+
+.cardUpdatePhoto-titulo{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardUpdatePhoto-titulo h1{
+    color: var(--gold1);
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    padding: 0px 15px;
+}
+
+
+.cardUpdatePhoto-content{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+/* END updateProfile */
+
+
+/* START IMAGE */
+
+.cardUpdatePhoto-content .contentImage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cardUpdatePhoto-content  .contentImage .img{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cardUpdatePhoto-content  .contentImage .img .img__border{
+    border:2px solid var(--gold1);;
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+
+.cardUpdatePhoto-content  .contentImage .img .img__border img{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+
+.cardUpdatePhoto-content .buttoImage{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardUpdatePhoto-content  .btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+
+.cardUpdatePhoto-content  .buttoImage button{
+    color: var(--gold2);
+    border: 1px solid var(--gold1); 
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 17px;
+    font-weight: 400;
+    box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -moz-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -webkit-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    transition: all 0.2s;
+}
+
+.cardUpdatePhoto-content  .buttoImage button:hover{
+    background: var(--gold1);
+    color: var(--purple1);
+    border: 2px solid rgb(96,94,94);;
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 17px;
+    font-weight: 400;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+}
+
+/* END IMAGE */
+
+
+
+@media screen and (max-width:1250px){
+
+    .body{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .body .contentImage{
+        width: 100%;
+        height: 30%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .body .contentData{
+        width: 100%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+
+    .cardForm{
+        width: 50%;
+        height: 98%;
+    }
+
+
+    /* START CARDUPDATEPHOTO */
+
+    .cardUpdatePhoto{
+        width: 60%;
+        height: 90%;
+    }
+
+    /* END CARDUPDATEPHOTO */
+
+
+}
+
+
+@media screen and (max-width:1000px){
+
+    .title h1{
+        letter-spacing: 0px;
+        font-size: 43px;
+        font-weight: 700;
+    }
+
+    .cardForm{
+        width: 70%;
+    }
+
+}
+
+
+@media screen and (max-width:800px){
+    .title{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .title h1{
+        font-size: 35px;
+        font-weight: 600;
+        margin-right: 8px;
+    }
+
+    .cardForm{
+        width: 80%;
+    }
+
+
+    /* start form-group */
+    
+
+
+    .formulario-button button{
+        width: 70%;
+        height: 50%;
+        padding: 8px 15px;
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    /* start form-group */
+
+
+
+    
+    /* START CARDUPDATEPHOTO */
+
+    .cardUpdatePhoto{
+        width: 75%;
+        height: 90%;
+    }
+
+    /* END CARDUPDATEPHOTO */
+
+
+}
+
+
+@media screen and (max-width:600px){
+
+    .title h1{
+        font-size: 25px;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+    }
+
+    /* START CARDUPDATEPHOTO */
+
+    .cardUpdatePhoto{
+        width: 85%;
+        height: 90%;
+    }
+
+    .cardUpdatePhoto-titulo h1{
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+
+    .cardUpdatePhoto-content  .contentImage .img .img__border{
+        width: 80%;
+        height: 100%;
+    }
+    .cardUpdatePhoto-content .buttoImage{
+        width: 100%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    /* END CARDUPDATEPHOTO */
+
+}
+
+@media screen and (max-width:450px){
+
+    .title h1{
+        font-size: 18px;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+        height: 80%;
+    }
+
+    .cardForm-titulo{
+        width: 100%;
+        height: 10%;
+    }
+    .cardForm-titulo h1{
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+
+    .cardForm-formulario{
+        width: 100%;
+        height: 90%;
+
+    }
+
+    .cardForm-formulario .formulario{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .input{
+        font-family: "font Awesome 5 free";
+        /* font-weight: 900; */
+        width: 80%;
+        height: 50%;
+        font-size: 15px;
+    }
+
+    .span{
+        font-size: 13px;
+    }
+
+
+    .formulario-button button{
+        width: 70%;
+        height: 60%;
+        padding: 5px 15px;
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    /* START CARDUPDATEPHOTO */
+
+    .cardUpdatePhoto{
+        width: 90%;
+        height: 85%;
+    }
+
+    
+    /* END CARDUPDATEPHOTO */
+}
+
+@media screen and (max-width:300px){
+
+
+    .title h1{
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+
+    .cardForm{
+        width: 95%;
+        height: 70%;
+    }
+
+
+    .cardForm-titulo h1{
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .input{
+        width: 90%;
+        height: 50%;
+        font-size: 13px;
+    }
+
+    .span{
+        font-size: 10px;
+    }
+
+
+    .formulario-button button{
+        width: 80%;
+        height: 50%;
+        padding: 5px 15px;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+
+    /* START CARDUPDATEPHOTO */
+        
+    .cardUpdatePhoto{
+        width: 95%;
+        height: 80%;
+    }
+
+    .cardUpdatePhoto-titulo h1{
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    
+    /* END CARDUPDATEPHOTO */
+
+
+}
+
+@media screen and (max-width:250px){
+
+    
+    .title h1{
+        font-size: 11px;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+
+}

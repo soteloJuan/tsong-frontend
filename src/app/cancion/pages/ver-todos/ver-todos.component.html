@@ -1,0 +1,119 @@
+<body>
+    
+    <div class="content" *ngIf="arrayCanciones">
+
+        <div class="header">
+
+            <div class="titulo">
+                <h1>CANCIONES DE <span>TSONG</span> </h1>
+            </div>
+
+            <div class="search">
+                <label for="search"> Buscar </label>
+                <input type="text" id="search" placeholder="Ingrese el nombre o correo" (input)="consultarCancionPorTermino()" #termino>
+
+                <div *ngIf="banderas.busquedaTermino" class="x" (click)="limpiarInputSearch()">
+                    <i class="fa fa-times-circle"></i>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="body">
+
+            <div class="card">
+
+                <div class="line" *ngFor="let cancion of arrayCanciones; let i = index">
+
+                    <hr class="style6">
+
+                    <div class="info">
+                        <i class="fas fa-music"></i>
+                        
+                        <p (click)="cancionAReproducir(cancion._id)">
+                            {{cancion.nombre |uppercase}}
+                        </p>
+
+                        <i class="icon fas fa-ellipsis-v">
+                            <ul class="ul" *ngIf="menuService.getRole == 'ADMINISTRADOR'">
+                                <li class="li" (click)="verMas(cancion._id)"> Ver Más</li>
+                                <li class="li" (click)="eliminarCancion(cancion._id)"> Eliminar</li>
+                            </ul>
+
+                            <ul class="ul" *ngIf="menuService.getRole == 'USUARIO'">
+                                <li class="li" (click)="verListasDeReproduccionPropio(cancion._id)"> Agregar A Lista</li>
+                                <li class="li" (click)="verMas(cancion._id)"> Ver Más</li>
+                            </ul>
+
+                        </i>
+                        
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="buttons-controls">
+
+                <div class="previous" *ngIf="controlPaginacion.anteriorPagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.anteriorPagina)">
+                        ANTERIOR
+                    </button>
+                </div>
+
+
+                <div class="next" *ngIf="controlPaginacion.siguientePagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.siguientePagina)">
+                        SIGUIENTE
+                    </button>
+                </div>
+                
+            </div>
+
+        </div>
+
+        
+        <div class="listaReproduccion" *ngIf="banderaListaReproduccion.mostrar">
+
+            <div class="cardLista">
+
+                <p class="cardLista-x"><i class="fa fa-times-circle" (click)="verListasDeReproduccionPropio()"></i></p>
+
+                <div class="cardLista-titulo">
+                    <h1>LISTAS DE REPRODUCCIÓN</h1>
+                </div>
+
+                <!-- AQUI VAMOS  -->
+
+                <div class="cardListaBody">
+
+                    <div class="cardLista-lista">
+
+                        <p *ngFor="let lista of arrayListaReproduccion"
+                        (click)="agregarCancionAlistaReproduccion(lista._id)"> {{lista.nombre |titlecase}}</p>
+
+                    </div>
+
+                    <div class="cardListaBody-button">
+                        <button  type="submit" class="btn"
+                        *ngIf="controlPaginacion.anteriorPagina"
+                        (click)="consultarListaDeReproduccionPorUsuario(controlPaginacion.anteriorPagina)"> anterior </button>
+
+                        <button type="submit" class="btn"
+                        *ngIf="controlPaginacion.siguientePagina"
+                        (click)="consultarListaDeReproduccionPorUsuario(controlPaginacion.siguientePagina)"> siguiente </button>
+                    </div>
+
+                        
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+    <app-spinner2 *ngIf="!arrayCanciones"></app-spinner2>
+</body>

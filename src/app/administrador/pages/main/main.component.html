@@ -5,7 +5,6 @@
         <div class="burger">
 
             <!-- Este apartado se puede reducir -->
-
             <i *ngIf="!bandera" class="fa fa-bars burger__icon" (click)="clickBandera()"></i>
             <i *ngIf="bandera" class="fa fa-times burger__icon" (click)="clickBandera()"></i>
 
@@ -19,8 +18,17 @@
         
         <div class="body" [class.body__reducir]="bandera">
         
+
             <router-outlet></router-outlet>
-        
+
+            <div [ngClass]="{'reproductor': reproductorService.getActivo}">
+                <app-reproductor></app-reproductor>
+            </div>
+
+            <div class="icon_reproductor">
+                <i class="far fa-play-circle" (click)="abrirReproductor()"></i>
+            </div>
+
         
         </div>
         

@@ -48,8 +48,7 @@ export class AuthAdministradorService{
         localStorage.setItem('menu', this.menuService.menuAdminPro());
     }
     asignarMenuAdmin(){
-        // localStorage.setItem('menu', this.menuService.menuAdminPro());
-        localStorage.setItem('menu', 'Este es un admin normal');
+        localStorage.setItem('menu', this.menuService.menuAdmin());
     }
 
     login(datos: LoginFormValue){

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 // Servicios
 import { AdministradorService } from '../../services/administrador.service';
-import { ValidadoresService } from '../../services/validadores.service';
+import { ValidadoresService } from '../../../services/validadores.service';
 import { CampoValidoService } from '../../../services/campoValido.service';
 import { AlertasServices } from '../../../services/alertas.service';
 

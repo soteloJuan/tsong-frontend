@@ -6,6 +6,8 @@ import {Injectable} from '@angular/core';
 // Enviroment
 import {environment} from '../../../environments/environment.prod';
 
+// Service
+import {MenuService} from '../../services/menu.service';
 
 // http
 import {HttpClient} from '@angular/common/http';
@@ -29,7 +31,10 @@ export class AdministradorService{
     private baseUrl: string = environment.base_url;
     public administrador!: AdministradorInterface;
 
-    constructor(private http: HttpClient){
+    constructor(
+        private http: HttpClient,
+        private menuService: MenuService
+        ){
     }
 
     get token(): string{
@@ -206,6 +211,7 @@ export class AdministradorService{
 
     asignarDatos(data: AdministradorInterface){
         this.administrador = {...data};
+        this.menuService.setRole = "ADMINISTRADOR";
     }
 
 }

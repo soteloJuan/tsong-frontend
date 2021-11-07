@@ -1,0 +1,230 @@
+<body>
+
+    <app-spinner2 *ngIf="!listaReproduccion"> </app-spinner2>
+    
+    <div class="content" *ngIf="listaReproduccion">
+
+
+        <div class="contentbody"> 
+            
+            <div class="cardContent">
+
+                <div class="card">
+
+                    <div class="cardImage">
+    
+                        
+                        <div class="imageContent">
+        
+                            <img *ngIf="!imagenTemporal" [src]="listaReproduccion.imagenURL | noImage">
+                            <img *ngIf="imagenTemporal" [src]="imagenTemporal">
+    
+                        </div>
+    
+                        <div class="buttoImage">
+                            <button  *ngIf="banderas.agregarFoto" class="btn" (click)="changeIMG.click()"> {{listaReproduccion.imagenURL | buttonTextImg}}</button>
+                            <button  *ngIf="banderas.guardarFoto && imagenTemporal" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button  *ngIf="banderas.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+                            <button  *ngIf="listaReproduccion.imagenURL && !imagenTemporal " class="btn" (click)="eliminarFoto()"> ELIMINAR FOTO </button>
+
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+    
+                    </div>
+    
+    
+                    <div class="cardBody">
+    
+                        <div class="texto">
+    
+                            <p> Nombre:  <span> {{listaReproduccion.nombre |titlecase}}   </span> </p>
+    
+                        </div>
+    
+    
+                        <div class="buttons">
+        
+                            <button class="btn" (click)="mostrarFormularioActualizarData()"> MODIFICAR </button>
+
+                            <button class="btn" (click)="mostrarFormularioAgregarInvitado()"> AGREGAR INVITADO </button>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+
+            </div>
+
+            <div class="listasContent">
+
+
+                <div class="listaCanciones">
+
+                    <div class="listaCancionesTitulo">
+    
+                        <h2 *ngIf="cancionesArray"> CANCIONES </h2>
+                        <h2 *ngIf="!cancionesArray"> ¡ ESTE LISTA NO TIENE CANCIONES !</h2>
+                        
+                    </div>
+    
+                    <div class="listaCancionesCuerpo">
+                        
+                        <div class="line" *ngFor="let cancion of cancionesArray">
+    
+                            <hr class="style6">
+        
+                            <div class="info">
+                                <i class="fas fa-compact-disc"></i>
+    
+                                <p (click)="cancionListaReproduccionAReproducir(cancion._id)">
+                                    {{cancion.nombre |uppercase}}
+                                </p>
+        
+                                <i class="icon fas fa-ellipsis-v">
+                                    <ul class="ul">
+                                        <li class="li" (click)="cancionListaReproduccionAReproducir(cancion._id)"> Reproducir Canción</li>
+                                        <li class="li" (click)="verMasDelCancionListaReproduccion(cancion._id)" > Ver Más</li>
+                                        <li class="li" (click)="eliminarCancionListaReproduccion(cancion._id)"> Eliminar</li>
+                                    </ul>    
+                                </i>
+                                
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+
+                <div class="listaInvitados">
+                    
+                    <div class="listaInvitadosTitulo">
+    
+                        <h2 *ngIf="usuariosInvitadoArray"> INVITADOS </h2>
+                        <h2 *ngIf="!usuariosInvitadoArray"> ¡ ESTE LISTA NO TIENE INVITADOS !</h2>
+
+                    </div>
+    
+                    <div class="listaInvitadosCuerpo">
+                        
+                        <div class="line" *ngFor="let usuarioInvitado of usuariosInvitadoArray">
+    
+                            <hr class="style6">
+        
+                            <div class="info">
+                                <i class="fas fa-compact-disc"></i>
+    
+                                <p>
+                                    {{usuarioInvitado |uppercase}}
+                                </p>
+        
+                                <i class="icon fas fa-ellipsis-v">
+                                    <ul class="ul">
+                                        <li class="li" (click)="eliminarInvitado(usuarioInvitado)"> Eliminar</li>
+                                    </ul>    
+                                </i>
+                                
+                            </div>
+    
+                        </div>
+    
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            
+        </div>
+
+        
+        <div class="updateListaReproduccion" *ngIf="banderas.mostrarFormularioUpdateDataListaReproduccion">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioActualizarData()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR DATOS</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarCambiosListaReproduccionModificado()"
+                    [formGroup]="formListaReproduccion">
+
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="updateListaReproduccion" *ngIf="banderas.mostrarFormularioAgregarInvitado">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioAgregarInvitado()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>AGREGAR INVITADOS</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarNuevoInvitado()"
+                    [formGroup]="formInvitados">
+
+                        <div class="formulario-nombre">
+                            <input type="email" class="input" placeholder=" Ingrese su correo" formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡ El Email es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+    
+
+</body>
+
+
+
+<!-- 
+
+Datos: 
+- Imagen
+- Nombre
+
+
+
+
+Requerimientos 
+- Tendra informacion de la lista de Reproduccion. CRUD
+- Tendra cada uno de las canciones pertenecientes de la cancion. CRUD
+- Tendra cada uno de los usuarios invitados, que pueden ver nuestra lista de reproduccion. CRUD
+
+
+-->

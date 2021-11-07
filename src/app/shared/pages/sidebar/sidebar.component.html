@@ -5,14 +5,15 @@
 
 
         <div class="nav__brand">
-            <a href="#" class="nav__logo" routerLink="/administrador">TSONG</a>
+            <a  class="nav__logo" >TSONG</a>
         </div>
 
 
         <div class="nav__list" *ngFor="let item of menuService.menu">
 
             <a *ngIf="!item.submenu" href="#" class="nav__link" [routerLink]="item.url"
-                routerLinkActive="active">
+                routerLinkActive="active"
+                (click)="reproductorBandera(item.titulo)">
                 <i [class]="item.icon"></i>
                 <span class="nav__name">{{item.titulo}}</span>
             </a>
@@ -27,7 +28,7 @@
 
                 <ul class="collapse__menu">
                     <div *ngFor="let submenu of item.submenu">
-                        <a [routerLink]="submenu.url" class="collapse__sublink"> {{submenu.titulo}}</a>
+                        <a (click)="reproductorBandera(item.titulo)" [routerLink]="submenu.url" class="collapse__sublink"> {{submenu.titulo}}</a>
                     </div>
                 </ul>
         

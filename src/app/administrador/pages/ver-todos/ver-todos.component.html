@@ -1,6 +1,6 @@
 <body>
     
-    <div class="content" *ngIf="arrayAdministradores; else spinner2">
+    <div class="content" *ngIf="arrayAdministradores">
 
         <div class="header">
 
@@ -25,7 +25,7 @@
             <div class="card" *ngFor="let admin of arrayAdministradores; let i = index">
                 <div class="imagen">
 
-                    <img src="./assets/images/add-administrador.png" alt="">
+                    <img [src]="admin.imagenURL  | noImage " alt="">
 
                 </div>
 
@@ -143,14 +143,6 @@
 
     </div>
     
-    <ng-template #spinner2>
-        <app-spinner2 ></app-spinner2>
-    </ng-template>
+    <app-spinner2 *ngIf="!arrayAdministradores"></app-spinner2>
 </body>
 
-
-<!--
-
-    SOLO FALTAS CONFIGURAR LO QUE ES LA IMAGEN PARA QUE PASE POR MEDIO DE UN PIPE
-
--->

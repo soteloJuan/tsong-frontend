@@ -1,1 +1,59 @@
-<h1> Estamos en el Login del Usuario</h1>
+<body>
+    <section>
+
+        <div class="content">
+
+            <div class="card1">
+                <div class="img">
+                    <img src="./assets/images/login-usuario.png" alt="">
+                </div>
+            </div>
+
+            <div class="card2">
+
+                <div class="card2-titulo">
+                    <h1>LOGIN</h1>
+                </div>
+
+                <div class="card2-formulario">
+
+                    <form class="formulario"  autocomplete="off" [formGroup]="formLogin" (ngSubmit)="enviarDatosLogin()">
+
+                        <div class="formulario-email">
+                            <input type="email" class="input" placeholder=" Ingrese su Correo" formControlName="email">
+                            <span *ngIf="esCampoValido('email')" class="span"> ¡ El Email es obligatorio !</span>
+
+                        </div>
+                        
+                        <div class="formulario-password">
+                            <input type="password" class="input" placeholder=" Ingrese Su Password" formControlName="password">
+                            <span *ngIf="esCampoValido('password')" class="span"> ¡ El Password es obligatorio !</span>
+
+                        </div>
+                        
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> ENVIAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="card2-google">
+
+                    <p>LOGIN CON </p>
+
+                    <div id="my-signin2"></div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+    
+</body>

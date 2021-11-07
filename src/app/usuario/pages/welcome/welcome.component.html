@@ -1,0 +1,51 @@
+
+<body>
+
+    <div class="content" *ngIf="usuarioService.getUsuario; else spinner2">
+
+
+
+        <div class="content-img">
+
+
+            <img src="./assets/images/admin-welcome.png" alt="">
+
+
+        </div>
+
+        <div class="content-text">
+
+
+            <div class="text__header">
+                <h1>¡ Hola  {{usuarioService.getUsuario.nombre}} {{usuarioService.getUsuario.apellidos}} !</h1>
+            </div>
+
+
+
+            <div class="text__body">
+                <h4>
+                    Recuerda que si el tiempo es lo más caro, la perdidad de tiempo es el mayor de los derroches, asi que admninistra
+                    de forma eficiente y efectiva esta aplicación.
+                    Si tienes algun comentario para poder mejorar la administracion de esta aplicación, no dudes en hacernoslo llegar.
+                </h4>
+
+            </div>
+
+
+            <div class="text__button">
+
+                <button class="btn" (click)="irBuzon()">SUGERENCIAS</button>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    
+    <ng-template #spinner2>
+        <app-spinner2 ></app-spinner2>
+    </ng-template>
+
+</body>

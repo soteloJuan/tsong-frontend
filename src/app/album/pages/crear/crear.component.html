@@ -1,0 +1,143 @@
+<body>
+    
+    <div class="content" *ngIf="arrayArtistas" >
+        
+        <div class="title">
+            
+            <h1> CREAR ALBUM <span>TSOG</span></h1>
+            
+        </div>
+        
+        <div class="body">
+            
+            <div class="contentImage">
+                
+                <div class="img">
+                        <img src="./assets/images/album.png">
+                </div>
+                
+            </div>
+
+            <div class="contentData">
+                
+                <div class="cardForm">
+    
+                    <div class="cardForm-titulo">
+                        <h1>INGRESE LOS DATOS</h1>
+                    </div>
+    
+                    <div class="cardForm-formulario">
+    
+                        <form class="formulario"  autocomplete="off" (ngSubmit)="guardarNuevoAlbum()"
+                        [formGroup]="formRegistroAlbum">
+    
+                            <div class="formulario-nombre">
+                                <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                                <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                            </div>
+    
+                            <div class="formulario-grupo">
+
+                                <div class="formulario-grupo-artista">
+                                    <label>Artista : </label>
+                                    <select class="select" formControlName="artista">
+                                        <option value="" selected> Seleccionar </option>
+                                        <option *ngFor="let artista of arrayArtistas"  [value]="artista._id" > {{artista.nombre}} </option>
+                                    </select>
+                                </div>
+
+                                <div class="formulario-grupo-fechaLanzamiento">
+                                    <label>Fecha Lanzamiento: </label>
+                                    <input type="date" class="input"  formControlName="fechaLanzamiento">
+                                </div>
+                                                            
+                                <span *ngIf="esCampoValido('artista') || esCampoValido('fechaLanzamiento')" class="span"> ¡  Pais y Fecha de inicio son obligatorios !</span>
+    
+                            </div>
+
+                            <div class="formulario-descripcion">
+                                <input type="text" class="input" placeholder=" Ingrese la descripcion" formControlName="descripcion">
+                                <span *ngIf="esCampoValido('descripcion')" class="span"> ¡ La Descripción es obligatorio !</span>
+                            </div>
+    
+                            <div class="formulario-button">
+                                <button type="submit" class="btn"> GUARDAR </button>
+                            </div>
+    
+                        </form>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+
+        </div>
+
+
+        <div class="updatePhoto" *ngIf="banderas.mostrarCardUpdatePhoto">
+
+            <div class="cardUpdatePhoto">
+
+                <p class="cardUpdatePhoto-x"><i class="fa fa-times-circle" (click)="cerrarCardUpdatePhoto()"></i></p>
+
+                <div class="cardUpdatePhoto-titulo">
+                    <h1>CAMBIAR FOTO</h1>
+                </div>
+
+                <div class="cardUpdatePhoto-content">
+
+                    <div class="contentImage">
+                
+                        <div class="img">
+                            <div class="img__border">
+                                <img *ngIf="!imagenTemporal" [src]="albumAModificar.imagenURL | noImage" (click)="changeIMG.click()">
+                                <img *ngIf="imagenTemporal" [src]="imagenTemporal" (click)="changeIMG.click()">
+                            </div>
+                        </div>
+                        
+                        <div class="buttoImage">
+                            <button *ngIf="banderas.agregarFoto" class="btn" (click)="changeIMG.click()"> {{albumAModificar.imagenURL | buttonTextImg}}</button>
+                            <button *ngIf="banderas.guardarFoto" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                            <button *ngIf="banderas.cancelarFoto" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+        
+                            <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                        </div>
+        
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <app-spinner2 *ngIf="!arrayArtistas"></app-spinner2>
+
+</body>
+
+<!--
+    Datos que se tiene que llevar en el formulario. 
+
+    "nombre": "Primer album",
+    "descripcion": "Primer Album",
+    "fechaLanzamiento": "2020/04/19",
+    "artista": "6090169cf3353617ec9477b8"
+-->
+
+<!-- 
+    Datos que se regresaran al crear un nuevo Album
+
+    -idAlbum
+    -Nombre
+    -Descripcion
+    -ImagenId
+    -ImagenURL
+    -fechaLanzamiento
+    -Bloqueado
+    -Artista
+
+
+-->

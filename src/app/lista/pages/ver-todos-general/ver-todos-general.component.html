@@ -1,0 +1,94 @@
+<body>
+
+    <app-spinner2 *ngIf="!arrayListas"></app-spinner2>
+    
+    <div class="content">
+
+        <div class="header">
+
+            <div class="titulo">
+                <h1>LISTAS DE REPRODUCCIÓN <span>TSONG</span> </h1>
+            </div>
+
+            <div class="search">
+                <label for="search"> Buscar </label>
+                <input type="text" id="search" placeholder="Ingrese el nombre o correo" (input)="consultarListaPorTermino()" #termino>
+
+                <div *ngIf="banderas.busquedaTermino" class="x" (click)="limpiarInputSearch()">
+                    <i class="fa fa-times-circle"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="body" *ngIf="arrayListas">
+
+            <div class="card" *ngFor="let lista of arrayListas; let i = index">
+
+                <div class="imagen">
+
+                    <img [src]="lista.imagenURL | noImage" alt="">
+
+                </div>
+
+                <div class="card-body">
+
+                        <h5 class="card-title">{{lista.nombre | titlecase}}</h5>
+
+                </div>
+    
+                <div class="buttons">
+
+                    <div class="modificar">
+                        <button class="btn" (click)="reproducirListaReproduccion(lista._id)">
+                            REPRODUCIR
+                        </button>
+                    </div>
+
+                    <div class="modificar">
+                        <button class="btn" (click)="verMasListaReproduccion(lista._id)">
+                            VER MÁS
+                        </button>
+                    </div>
+
+                    <div class="eliminar">
+                        <button class="btn" (click)="eliminarListaReproduccion(lista._id)">
+                            ELIMINAR
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="buttons-controls">
+
+                <div class="previous" *ngIf="controlPaginacion.anteriorPagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.anteriorPagina)">
+                        ANTERIOR
+                    </button>
+                </div>
+
+
+                <div class="next" *ngIf="controlPaginacion.siguientePagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.siguientePagina)">
+                        SIGUIENTE
+                    </button>
+                </div>
+                
+            </div>
+
+            
+        </div>
+        
+        
+        
+
+
+    </div>
+    
+</body>
+
+

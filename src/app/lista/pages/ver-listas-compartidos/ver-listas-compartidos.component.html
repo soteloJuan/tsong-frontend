@@ -1,0 +1,69 @@
+<body>
+
+    <app-spinner2 *ngIf="!arrayListas"></app-spinner2>
+    
+    <div class="content">
+
+        <div class="header">
+
+            <div class="titulo">
+                <h1>LISTAS COMPARTIDAS <span>TSONG</span> </h1>
+            </div>
+
+        </div>
+
+
+        <div class="body" *ngIf="arrayListas">
+
+            <div class="card" *ngFor="let lista of arrayListas; let i = index">
+
+                <div class="imagen">
+
+                    <img [src]="lista.imagenURL | noImage" alt="">
+
+                </div>
+
+                <div class="card-body">
+
+                        <h5 class="card-title">{{lista.nombre | titlecase}}</h5>
+
+                </div>
+    
+                <div class="buttons">
+
+                    <div class="modificar">
+                        <button class="btn" (click)="reproducirListaReproduccion(lista._id)">
+                            REPRODUCIR
+                        </button>
+                    </div>
+
+                    <div class="modificar">
+                        <button class="btn" (click)="verMasListaReproduccion(lista._id)">
+                            VER MÁS
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            
+        </div>
+        
+
+
+    </div>
+
+
+    <h1 *ngIf="!arrayListas">
+
+        No hay Lista Compartidas
+
+    </h1>
+
+</body>
+
+
+
+

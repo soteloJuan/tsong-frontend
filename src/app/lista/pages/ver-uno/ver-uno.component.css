@@ -1,0 +1,840 @@
+
+.content{
+    width: 100%;
+    height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+.contentbody{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* START CARD */
+
+.cardContent{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card{
+    width: 80%;
+    height: 600px;
+    margin: 50px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: var(--purple1);
+    border-radius: 30px;
+}
+
+.cardImage{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.imageContent{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imageContent img{
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+}
+
+
+/* START buttonsImages */
+.cardImage .buttoImage{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.cardImage .btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.cardImage .buttoImage button{
+    background: var(--purple1);
+    color: var(--gold2);
+    border: 1px solid var(--gold1); 
+    margin: 18px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 400;
+    box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -moz-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -webkit-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    transition: all 0.2s;
+}
+.cardImage .buttoImage button:hover{
+    background: var(--gold1);
+    color: var(--purple1);
+    border: 2px solid rgb(96,94,94);;
+    margin: 18px;
+    padding: 15px 30px;
+    font-size: 19px;
+    font-weight: 400;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+}
+
+/* END buttonsImages */
+
+
+
+
+.cardBody{
+    width: 90%;
+    height: 100%;
+}
+
+.cardBody .texto{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardBody .texto p{
+    text-align: center;
+    color: var(--gold1);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.cardBody .texto p span{
+    background: var(--gold1);
+    color: var(--purple1);
+    padding: 5px 10px;
+    border-radius: 15px;
+}
+
+.cardBody .texto p .click{
+    cursor: pointer;
+    background: var(--purple1);
+    color: var(--gold1);
+    border: 1px solid var(--gold1);
+}
+.cardBody .texto p .click:hover{
+    background: var(--gold1);
+    color: var(--purple1);
+    border: 1px solid var(--gold1);
+}
+
+
+.cardBody .buttons{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.btn{
+    background: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.buttons{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons button{
+    background: var(--purple1);
+    color: var(--gold1);
+    border: 1px solid var(--gold1); 
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 17px;
+    font-weight: 400;
+    box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -moz-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    -webkit-box-shadow:-10px 14px 21px -7px #1e1e1e;
+    transition: all 0.2s;
+}
+
+.buttons button:hover{
+    background: var(--gold1);
+    color: var(--purple1);
+    border: 2px solid rgb(96,94,94);;
+    margin: 20px;
+    padding: 20px 50px;
+    font-size: 20px;
+    font-weight: 300;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+}
+
+
+/* END CARD */
+
+
+
+
+
+
+
+/* START LISTAALBUMS */
+
+
+.listasContent{
+    width: 100%;
+    height: 900px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.listaInvitados{
+    width: 50%;
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    overflow-y: scroll;
+
+}
+.listaCanciones{
+    width: 50%;
+    height: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    overflow-y: scroll;
+}
+
+.listaCancionesTitulo,
+.listaInvitadosTitulo{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.listaCancionesTitulo h2
+.listaInvitadosTitulo h2{
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.listaCancionesCuerpo,
+.listaInvitadosCuerpo{
+    width: 100%;
+    /* height:  */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+.listaCancionesCuerpo .line,
+.listaInvitadosCuerpo .line{
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    margin-left: 20px;
+    border-radius: 10px;
+    transition: all 0.5s;
+}
+
+.listaCancionesCuerpo .line:hover,
+.listaInvitadosCuerpo .line:hover{
+    background: var(--purple1);
+    color: var(--gold1);
+}
+
+.listaCancionesCuerpo .line .info,
+.listaInvitadosCuerpo .line .info{
+    position: relative;
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.listaCancionesCuerpo .line .info p,
+.listaInvitadosCuerpo .line .info p{
+    margin-left: 10px;
+}
+
+.listaCancionesCuerpo .line .info .icon,
+.listaInvitadosCuerpo .line .info .icon{
+    position: absolute;
+    padding: 20px;
+    top: 0;
+    right: 30px;
+}
+
+.listaCancionesCuerpo .line .icon .ul,
+.listaInvitadosCuerpo .line .icon .ul{
+    width: 120px;
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 30px;
+    background: var(--purple1);
+    color: var(--gold1);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+}
+.listaCancionesCuerpo .line .icon .ul .li,
+.listaInvitadosCuerpo .line .icon .ul .li{
+    width: 100%;
+    text-decoration: none;
+    list-style: none;
+    font-size: 17px;
+    font-weight: 400;
+    text-align: center;
+    margin: 5px 0px;
+}
+.listaCancionesCuerpo .line .icon .ul .li:hover,
+.listaInvitadosCuerpo .line .icon .ul .li:hover{
+    border-bottom: 1px solid var(--gold1);
+}
+
+.listaCancionesCuerpo .line .icon:hover .ul,
+.listaInvitadosCuerpo .line .icon:hover .ul{
+    display: inline-block;
+}
+
+
+/* END body */
+
+/* END LISTAALBUMS */
+
+
+
+
+
+
+/* START updateProfile */
+
+.updateListaReproduccion{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: white;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardForm{
+    width: 40%;
+    height: 90%;
+    background: var(--purple1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow:0px 0px 42px 7px #adadad;
+    -moz-box-shadow:0px 0px 42px 7px #adadad;
+    -webkit-box-shadow:0px 0px 42px 7px #adadad;
+    position: relative;
+}
+
+.cardForm-x{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.cardForm-x i{
+    color: var(--gold1);
+    font-size: 30px;
+    cursor: pointer;
+    transform: all 0.5s;
+}
+.cardForm-x i:hover{
+    color: var(--gold2);
+    scale: 1.3;
+}
+
+
+
+.cardForm-titulo{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cardForm-titulo h1{
+    color: var(--gold1);
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
+    padding: 0px 15px;
+}
+
+
+.cardForm-formulario{
+    width: 100%;
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardForm-formulario .formulario{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.formulario-nombre,
+.formulario-button
+{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+.formulario-bloqueado{
+    color: var(--gold1);
+}
+.radio-true,
+.radio-false{
+    margin: 3px;
+}
+
+
+.input{
+    font-family: "font Awesome 5 free";
+    width: 70%;
+    height: 50%;
+    background: none;
+    text-decoration: none;
+    border: 1px solid var(--gold1);
+    border-radius: 20px;
+    color: var(--gold1);
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.input:focus{
+    outline: none;
+    color: var(--gold2);
+    border: 1px solid var(--gold2);
+}
+
+
+.span{
+    position: absolute;
+    color: red;
+    bottom: -10px;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.formulario-button button{
+    width: 45%;
+    height: 60%;
+    color: var(--gold1);
+    border: 1px solid var(--gold1); 
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 500;
+    -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    transition: all 0.5s;
+}
+
+.formulario-button button:hover{
+    background: var(--gold2);
+    color: var(--purple2);
+    border: 1px solid var(--gray2); 
+    box-shadow:-10px 14px 21px -7px var(--gray2);
+    -moz-box-shadow:-10px 14px 21px -7px var(--gray2);
+    -webkit-box-shadow:-10px 14px 21px -7px var(--gray2);
+    scale: 1.09;
+}
+
+
+/* END updateProfile */
+
+
+@media screen and (max-width: 1250px){
+
+    /* START CARD */
+
+    .cardContent{
+        width: 100%;
+        height: 1100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+    }
+    .card{
+        width: 80%;
+        height: 800px;
+        margin: 50px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--purple1);
+        border-radius: 30px;
+    }
+        
+
+    /* END CARD */
+
+    
+    /* START updateProfile */
+
+
+    .cardForm{
+        width: 50%;
+        height: 90vh;
+    }
+
+    /* END updateProfile */
+
+}
+
+@media screen and (max-width: 1250px){
+
+    /* START LISTAALBUMS */
+
+
+    .listaCancionesCuerpo .card,
+    .listaInvitadosCuerpo .card{
+        width: 60%;
+        height: 300px;
+    }
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+@media screen and (max-width: 800px){
+    
+        /* start form-group */
+
+        .cardForm{
+            width: 80%;
+        }
+    
+        .formulario-button button{
+            width: 70%;
+            height: 50%;
+            padding: 8px 15px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+    
+        /* end form-group */
+
+
+
+        /* start listas  */
+
+        .listasContent{
+            width: 100%;
+            height: 900px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .listaInvitados{
+            width: 95%;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            overflow-y: scroll;
+        
+        }
+        .listaCanciones{
+            width: 95%;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: start;
+            overflow-y: scroll;
+        }
+
+
+        /* end listas */
+}
+
+
+@media screen and (max-width: 600px){
+
+
+    .card{
+        width: 90%;
+    }
+
+    /* START CARD */
+
+
+    .imageContent img{
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .cardImage .buttoImage button{
+        margin: 16px;
+        padding: 12px 17px;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .cardBody .texto p{
+        font-size: 17px;
+        font-weight: 500;
+        margin: 10px 0;
+    }
+    
+    .buttons button{
+        margin: 15px;
+        padding: 17px 25px;
+        font-size: 17px;
+        font-weight: 400;
+    }
+
+    .buttons button:hover{
+        margin: 17px;
+        padding: 18px 27px;
+        font-size: 20px;
+        font-weight: 300;
+    }
+    
+
+
+    /* END CARD */
+
+
+    
+        /* START updateProfile */
+
+        .cardForm{
+            width: 95%;
+        }
+    
+        .cardForm-titulo h1{
+            font-size: 25px;
+            font-weight: 700;
+        }
+    
+            
+        /* END updateProfile */
+
+}
+
+
+@media screen and (max-width: 500px){
+
+    /* START LISTAALBUMS */
+
+    .listaCancionesCuerpo .card,
+    .listaInvitadosCuerpo .card{
+        width: 90%;
+        height: 300px;
+    }
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+@media screen and (max-width: 450px){
+
+
+    .card{
+        width: 95%;
+    }
+
+    .cardImage .buttoImage{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cardImage .buttoImage button:hover{
+
+        padding: 10px 25px;
+        font-size: 17px;
+        font-weight: 400;
+        -webkit-box-shadow: -2px 12px 21px 0px rgba(50, 50, 50, 1);
+        -moz-box-shadow:    -2px 12px 21px 0px rgba(50, 50, 50, 1);
+        box-shadow:         -2px 12px 21px 0px rgba(50, 50, 50, 1);
+    }
+    
+
+    /* START updateProfile */
+            .cardForm{
+                width: 95%;
+                height: 100%;
+            }
+        
+            .cardForm-titulo{
+                width: 100%;
+                height: 10%;
+            }
+            .cardForm-titulo h1{
+                font-size: 20px;
+                font-weight: 700;
+            }
+        
+        
+            .cardForm-formulario{
+                width: 100%;
+                height: 90%;
+        
+            }
+        
+            .cardForm-formulario .formulario{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+        
+            .input{
+                font-family: "font Awesome 5 free";
+                /* font-weight: 900; */
+                width: 80%;
+                height: 50%;
+                font-size: 15px;
+            }
+        
+            .span{
+                font-size: 13px;
+            }
+        
+        
+            .formulario-button button{
+                width: 70%;
+                height: 60%;
+                padding: 5px 15px;
+                font-size: 18px;
+                font-weight: 500;
+            }
+                
+    /* END updateProfile */
+}
+
+@media screen and (max-width: 350px){
+            /* START updateProfile */
+
+            .cardForm{
+                width: 95%;
+                height: 100%;
+            }
+        
+        
+            .cardForm-titulo h1{
+                font-size: 15px;
+                font-weight: 700;
+            }
+        
+            .input{
+                width: 90%;
+                height: 50%;
+                font-size: 13px;
+            }
+        
+            .span{
+                font-size: 10px;
+            }
+        
+        
+            .formulario-button button{
+                width: 80%;
+                height: 50%;
+                padding: 5px 15px;
+                font-size: 15px;
+                font-weight: 500;
+            }
+                    
+            /* END updateProfile */
+}
+
+
+
+@media screen and (max-width: 250px){
+
+    /* START LISTAALBUMS */
+
+
+
+    /* EDM LISTAALBUMS */
+
+}
+
+
+
+

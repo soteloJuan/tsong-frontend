@@ -39,16 +39,19 @@ export class VerTodosComponent implements OnInit {
     mostrarFormulario: false
   };
 
-  arrayAdministradores: any[] = [];
+  arrayAdministradores!: any[];
   administradorAModificar!: AdministradorInterface;
 
   formModificarAdministrador: FormGroup = this.fb.group({});
   @ViewChild('termino') termino!: ElementRef;
 
-  /* EN ESTE COMPONENTE SOLO FALTA CONFIGURAR LA MANERA EN QUE PRESENTA LA IMAGEN, OSEA PASARLO POR UN PIPE */
 
-  constructor(private administradorService: AdministradorService, private alertService: AlertasServices,
-    private fb: FormBuilder, private campoValidoService: CampoValidoService) {
+  constructor(
+    private administradorService: AdministradorService,
+    private alertService: AlertasServices,
+    private fb: FormBuilder,
+    private campoValidoService: CampoValidoService
+    ) {
     this.consultarTodosAdministradores(1);
   }
 
@@ -60,7 +63,7 @@ export class VerTodosComponent implements OnInit {
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
       const termino = this.termino.nativeElement.value
-      this.administradorService.consultarAdministradoresPorTermino(termino, numeroPagina)
+      this.administradorService.consultarAdministradoresPorTermino(termino, numeroPagina) // TODO ESTO PUEDE SER REDUCIDO
       .subscribe(
         (res) => {
           if(res == null){

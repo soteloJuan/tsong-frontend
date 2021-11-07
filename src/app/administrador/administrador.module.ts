@@ -16,7 +16,7 @@ import { BuzonComponent } from './pages/buzon/buzon.component';
 import { CrearComponent } from './pages/crear/crear.component';
 import { VerTodosComponent } from './pages/ver-todos/ver-todos.component';
 import { VerTodosUsuariosComponent } from './pages/ver-todos-usuarios/ver-todos-usuarios.component';
-
+import { VerUnUsuarioComponent } from './pages/ver-un-usuario/ver-un-usuario.component';
 
 @NgModule({
     declarations:
@@ -28,6 +28,7 @@ import { VerTodosUsuariosComponent } from './pages/ver-todos-usuarios/ver-todos-
       CrearComponent,
       VerTodosComponent,
       VerTodosUsuariosComponent,
+      VerUnUsuarioComponent
     ],
     imports:
     [
@@ -36,7 +37,7 @@ import { VerTodosUsuariosComponent } from './pages/ver-todos-usuarios/ver-todos-
         SharedModule,
         PipesModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
     ],
     exports:
     [

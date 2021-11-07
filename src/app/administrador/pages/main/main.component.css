@@ -6,6 +6,40 @@
     position: relative;
 }    
 
+/* START Reproductor */
+
+.reproductor{
+    color: red;
+    position: absolute;
+    display: inline-block;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+}
+
+.icon_reproductor{
+    color: var(--purple1);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 1;
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.icon_reproductor:hover{
+    scale: 1.1;
+    color: var(--gold1);
+    background: var(--purple1);
+    padding: 5px;
+    border-radius: 50%;
+}
+
+
+/* EDN Reproductor */
+
 .burger{
     position: absolute;
     left: 17px;
@@ -57,6 +91,7 @@
     transition: all 1s;
     z-index: 100;
     overflow: hidden;
+    position: relative;
 }
 .body__reducir{
     width: 83%;

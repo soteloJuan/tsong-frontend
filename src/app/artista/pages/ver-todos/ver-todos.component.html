@@ -1,0 +1,92 @@
+<body>
+    
+    <div class="content" *ngIf="arrayArtistas">
+
+        <div class="header">
+
+            <div class="titulo">
+                <h1>ARTISTAS DE <span>TSONG</span> </h1>
+            </div>
+
+            <div class="search">
+                <label for="search"> Buscar </label>
+                <input type="text" id="search" placeholder="Ingrese el nombre o correo" (input)="consultarArtistaPorTermino()" #termino>
+
+                <div *ngIf="banderas.busquedaTermino" class="x" (click)="limpiarInputSearch()">
+                    <i class="fa fa-times-circle"></i>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="body">
+
+            <div class="card" *ngFor="let artista of arrayArtistas; let i = index">
+                <div class="imagen">
+
+                    <img [src]="artista.imagenURL | noImage" alt="">
+
+                </div>
+
+                <div class="card-body">
+
+                        <h5 class="card-title">{{artista.nombre | titlecase}}</h5>
+                        <p class="card-text">{{artista.pais | titlecase}}</p>
+                        <p class="card-text">{{artista.fechaInicio | date}}</p>
+
+                </div>
+    
+                <div class="buttons">
+
+                    <div class="modificar">
+                        <button class="btn" (click)="verUnSoloArtista(artista._id)">
+                            VER MÁS
+                        </button>
+                    </div>
+
+                    <div class="modificar" *ngIf="menuService.getRole == 'ADMINISTRADOR'">
+                        <button class="btn" (click)="eliminarArtista(artista._id)">
+                            ELIMINAR
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="buttons-controls">
+
+                <div class="previous" *ngIf="controlPaginacion.anteriorPagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.anteriorPagina)">
+                        ANTERIOR
+                    </button>
+                </div>
+
+
+                <div class="next" *ngIf="controlPaginacion.siguientePagina">
+                    <button class="btn" (click)="cambiarPagina(controlPaginacion.siguientePagina)">
+                        SIGUIENTE
+                    </button>
+                </div>
+                
+            </div>
+
+        </div>
+
+    </div>
+    
+    <app-spinner2 *ngIf="!arrayArtistas"></app-spinner2>
+</body>
+
+
+
+<!-- Datos de un artista 
+
+    
+    -nombre
+    -pais
+    -imagenURL
+    -FechaInicio
+
+-->

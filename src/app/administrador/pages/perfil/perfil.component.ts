@@ -9,7 +9,7 @@ import { AdministradorService } from '../../services/administrador.service';
 import { AlertasServices } from '../../../services/alertas.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CampoValidoService } from '../../../services/campoValido.service';
-import { ValidadoresService } from '../../services/validadores.service';
+import { ValidadoresService } from '../../../services/validadores.service';
 
 // Interfaces
 import { AdministradorInterface } from '../../interfaces/administrador.interface';
@@ -43,13 +43,19 @@ export class PerfilComponent implements OnInit {
 
   administrador!: AdministradorInterface;
   
-  constructor(public administradorService: AdministradorService, private render2: Renderer2,
-    private alertService: AlertasServices, private spinnerService: SpinnerService, private fb: FormBuilder,
-    private campoValido: CampoValidoService, private validadoresService: ValidadoresService) {
+  constructor(
+    public administradorService: AdministradorService,
+    private render2: Renderer2,
+    private alertService: AlertasServices,
+    private spinnerService: SpinnerService,
+    private fb: FormBuilder,
+    private campoValido: CampoValidoService,
+    private validadoresService: ValidadoresService
+    ) {
     }
 
     ngOnInit(): void {
-      const SetTimeoutFormProfile =setTimeout(() => {
+      const SetTimeoutFormProfile = setTimeout(() => {
         this.administrador = this.administradorService.getAdministrador;
         this.crearFormularioProfile();
       }, 500);

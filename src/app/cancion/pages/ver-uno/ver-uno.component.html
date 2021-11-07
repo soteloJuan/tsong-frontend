@@ -1,0 +1,190 @@
+
+<body>
+    
+    <div class="content" *ngIf="artista">
+
+        <div class="card">
+
+
+            <div class="cardImage">
+
+                <div class="imageContent">
+
+                    <img *ngIf="!imagenTemporal" [src]="cancion.imagenURL | noImage">
+                    <img *ngIf="imagenTemporal" [src]="imagenTemporal">
+
+                </div>
+
+                <div class="buttoImage">
+                    <button  *ngIf="banderas.agregarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="changeIMG.click()"> {{cancion.imagenURL | buttonTextImg}}</button>
+                    <button  *ngIf="banderas.guardarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="guardarFoto()"> GUARDAR IMAGEN</button>
+                    <button  *ngIf="banderas.cancelarFoto && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="cancelarFotoSeleccionado()"> CANCELAR </button>
+                    <button  *ngIf="cancion.imagenURL && !imagenTemporal && menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="eliminarFoto()"> ELIMINAR FOTO </button>
+
+                    <input type="file" hidden="true" #changeIMG (change)="seleccionarImagen()">
+                </div>
+
+
+            </div>
+
+            <div class="cardBody">
+
+                <div class="texto">
+
+                    <p > Nombre:  <span> {{cancion.nombre |titlecase}}</span> </p>
+                    <p> Duracion:  <span> {{cancion.duracion}}</span> </p> 
+                    <p> Fecha de lanzamiento:  <span> {{cancion.fechaLanzamiento |date}} </span>  </p> 
+                    <p> genero: <span> {{cancion.genero |titlecase}}</span> </p> 
+                    <p> Artista: <span class="click" (click)="verArtista(artista.id)"> {{artista.nombre |titlecase}}</span> </p> 
+                    <p> Album:  <span class="click" (click)="verAlbum(album.id)"> {{album.nombre |titlecase}} </span> </p> 
+                    <p *ngIf="menuService.getRole === 'ADMINISTRADOR'" > Bloqueado:   <span> {{cancion.bloqueado}}</span></p> 
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button *ngIf="menuService.getRole === 'ADMINISTRADOR'" class="btn" (click)="mostrarFormularioActualizarData()"> MODIFICAR </button>
+
+                </div>
+
+
+            </div>
+
+
+        </div>    
+
+        <div class="updateProfile" *ngIf="banderas.mostrarFormularioUpdateDataCancion">
+
+            <div class="cardForm">
+
+                <p class="cardForm-x"><i class="fa fa-times-circle" (click)="mostrarFormularioActualizarData()"></i></p>
+
+                <div class="cardForm-titulo">
+                    <h1>ACTUALIZAR DATOS</h1>
+                </div>
+
+                <div class="cardForm-formulario">
+
+                    <form class="formulario"  autocomplete="off" (ngSubmit)="guardarCambiosCancionModificado()"
+                    [formGroup]="formCancion">
+
+                        <div class="formulario-nombre">
+                            <input type="text" class="input" placeholder=" Ingrese su nombre" formControlName="nombre">
+                            <span *ngIf="esCampoValido('nombre')" class="span"> ¡ El Nombre es obligatorio !</span>
+                        </div>
+
+                        <div class="formulario-grupo">
+
+                            <div class="formulario-grupo-artista">
+                                <label>Artista : </label>
+                                <select class="select" formControlName="artista" (change)="consultarAlbumsPorIdArtista()">
+
+                                    <option [value]="artista.id" [selected]="true"> {{artista.nombre}} </option>
+                                    <option [selected]="false" *ngFor="let a of arrayArtistas"  [value]="a._id"> {{a.nombre}} </option>
+                
+                                </select>
+                            </div>
+
+                            <div class="formulario-grupo-fechaLanzamiento">
+                                <label>Fecha Lanzamiento: </label>
+                                <input type="date" class="input" formControlName="fechaLanzamiento">
+                            </div>
+                                                        
+                            <span *ngIf="esCampoValido('artista') || esCampoValido('fechaLanzamiento')" class="span"> ¡  El artista y Fecha de lanzamiento son obligatorios !</span>
+
+                        </div>
+
+                        <div class="formulario-grupo2">
+
+                            <div class="formulario-grupo-album">
+                                <label>Album : </label>
+                                <select class="select" formControlName="album">
+                                    <option [value]="album.id" [selected]="true"> {{album.nombre}} </option>
+                                    <option *ngFor="let a of arrayAlbum"  [value]="a._id" > {{a.nombre}} </option>
+                                </select>
+                            </div>
+
+                            <div class="formulario-grupo-genero">
+                                <label>Genero : </label>
+                                <select class="select" formControlName="genero">
+                                    <option [value]="cancion.genero" [selected]="true" > {{cancion.genero}} </option>
+                                    <option *ngFor="let genero of cancionService.generosMusical" [value]="genero"> {{genero}} </option>
+                                </select>
+                            </div>
+                                                        
+                            <span *ngIf="esCampoValido('album') || esCampoValido('genero')" class="span"> ¡ El Album y el Genero son obligatorios  !</span>
+
+                        </div>
+
+                        <div class="formulario-grupo3">
+
+                            <div class="formulario-grupo-numero">
+                                <label>Numero: </label>
+                                <input type="number" class="input"  formControlName="numero">
+                            </div>
+
+                            <div class="formulario-grupo-duracion">
+                                <label>Duración: </label>
+                                <input type="number" class="input"  formControlName="duracion">
+                            </div>
+                                                        
+                            <span *ngIf="esCampoValido('numero') || esCampoValido('duracion')" class="span"> ¡  El numero  y la duracion de la canción son obligatorios !</span>
+
+                        </div>
+
+                        <div class="formulario-bloqueado">
+                            <label>Bloqueado : </label>
+                            <input class="radio-true" type="radio" id="true" value="true" [checked]="cancion.bloqueado == true" formControlName="bloqueado">
+                            <label for="true">True</label>
+
+                            <input class="radio-false" type="radio" id="false" value="false" [checked]="cancion.bloqueado == false" formControlName="bloqueado">
+                            <label for="false">False</label>
+                        </div>
+
+                        <div class="formulario-button">
+                            <button type="submit" class="btn"> GUARDAR </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+        
+    </div>
+
+
+    
+    <app-spinner2 *ngIf="!artista"></app-spinner2>
+
+
+</body>
+
+
+<!-- 
+
+    se tendra la opcion de ir al artista
+    Se tendra la opcion de ir al album 
+    Si es administrador tendra la opcion de modificar los datos de la cancion.
+
+
+Datos que llevara este componente : 
+
+- Nombre de canción
+- imagen de canción
+- Album
+- Artista
+- Duracion
+- Fecha de lanzamiento
+- genero
+- bloqueado
+
+-->
+
+
+
+
+

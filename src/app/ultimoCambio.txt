@@ -1,0 +1,11 @@
+
+
+VAMOS EN LAS LISTAS DE REPRODUCCION DEL USUARIO.
+
+- En el apartado del sidebar "Listas" podra aver la opcion de Crear. Mios, Compartidos.
+- Terner en cuenta que se tiene que compartir las listas propias y poder ver las que me han compartido
+
+
+
+
+

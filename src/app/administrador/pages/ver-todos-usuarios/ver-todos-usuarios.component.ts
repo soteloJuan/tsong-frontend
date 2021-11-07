@@ -12,6 +12,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {Subject} from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+// Router
+import {Router} from '@angular/router';
+
 // interfaces
 import { UsuarioInterface } from '../../../usuario/interfaces/usuarios.interfaces';
 
@@ -42,14 +45,19 @@ export class VerTodosUsuariosComponent implements OnInit {
     mostrarFormulario: false
   };
 
-  arrayUsuarios: any[] = [];
+  arrayUsuarios!: any[];
   UsuarioAModificar!: UsuarioInterface;
 
   formModificarUsuario: FormGroup = this.fb.group({});
   @ViewChild('termino') termino!: ElementRef;
 
-  constructor(private usuarioService: UsuarioService, private alertService: AlertasServices,
-    private fb: FormBuilder, private campoValidoService: CampoValidoService) { 
+  constructor(
+    private usuarioService: UsuarioService,
+    private alertService: AlertasServices,
+    private fb: FormBuilder,
+    private campoValidoService: CampoValidoService,
+    private router: Router
+    ) { 
       this.consultarTodosUsuarios(1);
     }
 
@@ -194,6 +202,10 @@ export class VerTodosUsuariosComponent implements OnInit {
         }
       });
   
+    }
+
+    verUnUsuario(idUsuario: string){
+      this.router.navigate(['/administrador/verUnUsuario', idUsuario]);
     }
   
     asignarDatosAdministradorAModificar(indexUsuario: number){
