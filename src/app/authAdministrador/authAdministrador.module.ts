@@ -27,8 +27,6 @@ import { MainComponent } from './pages/main/main.component';
         AuthAdministradorRoutingModule
     ],
     exports: [
-        LoginComponent,
-        AuthAdministradorRoutingModule
     ]
 })
 

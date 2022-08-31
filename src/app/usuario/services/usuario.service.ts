@@ -216,7 +216,6 @@ export class UsuarioService {
         )
     }
 
-
     formatoParaUsuario(data: any): UsuarioInterface{
 
         const userDataFormateado: UsuarioInterface = {

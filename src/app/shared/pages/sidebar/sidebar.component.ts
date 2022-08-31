@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
 
-
 // Services
 import { LogoutService } from '../../../services/logout.service';
 import { MenuService } from '../../../services/menu.service';
@@ -66,12 +65,4 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-
-
 }
-
-
-
-
-
-

@@ -14,9 +14,6 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { BuzonComponent } from './pages/buzon/buzon.component';
 
-
-// Componets
-
 @NgModule({
     declarations: [
         MainComponent,

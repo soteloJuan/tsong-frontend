@@ -77,7 +77,7 @@ export class VerTodosComponent implements OnInit {
   }
 
   
-  consultarTodosAlbumsPaginado(numeroPagina: number){ // aqui vamos
+  consultarTodosAlbumsPaginado(numeroPagina: number){ 
     this.albumService.consultarTodosAlbums(numeroPagina)
     .subscribe(
       (res) => {

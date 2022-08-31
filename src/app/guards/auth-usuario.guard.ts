@@ -35,7 +35,7 @@ export class AuthUsuarioGuard implements CanActivate, CanLoad{
       )
     );
   }
-  
+
 
   canActivate(): Observable<boolean>{
     console.log('ENTRO - canActivate');

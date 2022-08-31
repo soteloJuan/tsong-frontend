@@ -17,7 +17,8 @@ const routes: Routes = [
         [
             {
                 path:'', component: LoginComponent
-            },        {
+            },        
+            {
                 path:'forgotPassword', component: ForgotPasswordComponent
             },
             {

@@ -91,7 +91,6 @@
                             </p>
     
                             <i class="icon fas fa-ellipsis-v">
-                                <!-- En el siguiente ira la condicion de si es un administrador -->
                                 <ul class="ul" *ngIf="menuService.getRole == 'ADMINISTRADOR'">
                                     <li class="li" (click)="albumAReproducir(album._id)"> Reproducir Album</li>
                                     <li class="li" (click)="verMasDelAlbum(album._id)" > Ver Más</li>
@@ -202,35 +201,4 @@
         
     </div>
     
-
-    
-    
-    
 </body>
-
-
-
-
-<!-- 
-
-Datos Artistas :
-
-- imagen
-- nombre
-_ descripcion
-- fecha de inicio
-- Pais 
-- bloqueado
-
-
-
-Datos allbum :
-
-- nombre
-
-
--->
-
-
-
-
