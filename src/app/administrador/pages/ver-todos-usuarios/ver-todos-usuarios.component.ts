@@ -26,11 +26,6 @@ import { UsuarioInterface } from '../../../usuario/interfaces/usuarios.interface
 })
 export class VerTodosUsuariosComponent implements OnInit {
 
-
-  /* EN ESTE COMPONENTE SOLO FALTA CONFIGURAR QUE CUANDO EL USUARIO ES REGISTRADO POR GOOGLE
-  NO SE LE DE LA OPCION DE MODIFICAR EL CORRO. */
-
-
   debouncer: Subject<number> = new Subject(); 
 
   controlPaginacion:any = {
@@ -71,8 +66,8 @@ export class VerTodosUsuariosComponent implements OnInit {
       .subscribe( (numeroPagina) => {
         const termino = this.termino.nativeElement.value
         this.usuarioService.consultarUsuarioPorTermino(termino, numeroPagina)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: (res) => {
             if(res == null){
               this.alertService.alertaAdvertercia('No se encontraron administradores');
             }else{
@@ -80,10 +75,8 @@ export class VerTodosUsuariosComponent implements OnInit {
               this.banderas.busquedaTermino = true;
             }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio');
-          }
-        )
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+        })
       });
     }
   
@@ -93,6 +86,7 @@ export class VerTodosUsuariosComponent implements OnInit {
       this.formModificarUsuario = this.fb.group({
         nombre: ['', [Validators.required, Validators.minLength(3)]],
         apellidos: ['', [Validators.required, Validators.minLength(3)]],
+        // eslint-disable-next-line no-useless-escape
         email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
         bloqueado: ['', [Validators.required]],
         confirmarCorreo: ['', [Validators.required]]
@@ -109,20 +103,13 @@ export class VerTodosUsuariosComponent implements OnInit {
       });
     }
   
-  
     consultarTodosUsuarios(numeroPagina: number){
       this.usuarioService.consultarTodosUsuarios(numeroPagina)
-      .subscribe(
-        (res) => {
-          this.asignarValoreDeRespuestaServicio(res);
-        },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
-      
+      .subscribe({
+        next: (res) => this.asignarValoreDeRespuestaServicio(res),
+        error: () => this.alertService.alertaErrorMs('Error en el servicio')
+      });      
     }
-  
   
     consultarUsuarioPorTermino(numeroPagina = 1){
       const termino = this.termino.nativeElement.value;
@@ -132,11 +119,7 @@ export class VerTodosUsuariosComponent implements OnInit {
     }
 
     cambiarPagina(numeroPagina: number){
-        if(this.banderas.busquedaTermino){
-          this.consultarUsuarioPorTermino(numeroPagina);
-        }else{
-          this.consultarTodosUsuarios(numeroPagina);
-        }
+      (this.banderas.busquedaTermino) ? (this.consultarUsuarioPorTermino(numeroPagina)) : (this.consultarTodosUsuarios(numeroPagina));
     }
   
     limpiarInputSearch(){
@@ -150,23 +133,19 @@ export class VerTodosUsuariosComponent implements OnInit {
       .then( (result) => {
         if(result.isConfirmed){
           this.usuarioService.eliminarUsuario(idUsuario)
-          .subscribe(
-            (res) => {
+          .subscribe({
+            next: () => {
               this.alertService.alertaExito("Usuario Eliminado Exitosamente");
               this.consultarTodosUsuarios(1);
             },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en el servicio');
-            }
-          );
+            error: () => this.alertService.alertaErrorMs('Error en el servicio')
+          });
         }
       });
     }
-  
-    mostrarFormulario(){
-  
+
+    mostrarFormulario(){  
       (this.banderas.mostrarFormulario) ? (this.banderas.mostrarFormulario = false) :(this.banderas.mostrarFormulario = true);
-  
     }
   
     guardarModificacionAdministradorSeleccionado(){
@@ -183,8 +162,8 @@ export class VerTodosUsuariosComponent implements OnInit {
       .then( (result) => {
         if(result.isConfirmed){
           this.usuarioService.modificarDatosUsuario(idAdministradorAModificar, data)
-          .subscribe(
-            (res: any) => {
+          .subscribe({
+            next: (res: any) => {
               if(res.ok){
                 this.alertService.alertaExito('Administrador Actualizado Exitosamente');
                 this.mostrarFormulario();
@@ -192,16 +171,12 @@ export class VerTodosUsuariosComponent implements OnInit {
               }else{
                 const message: string = res.message.error.mensaje;
                 this.alertService.alertaErrorMs(message);
-              }
+              }                  
             },
-            (error) => {
-              console.log('Error en la petición del servicio');
-              this.alertService.alertaErrorMs('Error en el servicio');
-            }
-          );
+            error: () => this.alertService.alertaErrorMs('Error en el servicio')
+          });
         }
-      });
-  
+      });  
     }
 
     verUnUsuario(idUsuario: string){
@@ -218,7 +193,6 @@ export class VerTodosUsuariosComponent implements OnInit {
     }
   
     asignarValoreDeRespuestaServicio(data: any){
-  
       this.arrayUsuarios = data.docs;
       this.controlPaginacion.siguientePagina = data.nextPage;
       this.controlPaginacion.anteriorPagina = data.prevPage;
@@ -226,7 +200,5 @@ export class VerTodosUsuariosComponent implements OnInit {
       this.controlPaginacion.hasPrevPage = data.hasPrevPage;
 
     }
-
-
   
 }
