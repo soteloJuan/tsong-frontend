@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Servicios
 import { ArtistaService } from '../../services/artista.service';
@@ -94,26 +94,22 @@ export class CrearComponent implements OnInit {
       .then( (result) => {
         if(result.isConfirmed){
           this.artistaService.crearArtista(data)
-          .subscribe(
-            (res: any) => {
+          .subscribe({
+            next: (res: any) => {
               if(res.ok){
-              this.alertService.alertaExito('Artista Creado Exitosamente');
-              this.resetearFormRegistroArtisa();
-              this.asignarDatosArtista(res.data);
-
+                this.alertService.alertaExito('Artista Creado Exitosamente');
+                this.resetearFormRegistroArtisa();
+                this.asignarDatosArtista(res.data);
+          
               }else{
-                console.log(res);
                 const message = res.message.error.mensaje;
                 this.alertService.alertaErrorMs(message);
               }
             },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en la petición del servicio.');
-            }
-          );
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+          });
         }
       });
-  
     }
 
     cerrarCardUpdatePhoto(){ this.banderas.mostrarCardUpdatePhoto = false; }
@@ -136,7 +132,7 @@ export class CrearComponent implements OnInit {
       }
   
       const reader = new FileReader();
-      reader.readAsDataURL(file); // Aqui lo convieete
+      reader.readAsDataURL(file);
       reader.onloadend = () => { this.imagenTemporal = reader.result; };
       this.banderas.cancelarFoto = true;
       this.banderas.guardarFoto = true;
@@ -145,7 +141,6 @@ export class CrearComponent implements OnInit {
     }
 
     cancelarFotoSeleccionado(){
-
       this.imagenTemporal        = null;
       this.banderas.cancelarFoto = false;
       this.banderas.guardarFoto  = false;
@@ -156,22 +151,18 @@ export class CrearComponent implements OnInit {
       if(!this.imagenASubir) return ;
             
       this.spinnerService.setSpinner = true;
-      this.artistaService.guardarImagenArtista(this.imagenASubir, this.artistaAModificar.id).subscribe(
-        (resp) => {
+      this.artistaService.guardarImagenArtista(this.imagenASubir, this.artistaAModificar.id)
+      .subscribe({
+        next: () => {
           this.spinnerService.setSpinner = false;
           this.alertService.alertaExito('Imagen Guardado exitosamente');
-          this.cerrarCardUpdatePhoto();
-
+          this.cerrarCardUpdatePhoto();    
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
+        error: () => this.alertService.alertaErrorMs('Error en el servicio')
+      });
   
       this.cancelarFotoSeleccionado();
     }
-
-
 
     asignarDatosArtista(data: any){
       const {_id, ...value} = data;
@@ -182,5 +173,3 @@ export class CrearComponent implements OnInit {
     }
 
 }
-
-

@@ -13,10 +13,6 @@ import { debounceTime } from 'rxjs/operators';
 // Router
 import {Router} from '@angular/router';
 
-// interface
-import { ArtistaInterface } from '../../interfaces/artista.interface';
-
-
 @Component({
   selector: 'app-ver-todos',
   templateUrl: './ver-todos.component.html',
@@ -56,9 +52,9 @@ export class VerTodosComponent implements OnInit {
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
       const termino = this.termino.nativeElement.value
-      this.artistaService.consultarArtistasPorTermino(termino, numeroPagina) // TODO ESTO PUEDE SER REDUCIDO
-      .subscribe(
-        (res) => {
+      this.artistaService.consultarArtistasPorTermino(termino, numeroPagina)
+      .subscribe({
+        next: (res) => {
           if(res == null){
             this.alertService.alertaAdvertercia('No se encontraron Artisas');
           }else{
@@ -66,38 +62,26 @@ export class VerTodosComponent implements OnInit {
             this.banderas.busquedaTermino = true;
           }
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+      })
     });
   }
 
   consultarTodosArtistas(numeroPagina: number){
     this.artistaService.consultarTodosArtistas(numeroPagina)
-    .subscribe(
-      (res) => {
-        this.asignarValoreDeRespuestaServicio(res);
-      },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+    .subscribe({
+      next: (res) => this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
 
   consultarArtistaPorTermino(numeroPagina = 1){
     const termino = this.termino.nativeElement.value;
-    if(!!termino || termino !== ""){
-      this.debouncer.next(numeroPagina);
-    }
+    if(!!termino || termino !== "")this.debouncer.next(numeroPagina);
   }
 
   cambiarPagina(numeroPagina: number){
-    if(this.banderas.busquedaTermino){
-      this.consultarArtistaPorTermino(numeroPagina);
-    }else{
-      this.consultarTodosArtistas(numeroPagina);
-    }
+    (this.banderas.busquedaTermino) ? (this.consultarArtistaPorTermino(numeroPagina)) : (this.consultarTodosArtistas(numeroPagina));
   }
 
   verUnSoloArtista(idArtista: string){
@@ -111,15 +95,13 @@ export class VerTodosComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.artistaService.eliminarArtista(idAdministrador)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Administrador Eliminado Exitosamente");
             this.consultarTodosArtistas(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
   }

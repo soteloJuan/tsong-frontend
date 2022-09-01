@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 
 // Servicios
 import { ArtistaService } from '../../services/artista.service';
 import { AlbumService } from '../../../album/services/album.service';
 import { MenuService } from '../../../services/menu.service';
-import {ValidadoresService} from '../../../services/validadores.service';
 import {SpinnerService} from '../../../services/spinner.service';
 import {CampoValidoService} from '../../../services/campoValido.service';
 import { AlertasServices } from '../../../services/alertas.service';
@@ -19,7 +17,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 
 
 //rxjs
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 
 // Formularios
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
@@ -66,7 +64,6 @@ export class VerUnoComponent implements OnInit {
     private spinnerService: SpinnerService,
     private fb: FormBuilder,
     private campoValido: CampoValidoService,
-    private validadoresService: ValidadoresService,
     private alertService: AlertasServices,
     public menuService: MenuService,
     private router: Router,
@@ -88,25 +85,22 @@ export class VerUnoComponent implements OnInit {
       tap( (resArtistaService) => {
         this.artista = this.artistaService.convertirAArtistaInterface(resArtistaService.data);
       }),
-    ).subscribe(
-      (res: any) => {
+    ).subscribe({
+      next: () => {
         this.consultarAlbumsPorArtistaPaginado(1);
         this.formatoDate();
       }
-    );
+    });
   }
 
   consultarAlbumsPorArtistaPaginado(pagina = 1){
     this.albumService.consultarAlbumsPorIdArtistaPaginado(this.artista.id, pagina)
-    .subscribe(
-      (res: any) => {
-        res.data && this.asignarValoreDeRespuestaServicio(res.data);
-      }
-    );
+    .subscribe({
+      next: (res: any) => res.data && this.asignarValoreDeRespuestaServicio(res.data)
+    });
   }
 
   asignarValoreDeRespuestaServicio(data: any){
-
     this.arrayAlbums = data.docs;
     this.controlPaginacion.siguientePagina = data.nextPage;
     this.controlPaginacion.anteriorPagina = data.prevPage;
@@ -114,18 +108,14 @@ export class VerUnoComponent implements OnInit {
     this.controlPaginacion.hasPrevPage = data.hasPrevPage;
   }
 
-
-
-
-
   mostrarFormularioActualizarData(){
-    if(this.banderas.mostrarFormularioUpdateDataArtista){
-      this.banderas.mostrarFormularioUpdateDataArtista = false;
-    }else{
-      this.campoValido.miFormulario = this.formArtista;
-      this.banderas.mostrarFormularioUpdateDataArtista = true;
-      this.resetFormularioArtista();
-    }
+    (this.banderas.mostrarFormularioUpdateDataArtista)
+      ? ( this.banderas.mostrarFormularioUpdateDataArtista = false) 
+      : (
+          this.campoValido.miFormulario = this.formArtista,
+          this.banderas.mostrarFormularioUpdateDataArtista = true,
+          this.resetFormularioArtista()
+        )
   }
 
   
@@ -154,10 +144,6 @@ export class VerUnoComponent implements OnInit {
   
   }
 
-
-
-
-
   guardarCambiosArtistaModificado(){
 
     if ( this.formArtista.invalid )  {
@@ -165,14 +151,12 @@ export class VerUnoComponent implements OnInit {
       return;
     }
 
-    console.log('Valores : ', this.formArtista.value);
-
     this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.artistaService.actualizarDatosBasicosArtista( this.artista.id, this.formArtista.value)
-        .subscribe( 
-          (res) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
               this.mostrarFormularioActualizarData();
@@ -182,27 +166,16 @@ export class VerUnoComponent implements OnInit {
               this.alertService.alertaErrorMs(message);
             }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
-
   
   formatoDate(){
     const newFormat: any = this.artista.fechaInicio.split('T', 1);
     this.artista.fechaInicio = newFormat[0];
   }
-
-
-
-
-
-  
-
   
   /* IMAGEN */
   
@@ -223,7 +196,7 @@ export class VerUnoComponent implements OnInit {
     }
 
     const reader = new FileReader();
-    reader.readAsDataURL(file); // Aqui lo convieete
+    reader.readAsDataURL(file);
     reader.onloadend = () => { this.imagenTemporal = reader.result; };
     this.banderas.cancelarFoto = true;
     this.banderas.guardarFoto = true;
@@ -239,23 +212,18 @@ export class VerUnoComponent implements OnInit {
     this.banderas.agregarFoto  = true;
   }
 
-
-
   guardarFoto(){
     if(!this.imagenASubir) return ;
         
-
     this.spinnerService.setSpinner = true;
-    this.artistaService.guardarImagenArtista(this.imagenASubir, this.artista.id).subscribe(
-      (resp) => {
+    this.artistaService.guardarImagenArtista(this.imagenASubir, this.artista.id).subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.activateRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
 
     this.cancelarFotoSeleccionado();
   }
@@ -272,24 +240,21 @@ export class VerUnoComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la foto', 'si')
     .then( (result) => {
       if(result.isConfirmed){
-        this.artistaService.eliminarImagenArtista(this.artista.id).subscribe(
-          (resp) => {
+        this.artistaService.eliminarImagenArtista(this.artista.id)
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito('Se elimino exitosamente');
             this.activateRouteConsulta();
           },
-          (error) => this.alertService.alertaErrorMs('Error en el servicio')
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
   }
 
-
   albumAReproducir(idAlbum: string) {
-
     this.reproductorService.setActivo = true;
     this.reproductorService.albumSeleccionada(idAlbum);
-
   }
 
   verMasDelAlbum(idAlbum: string){
@@ -298,25 +263,18 @@ export class VerUnoComponent implements OnInit {
   }
 
   eliminarAlbum(idAlbum: string){
-      this.alertService.alertaPreguta('Estas seguro', 'Se eliminara el Album', 'si')
-      .then( (result) => {
-        if(result.isConfirmed){
-          this.albumService.eliminarAlbum(idAlbum)
-          .subscribe(
-            (res) => {
-              this.alertService.alertaExito("Album Eliminado Exitosamente");
-              this.consultarAlbumsPorArtistaPaginado(1);
-            },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en el servicio');
-            }
-          );
-        }
-      });
-
+    this.alertService.alertaPreguta('Estas seguro', 'Se eliminara el Album', 'si')
+    .then( (result) => {
+      if(result.isConfirmed){
+        this.albumService.eliminarAlbum(idAlbum)
+        .subscribe({
+          next: () => {
+            this.alertService.alertaExito("Album Eliminado Exitosamente");
+            this.consultarAlbumsPorArtistaPaginado(1);
+          },
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
+      }
+    });
   }
-
-
-
-
 }
