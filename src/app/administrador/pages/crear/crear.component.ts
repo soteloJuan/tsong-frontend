@@ -10,15 +10,12 @@ import { AlertasServices } from '../../../services/alertas.service';
 // Forms
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-crear',
   templateUrl: './crear.component.html',
   styleUrls: ['./crear.component.css']
 })
 export class CrearComponent implements OnInit {
-
 
   formRegistro!: FormGroup;
 
@@ -30,15 +27,13 @@ export class CrearComponent implements OnInit {
     this.campoValido.miFormulario = this.formRegistro;
   }
 
-
-  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
-
-
+  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo); }
 
   crearFormRegistro(){
     this.formRegistro = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
+      // eslint-disable-next-line no-useless-escape
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -64,29 +59,25 @@ export class CrearComponent implements OnInit {
       this.formRegistro.markAllAsTouched(); 
       return;
     }
-
     const data:any = {...this.formRegistro.value};
     delete data.confirmPassword;
-
 
     this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.administradorService.crearAdministrador(data)
-        .subscribe(
-          (res: any) => {
-            if(res.ok){
-            this.alertService.alertaExito('Administrador Creado Exitosamente');
-            this.resetearFormRegistro();
-            }else{
-              const message = res.message.error.mensaje;
-              this.alertService.alertaErrorMs(message);
-            }
+        .subscribe({
+          next: (res: any) => {
+              if(res.ok){
+              this.alertService.alertaExito('Administrador Creado Exitosamente');
+              this.resetearFormRegistro();
+              }else{
+                const message = res.message.error.mensaje;
+                this.alertService.alertaErrorMs(message);
+              }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
 

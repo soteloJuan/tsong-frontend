@@ -62,10 +62,10 @@ export class VerTodosComponent implements OnInit {
     this.debouncer
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
-      const termino = this.termino.nativeElement.value
-      this.administradorService.consultarAdministradoresPorTermino(termino, numeroPagina) // TODO ESTO PUEDE SER REDUCIDO
-      .subscribe(
-        (res) => {
+      const termino = this.termino.nativeElement.value;
+      this.administradorService.consultarAdministradoresPorTermino(termino, numeroPagina)
+      .subscribe({
+        next: (res) => { 
           if(res == null){
             this.alertService.alertaAdvertercia('No se encontraron administradores');
           }else{
@@ -73,23 +73,22 @@ export class VerTodosComponent implements OnInit {
             this.banderas.busquedaTermino = true;
           }
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+      });
     });
   }
 
-  esCampoValido(campo: string) : Boolean{ return this.campoValidoService.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValidoService.esValidoCampo(campo); }
 
   crearFormularioModificarAdministrador(){
     this.formModificarAdministrador = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
+      // eslint-disable-next-line no-useless-escape
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       bloqueado: ['', [Validators.required]],
       confirmarCorreo: ['', [Validators.required]]
-    })
+    });
   }
 
   resetFormularioModificarAdministrador(){
@@ -102,33 +101,21 @@ export class VerTodosComponent implements OnInit {
     });
   }
 
-
   consultarTodosAdministradores(numeroPagina: number){
     this.administradorService.consultarTodosAdministradores(numeroPagina)
-    .subscribe(
-      (res) => {
-        this.asignarValoreDeRespuestaServicio(res);
-      },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+    .subscribe({
+      next: (res) => this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
-
 
   consultarAdministradorPorTermino(numeroPagina = 1){
     const termino = this.termino.nativeElement.value;
-    if(!!termino || termino !== ""){
-      this.debouncer.next(numeroPagina);
-    }
+    if(!!termino || termino !== "") this.debouncer.next(numeroPagina);
   }
   
   cambiarPagina(numeroPagina: number){
-      if(this.banderas.busquedaTermino){
-        this.consultarAdministradorPorTermino(numeroPagina);
-      }else{
-        this.consultarTodosAdministradores(numeroPagina);
-      }
+    (this.banderas.busquedaTermino) ? (this.consultarAdministradorPorTermino(numeroPagina)) : (this.consultarTodosAdministradores(numeroPagina)); 
   }
 
   limpiarInputSearch(){
@@ -142,23 +129,19 @@ export class VerTodosComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.administradorService.eliminarAdministrador(idAdministrador)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Administrador Eliminado Exitosamente");
             this.consultarTodosAdministradores(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
   }
 
   mostrarFormulario(){
-
     (this.banderas.mostrarFormulario) ? (this.banderas.mostrarFormulario = false) :(this.banderas.mostrarFormulario = true);
-
   }
 
   guardarModificacionAdministradorSeleccionado(){
@@ -175,8 +158,8 @@ export class VerTodosComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.administradorService.modificarDatosAdministrador(idAdministradorAModificar, data)
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Administrador Actualizado Exitosamente');
               this.mostrarFormulario();
@@ -184,16 +167,12 @@ export class VerTodosComponent implements OnInit {
             }else{
               const message: string = res.message.error.mensaje;
               this.alertService.alertaErrorMs(message);
-            }
+            }        
           },
-          (error) => {
-            console.log('Error en la petición del servicio');
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
   }
 
   asignarDatosAdministradorAModificar(indexAdministrador: number){

@@ -20,10 +20,11 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "semi":[2, "always"],
+        // "semi":[2, "always"],
         "no-console": 2,
         "implicit-arrow-linebreak": "off",
         "indent": "off",
-        "operator-linebreak": "off"
+        "operator-linebreak": "off",
+        "@typescript-eslint/ban-types": "off"
     }
 }
