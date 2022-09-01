@@ -6,6 +6,8 @@ import { ListaService } from '../../../lista/services/lista.service';
 import { MenuService } from '../../../services/menu.service';
 import {CampoValidoService} from '../../../services/campoValido.service';
 import { AlertasServices } from '../../../services/alertas.service';
+import { ReproductorService } from '../../../services/reproductor.service';
+
 
 
 // interfaces
@@ -66,7 +68,8 @@ export class VerUnUsuarioComponent implements OnInit {
     private campoValido: CampoValidoService,
     private alertService: AlertasServices,
     public menuService: MenuService,
-    private router: Router
+    private router: Router,
+    private reproductorService: ReproductorService
   ) { 
   }
 
@@ -170,7 +173,9 @@ export class VerUnUsuarioComponent implements OnInit {
 
   /* FALTA IMPLEMENTAR */
   reproducirListaReproduccion(idListaReproduccion: string){ 
-    // console.log('Lista Reproduccion a Reproducir: ', idListaReproduccion);
+    this.reproductorService.isListaReproduccion = true;
+    this.reproductorService.setActivo = true;
+    this.reproductorService.listaSeleccionada(idListaReproduccion);
   }
 
   verMasListaReproduccion(idListaReproduccion: string){
