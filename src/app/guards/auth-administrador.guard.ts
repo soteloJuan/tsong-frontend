@@ -11,15 +11,13 @@ import {Router} from '@angular/router';
 import { Observable } from 'rxjs';
 import {tap} from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AuthAdministradorGuard implements CanActivate, CanLoad {
 
   constructor(private authAdmin: AuthAdministradorService, private router: Router){}
-  canLoad(route: Route, segments: UrlSegment[]): boolean | Observable<boolean>  {
-    console.log('ENTRO - canLoad');
+  canLoad(): boolean | Observable<boolean>  {
     return this.authAdmin.validarToken().pipe(
       tap(
         (res: boolean) => {
@@ -28,11 +26,10 @@ export class AuthAdministradorGuard implements CanActivate, CanLoad {
           }
         }
       )
-    )
+    );
   }
 
   canActivate(): Observable<boolean> | boolean {
-    console.log('ENTRO - canActivate');
     return this.authAdmin.validarToken().pipe(
       tap(
         (res: boolean) => {

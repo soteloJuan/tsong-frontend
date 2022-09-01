@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
-
 // Formularios
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 
@@ -37,8 +36,6 @@ export class PerfilComponent implements OnInit {
     mostrarFormularioUpdatePassword: false
   };
 
-
-
   @ViewChild('changeIMG') inputChangeIMG!: ElementRef;
 
   administrador!: AdministradorInterface;
@@ -54,14 +51,14 @@ export class PerfilComponent implements OnInit {
     ) {
     }
 
-    ngOnInit(): void {
-      const SetTimeoutFormProfile = setTimeout(() => {
-        this.administrador = this.administradorService.getAdministrador;
-        this.crearFormularioProfile();
-      }, 500);
-      SetTimeoutFormProfile;
-      this.crearFormularioPassword();
-    }
+  ngOnInit(): void {
+    const SetTimeoutFormProfile = setTimeout(() => {
+      this.administrador = this.administradorService.getAdministrador;
+      this.crearFormularioProfile();
+    }, 500);
+    SetTimeoutFormProfile;
+    this.crearFormularioPassword();
+  }
 
 
   /* IMAGEN */
@@ -83,7 +80,7 @@ export class PerfilComponent implements OnInit {
     }
 
     const reader = new FileReader();
-    reader.readAsDataURL(file); // Aqui lo convieete
+    reader.readAsDataURL(file);
     reader.onloadend = () => { this.imagenTemporal = reader.result; };
     this.banderas.cancelarFoto = true;
     this.banderas.guardarFoto = true;
@@ -101,18 +98,15 @@ export class PerfilComponent implements OnInit {
 
   guardarFoto(){
     if(!this.imagenASubir) return ;
-        
 
     this.spinnerService.setSpinner = true;
-    this.administradorService.guardarImagen(this.imagenASubir, this.administrador.id).subscribe(
-      (resp) => {
+    this.administradorService.guardarImagen(this.imagenASubir, this.administrador.id).subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
 
     this.cancelarFotoSeleccionado();
   }
@@ -128,31 +122,31 @@ export class PerfilComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la foto', 'si')
     .then( (result) => {
       if(result.isConfirmed){
-        this.administradorService.eliminarImagen().subscribe(
-          (resp) => {
-            this.alertService.alertaExito('Se elimino exitosamente');
-          },
-          (error) => this.alertService.alertaErrorMs('Error en el servicio')
-        );
+        this.administradorService.eliminarImagen().subscribe({
+          next:  () => this.alertService.alertaExito('Se elimino exitosamente'),
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-    
   }
-
 
 
   /* UPDATE PROFILE */
 
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : any{ return this.campoValido.esValidoCampo(campo); }
 
   crearFormularioProfile(){
+
     this.formProfile = this.fb.group({
       nombre: [this.administrador.nombre , [Validators.required, Validators.minLength(2)]],
       apellidos: [this.administrador.apellidos , [Validators.required, Validators.minLength(2)]],
+      // eslint-disable-next-line no-useless-escape
       email: [this.administrador.email , [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       bloqueado: [this.administrador.bloqueado , [Validators.required]],
     });
+
   }
+
   resetFormularioProfile(){
     this.formProfile.reset({
       nombre: this.administrador.nombre,
@@ -163,7 +157,6 @@ export class PerfilComponent implements OnInit {
   }
 
   guardarCambiosProfile(){
-
     if ( this.formProfile.invalid )  {
       this.formProfile.markAllAsTouched(); 
       return;
@@ -173,8 +166,8 @@ export class PerfilComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.administradorService.actualizarAdministrador(this.formProfile.value, this.administrador.id)
-        .subscribe( 
-          (res) => {
+        .subscribe({
+          next: (res) => {
             if(res.ok){
               this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
               this.mostrarFormularioActualizarData();
@@ -183,15 +176,11 @@ export class PerfilComponent implements OnInit {
               this.alertService.alertaErrorMs(message);
             }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
-
 
   /* CHANGE PASSWORD */
 
@@ -222,14 +211,14 @@ export class PerfilComponent implements OnInit {
     const value = {
       password: this.formPassword.value.password,
       newPassword: this.formPassword.value.newPassword
-    }
+    };
 
     this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.administradorService.actualizarAdministradorPassword(value, this.administrador.id)
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Password Actualizado exitosamente');
               this.mostrarFormularioActualizarPassword();
@@ -238,27 +227,20 @@ export class PerfilComponent implements OnInit {
               this.alertService.alertaAdvertercia(message);
             }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
-    
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });    
       }
     });
-
-
-
   }
 
-
-  /* Funciones banderas para mostrar FORMULARIOS*/
+  /* Banderas*/
 
   mostrarFormularioActualizarData(){
     if(this.banderas.mostrarFormularioUpdateData){
       this.banderas.mostrarFormularioUpdateData = false;
       this.resetFormularioProfile();
     }else{
-      this.campoValido.miFormulario = this.formProfile; // ASIGNAR nuestro formulario al formulario que tenemos en el servicio
+      this.campoValido.miFormulario = this.formProfile;
       this.banderas.mostrarFormularioUpdateData = true;
     }
   }
@@ -269,10 +251,8 @@ export class PerfilComponent implements OnInit {
       this.resetFormularioPassword();
     }else{
       this.banderas.mostrarFormularioUpdatePassword = true;
-      this.campoValido.miFormulario = this.formPassword; // ASIGNAR el nuestro formulario al formulario que tenemos en el servicio
+      this.campoValido.miFormulario = this.formPassword;
     }
   }
-
-
 
 }

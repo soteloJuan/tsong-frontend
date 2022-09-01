@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
+import {  CanActivate, UrlTree, CanLoad, Route, UrlSegment } from '@angular/router';
 import {Router} from '@angular/router';
 
 
@@ -23,8 +23,8 @@ export class AuthUsuarioGuard implements CanActivate, CanLoad{
     private router: Router){
 
   }
-  canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    console.log('ENTRO - canLoad');
+
+  canLoad(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return this.authUsuarioService.validarToken().pipe(
       tap(
         (res: boolean) => {
@@ -38,7 +38,6 @@ export class AuthUsuarioGuard implements CanActivate, CanLoad{
 
 
   canActivate(): Observable<boolean>{
-    console.log('ENTRO - canActivate');
     return this.authUsuarioService.validarToken().pipe(
       tap(
         (res: boolean) => {

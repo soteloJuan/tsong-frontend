@@ -53,7 +53,7 @@ export class AuthAdministradorService{
 
     login(datos: LoginFormValue){
 
-        const url = `${this.baseUrl}api/authAdministrador/login`
+        const url = `${this.baseUrl}api/authAdministrador/login`;
 
         return this.http.post(url, datos).pipe(
             tap( (resp: any) => {
@@ -63,7 +63,7 @@ export class AuthAdministradorService{
                 (this.administradorService.getAdministrador.role == "ADMIN_PRO") ? (this.asignarMenuAdminPro()) : (this.asignarMenuAdmin());
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -83,7 +83,7 @@ export class AuthAdministradorService{
                 return true;
             }),
             catchError((error) => of (false)) // Trabajar error con observable
-        )
+        );
     }
 
 }
