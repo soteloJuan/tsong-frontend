@@ -14,10 +14,6 @@ import { debounceTime } from 'rxjs/operators';
 // Router
 import {Router} from '@angular/router';
 
-
-// interface
-import { AlbumInterface } from '../../interfaces/album.interface';
-
 @Component({
   selector: 'app-ver-todos',
   templateUrl: './ver-todos.component.html',
@@ -53,15 +49,14 @@ export class VerTodosComponent implements OnInit {
     this.consultarTodosAlbumsPaginado(1);
   }
 
-
   ngOnInit(): void {
     this.debouncer
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
       const termino = this.termino.nativeElement.value
-      this.albumService.consultarAlbumsPorTermino(termino, numeroPagina) // TODO ESTO PUEDE SER REDUCIDO
-      .subscribe(
-        (res) => {
+      this.albumService.consultarAlbumsPorTermino(termino, numeroPagina)
+      .subscribe({
+        next: (res: any) => {
           if(res == null){
             this.alertService.alertaAdvertercia('No se encontraron Albums');
           }else{
@@ -69,47 +64,33 @@ export class VerTodosComponent implements OnInit {
             this.banderas.busquedaTermino = true;
           }
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+      })
     });
   }
-
   
   consultarTodosAlbumsPaginado(numeroPagina: number){ 
     this.albumService.consultarTodosAlbums(numeroPagina)
-    .subscribe(
-      (res) => {
-        this.asignarValoreDeRespuestaServicio(res);
-      },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+    .subscribe({
+      next: (res) => this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
 
   consultarAlbumPorTermino(numeroPagina = 1){
     const termino = this.termino.nativeElement.value;
-    if(!!termino || termino !== ""){
-      this.debouncer.next(numeroPagina);
-    }
+    if(!!termino || termino !== "")this.debouncer.next(numeroPagina);
   }
 
   
   cambiarPagina(numeroPagina: number){
-    if(this.banderas.busquedaTermino){
-      this.consultarAlbumPorTermino(numeroPagina);
-    }else{
-      this.consultarTodosAlbumsPaginado(numeroPagina);
-    }
+    (this.banderas.busquedaTermino) ? (this.consultarAlbumPorTermino(numeroPagina)) : (this.consultarTodosAlbumsPaginado(numeroPagina));
   }
 
   reproducirAlbum(idAlbum: string){
     this.reproductorService.isListaReproduccion = false;
     this.reproductorService.setActivo = true;
     this.reproductorService.albumSeleccionada(idAlbum);
-
   }
 
   verUnSoloAlbum(idAlbum: string){
@@ -117,27 +98,21 @@ export class VerTodosComponent implements OnInit {
     (role === "ADMINISTRADOR") ? (this.router.navigate(['/administrador/album/verUno', idAlbum])) : (this.router.navigate(['/usuario/album/verUno', idAlbum]));
   }
 
-
   eliminarAlbum(idAlbum: string){
     this.alertService.alertaPreguta('Estas seguro', 'Se eliminara el Album', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.albumService.eliminarAlbum(idAlbum)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Album Eliminado Exitosamente");
             this.consultarTodosAlbumsPaginado(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
-}
-
-
+  }
 
   limpiarInputSearch(){
     this.banderas.busquedaTermino = false;
@@ -146,13 +121,11 @@ export class VerTodosComponent implements OnInit {
   }
 
   asignarValoreDeRespuestaServicio(data: any){
-
     this.arrayAlbums = data.docs;
     this.controlPaginacion.siguientePagina = data.nextPage;
     this.controlPaginacion.anteriorPagina = data.prevPage;
     this.controlPaginacion.hasNextPage = data.hasNextPage;
     this.controlPaginacion.hasPrevPage = data.hasPrevPage;
   }
-
-
+  
 }

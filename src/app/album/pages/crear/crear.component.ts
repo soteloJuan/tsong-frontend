@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Servicios
 import {ArtistaService} from '../../../artista/services/artista.service';
@@ -96,28 +96,23 @@ export class CrearComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.albumService.crearAlbum(data)
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
-            this.alertService.alertaExito('Album Creado Exitosamente');
-            this.resetearFormRegistroAlbum();
-            this.asignarDatosAlbum(res.data);
-
+              this.alertService.alertaExito('Album Creado Exitosamente');
+              this.resetearFormRegistroAlbum();
+              this.asignarDatosAlbum(res.data);
+  
             }else{
-              console.log(res);
               const message = res.message.error.mensaje;
               this.alertService.alertaErrorMs(message);
-            }
+            }  
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
-
   
   cerrarCardUpdatePhoto(){ this.banderas.mostrarCardUpdatePhoto = false; }
 
@@ -148,7 +143,6 @@ export class CrearComponent implements OnInit {
 
 
   cancelarFotoSeleccionado(){
-
     this.imagenTemporal        = null;
     this.banderas.cancelarFoto = false;
     this.banderas.guardarFoto  = false;
@@ -159,35 +153,29 @@ export class CrearComponent implements OnInit {
     if(!this.imagenASubir) return ;
           
     this.spinnerService.setSpinner = true;
-    this.albumService.guardarImagenAlbum(this.imagenASubir, this.albumAModificar.id).subscribe(
-      (resp) => {
+    this.albumService.guardarImagenAlbum(this.imagenASubir, this.albumAModificar.id)
+    .subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.cerrarCardUpdatePhoto();
-
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
-
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
     this.cancelarFotoSeleccionado();
   }
 
   consultarTodosArtistas(){
     this.artistaService.consultarTodosArtistasSinFiltro()
-    .subscribe(
-      (res: any) => {
+    .subscribe({
+      next: (res: any) => {
         if(res.ok){
           this.asignarDatosArtistas(res.data);
         }else{
           this.alertService.alertaErrorMs('Error en el servicio');
         }
-      },
-      (error) => {
-        console.log('Error en el servicio de consulta : ', error); 
       }
-    )
+    })
   }
 
   asignarDatosAlbum(data: any){
@@ -195,12 +183,10 @@ export class CrearComponent implements OnInit {
     this.albumAModificar = {...value}
     this.albumAModificar.id = _id;
     this.banderas.mostrarCardUpdatePhoto = true;
-
   }
 
   asignarDatosArtistas(data: any){
     this.arrayArtistas = data;
-    console.log(this.arrayArtistas);
   }
 
 }

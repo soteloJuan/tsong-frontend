@@ -1,17 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Servicios
 import { ArtistaService } from '../../../artista/services/artista.service';
 import { CancionService } from '../../../cancion/services/cancion.service';
 import { AlbumService } from '../../services/album.service';
 import { MenuService } from '../../../services/menu.service';
-import { ValidadoresService } from '../../../services/validadores.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { CampoValidoService } from '../../../services/campoValido.service';
 import { AlertasServices } from '../../../services/alertas.service';
 import {ReproductorService} from '../../../services/reproductor.service';
-
 
 // interfaces
 import { AlbumInterface } from '../../interfaces/album.interface';
@@ -20,9 +17,8 @@ import { ArtistaInterface } from '../../../artista/interfaces/artista.interface'
 // Router
 import { Router, ActivatedRoute } from '@angular/router';
 
-
 //rxjs
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 // Formularios
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -34,13 +30,11 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 })
 export class VerUnoComponent implements OnInit {
 
-
   artista!: ArtistaInterface;
   album!: AlbumInterface;
   arrayCanciones: any;
   arrayArtistas: any;
   formAlbum: FormGroup = this.fb.group({});
-
 
   valoresNoValidos = ['null', null, undefined, ''];
   imagenASubir!: File;
@@ -71,7 +65,6 @@ export class VerUnoComponent implements OnInit {
     private spinnerService: SpinnerService,
     private fb: FormBuilder,
     private campoValido: CampoValidoService,
-    private validadoresService: ValidadoresService,
     private alertService: AlertasServices,
     public menuService: MenuService,
     private router: Router,
@@ -84,8 +77,6 @@ export class VerUnoComponent implements OnInit {
     this.activateRouteConsulta();
   }
 
-
-
   activateRouteConsulta() {
 
     this.activatedRoute.params.pipe(
@@ -95,30 +86,23 @@ export class VerUnoComponent implements OnInit {
         return this.album.artista;
       }),
       switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista))
-    ).subscribe(
-      (res: any) => {
+    ).subscribe({
+      next: (res: any) => {
         this.artista = this.artistaService.convertirAArtistaInterface(res.data);
         this.consultarCancionPorAlbumPaginado(1);
         this.formatoDate();
       }
-    );
+    });
   }
-
 
   consultarTodosArtistas() {
     this.artistaService.consultarTodosArtistasSinFiltro()
-      .subscribe(
-        (res: any) => {
-          if (res.ok) {
-            this.asignarDatosArtistasConsultados(res.data);
-          } else {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
+      .subscribe({
+        next: (res: any) => {
+          (res.ok) ? (this.asignarDatosArtistasConsultados(res.data)) : (this.alertService.alertaErrorMs('Error en el servicio'));
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio.');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+      });
   }
 
   asignarDatosArtistasConsultados(data: any) {
@@ -126,20 +110,14 @@ export class VerUnoComponent implements OnInit {
     this.arrayArtistas = this.arrayArtistas.filter((artista: any) => artista._id !== this.artista.id);
   }
 
-
-
-
   consultarCancionPorAlbumPaginado(pagina = 1) {
     this.cancionService.consultarCancionesPorAlbumPaginado(this.album.id, pagina)
-      .subscribe(
-        (res: any) => {
-          res.data && this.asignarValoreDeRespuestaServicio(res.data);
-        }
-      );
+      .subscribe({
+        next: (res: any) => res.data && this.asignarValoreDeRespuestaServicio(res.data)
+      });
   }
 
   asignarValoreDeRespuestaServicio(data: any) {
-
     this.arrayCanciones = data.docs;
     this.controlPaginacion.siguientePagina = data.nextPage;
     this.controlPaginacion.anteriorPagina = data.prevPage;
@@ -147,15 +125,12 @@ export class VerUnoComponent implements OnInit {
     this.controlPaginacion.hasPrevPage = data.hasPrevPage;
   }
 
-
   formatoDate() {
     const newFormat: any = this.album.fechaLanzamiento.split('T', 1);
     this.album.fechaLanzamiento = newFormat[0];
   }
 
-
   /* IMAGEN */
-
   seleccionarImagen() {
 
     this.imagenASubir = this.inputChangeIMG.nativeElement.files[0];
@@ -173,43 +148,35 @@ export class VerUnoComponent implements OnInit {
     }
 
     const reader = new FileReader();
-    reader.readAsDataURL(file); // Aqui lo convieete
+    reader.readAsDataURL(file);
     reader.onloadend = () => { this.imagenTemporal = reader.result; };
     this.banderas.cancelarFoto = true;
     this.banderas.guardarFoto = true;
     this.banderas.agregarFoto = false;
-
   }
 
   cancelarFotoSeleccionado() {
-
     this.imagenTemporal = null;
     this.banderas.cancelarFoto = false;
     this.banderas.guardarFoto = false;
     this.banderas.agregarFoto = true;
   }
 
-
-
   guardarFoto() {
     if (!this.imagenASubir) return;
 
-
     this.spinnerService.setSpinner = true;
-    this.albumService.guardarImagenAlbum(this.imagenASubir, this.album.id).subscribe(
-      (resp) => {
+    this.albumService.guardarImagenAlbum(this.imagenASubir, this.album.id)
+    .subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.activateRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
-
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
     this.cancelarFotoSeleccionado();
   }
-
 
   eliminarFoto() {
     const imagenURL = this.album.imagenURL;
@@ -222,24 +189,21 @@ export class VerUnoComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la foto', 'si')
       .then((result) => {
         if (result.isConfirmed) {
-          this.albumService.eliminarAlbum(this.album.id).subscribe(
-            (resp) => {
+          this.albumService.eliminarAlbum(this.album.id).subscribe({
+            next: () => {
               this.alertService.alertaExito('Se elimino exitosamente');
               this.activateRouteConsulta();
             },
-            (error) => this.alertService.alertaErrorMs('Error en el servicio')
-          );
+            error: () => this.alertService.alertaErrorMs('Error en el servicio')
+          });
         }
       });
-
   }
-
 
   albumAReproducir(idCancion: string) {
     this.reproductorService.isListaReproduccion = false;
     this.reproductorService.setActivo = true;
     this.reproductorService.cancionSeleccionadaDesdeAlbum(idCancion);
-
   }
 
   verMasDelCancion(idCancion: string) {
@@ -252,20 +216,16 @@ export class VerUnoComponent implements OnInit {
       .then((result) => {
         if (result.isConfirmed) {
           this.cancionService.eliminarCancion(idCancion)
-            .subscribe(
-              (res) => {
+            .subscribe({
+              next: () => {
                 this.alertService.alertaExito("Canción Eliminado Exitosamente");
                 this.consultarCancionPorAlbumPaginado(1);
               },
-              (error) => {
-                this.alertService.alertaErrorMs('Error en el servicio');
-              }
-            );
+              error: () => this.alertService.alertaErrorMs('Error en el servicio')
+            });
         }
       });
-
   }
-
 
   // Formulario
 
@@ -280,9 +240,7 @@ export class VerUnoComponent implements OnInit {
     }
   }
 
-
   esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo) }
-
 
   crearFormularioAlbum() {
     this.formAlbum = this.fb.group({
@@ -310,41 +268,30 @@ export class VerUnoComponent implements OnInit {
       this.formAlbum.markAllAsTouched();
       return;
     }
-
-    console.log('Valores : ', this.formAlbum.value);
-
     this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
       .then((result) => {
         if (result.isConfirmed) {
           this.albumService.actualizarDatosBasicosAlbum(this.album.id, this.formAlbum.value)
-            .subscribe(
-              (res) => {
-                if (res.ok) {
-                  this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
-                  this.mostrarFormularioActualizarData();
-                  this.activateRouteConsulta();
-                } else {
-                  const message: string = res.message.error.mensaje;
-                  this.alertService.alertaErrorMs(message);
-                }
-              },
-              (error) => {
-                this.alertService.alertaErrorMs('Error en la petición del servicio.');
+          .subscribe({
+            next: (res: any) => {
+              if (res.ok) {
+                this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
+                this.mostrarFormularioActualizarData();
+                this.activateRouteConsulta();
+              } else {
+                const message: string = res.message.error.mensaje;
+                this.alertService.alertaErrorMs(message);
               }
-            );
+            },
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+          });
         }
       });
-
   }
-
 
   verArtista(idArtista: string){
     const role = this.menuService.getRole;
     (role === "ADMINISTRADOR") ? (this.router.navigate(['/administrador/artista/verUno', idArtista])) : (this.router.navigate(['/usuario/artista/verUno', idArtista]));
   }
-
-
-
-
 
 }
