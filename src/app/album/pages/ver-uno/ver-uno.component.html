@@ -72,7 +72,7 @@
 
                 </div>
 
-                <div class="listaCancionesCuerpo">
+                <div *ngIf="arrayCanciones.leght !== 0" class="listaCancionesCuerpo">
                     
                     <div class="line" *ngFor="let cancion of arrayCanciones">
 
@@ -121,6 +121,10 @@
                         
                     </div>
 
+                </div>
+
+                <div *ngIf="arrayCanciones.leght !== 0" class="listaCancionesCuerpo">
+                    <h3>No Hay Canciones</h3>
                 </div>
 
             </div>
@@ -198,19 +202,3 @@
     </div>
 
 </body>
-
-
-
-<!-- 
-
-Datos a mostrar : 
-
-
-- nombre
-- artista 
-- fecha 
-- descripcion+
-- bloqueado
-
--->
-

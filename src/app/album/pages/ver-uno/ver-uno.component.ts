@@ -111,9 +111,10 @@ export class VerUnoComponent implements OnInit {
   }
 
   consultarCancionPorAlbumPaginado(pagina = 1) {
+    this.arrayCanciones = [];
     this.cancionService.consultarCancionesPorAlbumPaginado(this.album.id, pagina)
       .subscribe({
-        next: (res: any) => res.data && this.asignarValoreDeRespuestaServicio(res.data)
+        next: (res: any) => (res.data) ? (this.asignarValoreDeRespuestaServicio(res.data)) : (this.arrayCanciones = [])
       });
   }
 
@@ -140,7 +141,6 @@ export class VerUnoComponent implements OnInit {
     const extensionesValidas = ['png', 'jng', 'jpeg', 'gif', 'jpg'];
 
     if (!file) return;
-
 
     if (!extensionesValidas.includes(extension)) {
       this.alertService.alertaErrorMs('Archivo no permitido');
