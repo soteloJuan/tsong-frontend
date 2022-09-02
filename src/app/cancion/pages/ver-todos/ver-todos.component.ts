@@ -14,9 +14,6 @@ import { CancionListaReproduccionService } from '../../../services/cancionListaR
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-// interface
-import { CancionInterface } from '../../interfaces/cancion.interface';
-
 // route
 import {Router} from '@angular/router';
 
@@ -43,9 +40,6 @@ export class VerTodosComponent implements OnInit {
   };
   arrayCanciones!: any[];
 
-
-
-
   banderaListaReproduccion = {
     mostrar: false
   }
@@ -56,8 +50,6 @@ export class VerTodosComponent implements OnInit {
     hasPrevPage: false
   };
   arrayListaReproduccion!: any[];
-
-
 
   personaPresente: any;
 
@@ -81,9 +73,9 @@ export class VerTodosComponent implements OnInit {
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
       const termino = this.termino.nativeElement.value
-      this.cancionService.consultarCancionesPorTermino(termino, numeroPagina) // TODO ESTO PUEDE SER REDUCIDO
-      .subscribe(
-        (res) => {
+      this.cancionService.consultarCancionesPorTermino(termino, numeroPagina)
+      .subscribe({
+        next: (res) => {
           if(res == null){
             this.alertService.alertaAdvertercia('No se encontraron Albums');
           }else{
@@ -91,23 +83,17 @@ export class VerTodosComponent implements OnInit {
             this.banderas.busquedaTermino = true;
           }
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+      })
     });
   }
 
   consultarTodasCanciones(numeroPagina: number){
     this.cancionService.consultarTodasCanciones(numeroPagina)
-    .subscribe(
-      (res) => {
-        this.asignarValoreDeRespuestaServicio(res);
-      },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+    .subscribe({
+      next: (res) => this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
 
   consultarCancionPorTermino(numeroPagina = 1){
@@ -118,11 +104,7 @@ export class VerTodosComponent implements OnInit {
   }
 
   cambiarPagina(numeroPagina: number){
-    if(this.banderas.busquedaTermino){
-      this.consultarCancionPorTermino(numeroPagina);
-    }else{
-      this.consultarTodasCanciones(numeroPagina);
-    }
+    (this.banderas.busquedaTermino) ? (this.consultarCancionPorTermino(numeroPagina)) : (this.consultarTodasCanciones(numeroPagina));
   }
 
   limpiarInputSearch(){
@@ -133,33 +115,27 @@ export class VerTodosComponent implements OnInit {
 
 
   asignarValoreDeRespuestaServicio(data: any){
-
     this.arrayCanciones = data.docs;
     this.controlPaginacion.siguientePagina = data.nextPage;
     this.controlPaginacion.anteriorPagina = data.prevPage;
     this.controlPaginacion.hasNextPage = data.hasNextPage;
     this.controlPaginacion.hasPrevPage = data.hasPrevPage;
-
   }
-
 
   eliminarCancion(idCancion: string){
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la Canción', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.cancionService.eliminarCancion(idCancion)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Canción Eliminado Exitosamente");
             this.consultarTodasCanciones(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
   }
 
   verMas(idCancion: string){
@@ -177,28 +153,24 @@ export class VerTodosComponent implements OnInit {
   /* Listas  de Reproducción*/
 
   verListasDeReproduccionPropio(idCancionSeleccionado = ""){
-    if(this.banderaListaReproduccion.mostrar){
-      this.banderaListaReproduccion.mostrar = false;
-    }else{
-      this.consultarListaDeReproduccionPorUsuario();
-      this.banderaListaReproduccion.mostrar = true;
-      this.cancionSeleccionadaAAgregar = idCancionSeleccionado;
-    }
+
+    (this.banderaListaReproduccion.mostrar) 
+      ? (this.banderaListaReproduccion.mostrar = false) 
+
+      : ( this.consultarListaDeReproduccionPorUsuario(),
+          this.banderaListaReproduccion.mostrar = true,
+          this.cancionSeleccionadaAAgregar = idCancionSeleccionado
+        );
   }
 
   consultarListaDeReproduccionPorUsuario(numeroPagina = 1){
     const idUsuario: string = this.usuarioService.getUsuario.id;
     this.listaService.consultarTodosListaPorUsuarios(idUsuario, numeroPagina)
-    .subscribe(
-      (res) => {
-        this.asignarValoreDeRespuestaServicioListaReproduccion(res);
-      },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+    .subscribe({
+      next: (res) => this.asignarValoreDeRespuestaServicioListaReproduccion(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
-
 
   asignarValoreDeRespuestaServicioListaReproduccion(data: any){
     this.arrayListaReproduccion = data.docs;
@@ -215,23 +187,19 @@ export class VerTodosComponent implements OnInit {
     };
 
     this.cancionListaReproduccionService.crearCancionListaReproduccion(data)
-    .subscribe(
-      (res: any) => {
+    .subscribe({
+      next: (res: any) => {
         if(res.ok){
-        this.alertService.alertaExito('Canción Agregado Exitosamente');
-        this.banderaListaReproduccion.mostrar = false;
-        this.cancionSeleccionadaAAgregar = "";
+          this.alertService.alertaExito('Canción Agregado Exitosamente');
+          this.banderaListaReproduccion.mostrar = false;
+          this.cancionSeleccionadaAAgregar = "";
         }else{
-          console.log(res);
           const message = res.message.error.mensaje;
           this.alertService.alertaErrorMs(message);
-        }
+        }  
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en la petición del servicio.');
-      }
-    );
-
+      error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+    });
   }
 
 }

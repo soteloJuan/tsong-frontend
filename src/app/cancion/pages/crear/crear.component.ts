@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Servicios
 import {ArtistaService} from '../../../artista/services/artista.service';
@@ -10,7 +10,6 @@ import { SpinnerService } from '../../../services/spinner.service';
 
 // Forms
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-
 
 // interfaces
 import { CancionInterface } from '../../interfaces/cancion.interface';
@@ -87,8 +86,6 @@ export class CrearComponent implements OnInit {
   
     }
 
-
-
     // Formulario
     esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
 
@@ -130,28 +127,22 @@ export class CrearComponent implements OnInit {
       .then( (result) => {
         if(result.isConfirmed){
           this.cancionService.crearCancion(data)
-          .subscribe(
-            (res: any) => {
+          .subscribe({
+            next: (res: any) => {
               if(res.ok){
-              this.alertService.alertaExito('Canción Creado Exitosamente');
-              this.resetearFormRegistroCancion();
-              this.asignarDatosCancionAModificar(res.data);
-  
+                this.alertService.alertaExito('Canción Creado Exitosamente');
+                this.resetearFormRegistroCancion();
+                this.asignarDatosCancionAModificar(res.data);  
               }else{
-                console.log(res);
                 const message = res.message.error.mensaje;
                 this.alertService.alertaErrorMs(message);
-              }
+              }  
             },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en la petición del servicio.');
-            }
-          );
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+          });
         }
       });
-  
     }
-
 
     // Guardar Foto
     cerrarCardUpdatePhoto(){ this.banderasPhoto.mostrarCardUpdatePhoto = false; }
@@ -166,7 +157,6 @@ export class CrearComponent implements OnInit {
       
       if(!file) return ;
   
-  
       if(!extensionesValidas.includes(extension)){
         this.alertService.alertaErrorMs('Archivo no permitido');
         return ;
@@ -178,11 +168,9 @@ export class CrearComponent implements OnInit {
       this.banderasPhoto.cancelarFoto = true;
       this.banderasPhoto.guardarFoto = true;
       this.banderasPhoto.agregarFoto = false;
-  
     }
   
     cancelarFotoSeleccionado(){
-
       this.imagenTemporal        = null;
       this.banderasPhoto.cancelarFoto = false;
       this.banderasPhoto.guardarFoto  = false;
@@ -192,24 +180,19 @@ export class CrearComponent implements OnInit {
     guardarFoto(){ 
 
       if(!this.imagenASubir) return ;
-            
+
       this.spinnerService.setSpinner = true;
-      this.cancionService.guardarImagenCancion(this.imagenASubir, this.cancionAModificar.id).subscribe(
-        (resp) => {
+      this.cancionService.guardarImagenCancion(this.imagenASubir, this.cancionAModificar.id)
+      .subscribe({
+        next: () => {
           this.spinnerService.setSpinner = false;
           this.alertService.alertaExito('Imagen Guardado exitosamente');
-          this.cerrarCardUpdatePhoto();
-
+          this.cerrarCardUpdatePhoto();  
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
-  
+        error: () => this.alertService.alertaErrorMs('Error en el servicio')
+      });
       this.cancelarFotoSeleccionado();
-
     }
-
 
     // Guardar Archivo de Musica
 
@@ -223,8 +206,6 @@ export class CrearComponent implements OnInit {
       const extension  = arrayValorerFileName[1];
       const extensionesValidas = ['mp3', 'mp4', 'mpeg', 'mpg', 'jpg', 'midi', 'wav', 'wav', 'mp2', 'wm', 'ogg'];
 
-      console.log('Este es el adudio a subir: ', file);
-
       if(!file) return ;
 
       if(!extensionesValidas.includes(extension)){
@@ -232,9 +213,8 @@ export class CrearComponent implements OnInit {
         return ;
       }
 
-
       const reader = new FileReader();
-      reader.readAsDataURL(file); // Aqui lo convieete
+      reader.readAsDataURL(file);
       reader.onloadend = () => { 
         this.archivoMusicalTemporal = reader.result;
         this.audio.nativeElement.src = reader.result;
@@ -259,59 +239,49 @@ export class CrearComponent implements OnInit {
       if(!this.archivoMusicaASubir) return ;
             
       this.spinnerService.setSpinner = true;
-      this.cancionService.actualizarArchivoDeMusica(this.archivoMusicaASubir, this.cancionAModificar.id).subscribe(
-        (resp) => {
+      this.cancionService.actualizarArchivoDeMusica(this.archivoMusicaASubir, this.cancionAModificar.id).subscribe({
+        next: () => {
           this.spinnerService.setSpinner = false;
           this.alertService.alertaExito('Archivo de Musica Guardado exitosamente');
           this.cerrrarCardUpdateArchivoMusica();
           this.banderasPhoto.mostrarCardUpdatePhoto = true;
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
+        error: () => this.alertService.alertaErrorMs('Error en el servicio')
+      });
   
       this.cancelarArchivoMusicaSeleccionado();
-
     }
-
 
     // Cosultas
     consultarTodosArtistas(){
       this.artistaService.consultarTodosArtistasSinFiltro()
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           if(res.ok){
             this.asignarDatosArtistasConsultados(res.data);
           }else{
             this.alertService.alertaErrorMs('Error en el servicio');
-          }
+          }    
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio.');
-        }
-      )
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+      })
     }
-
+    
     consultarAlbumsPorIdArtista(){
       const valorArtista =  this.formRegistroCancion.get('artista')?.value;
       this.albumService.consultarAlbumsPorIdArtista(valorArtista)
-      .subscribe(
-        (res: any) => {
+      .subscribe({
+        next: (res: any) => {
           if(res.ok){
             this.asignarDatosAlbumsConsultados(res.data);
           }else{
             this.alertService.alertaErrorMs('Error en el servicio');
           }
         },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en la petición del servicio.');
-        }
-      );
+        error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+      });
     }
 
-
-    // ASignaciones 
     asignarDatosCancionAModificar(data: any){
       const {_id, ...value} = data;
       this.cancionAModificar = {...value}
@@ -326,6 +296,5 @@ export class CrearComponent implements OnInit {
     asignarDatosAlbumsConsultados(data: any){
       this.arrayAlbum = data;
     }
-
   
 }

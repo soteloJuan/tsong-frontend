@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 
 // Servicios
@@ -96,24 +96,20 @@ export class VerUnoComponent implements OnInit {
 
       switchMap((idAlbum) => this.albumService.consultarAlbumPorId(idAlbum)),
       map((resAlbumService: any) => {
-        console.log(resAlbumService);
         this.album = this.albumService.convertirAAlbumInterface(resAlbumService.data);
         return resAlbumService.data.artista;
       }),
 
       switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista))
-    )
-      .subscribe(
-        (res) => {
+      )
+      .subscribe({
+        next: (res) => {
           this.artista = this.artistaService.convertirAArtistaInterface(res.data);
           this.formatoDate();
           this.resetFormularioCancion();
         }
-      );
-
+      });
   }
-
-
 
   /* UPDATE MUSIC INFO */
 
@@ -158,8 +154,8 @@ export class VerUnoComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.cancionService.actualizarDatosBasicosCancion( this.cancion.id, this.formCancion.value)
-        .subscribe( 
-          (res) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
               this.mostrarFormularioActualizarData();
@@ -167,61 +163,52 @@ export class VerUnoComponent implements OnInit {
             }else{
               const message: string = res.message.error.mensaje;
               this.alertService.alertaErrorMs(message);
-            }
+            }        
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
 
   consultarTodosArtistas(){
     this.artistaService.consultarTodosArtistasSinFiltro()
-    .subscribe(
-      (res: any) => {
+    .subscribe({
+      next: (res: any) => {
         if(res.ok){
           this.asignarDatosArtistasConsultados(res.data);
         }else{
           this.alertService.alertaErrorMs('Error en el servicio');
         }
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en la petición del servicio.');
-      }
-    )
+      error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+    })
   }
-  
+
   consultarAlbumsPorIdArtista(){
     const valorArtista =  this.formCancion.get('artista')?.value;
     this.albumService.consultarAlbumsPorIdArtista(valorArtista)
-    .subscribe(
-      (res: any) => {
+    .subscribe({
+      next: (res: any) => {
         if(res.ok){
           this.asignarDatosAlbumsConsultados(res.data);
         }else{
           this.alertService.alertaErrorMs('Error en el servicio');
         }
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en la petición del servicio.');
-      }
-    );
+      error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+    });
   }
 
 
   mostrarFormularioActualizarData(){
-    if(this.banderas.mostrarFormularioUpdateDataCancion){
-      this.banderas.mostrarFormularioUpdateDataCancion = false;
-    }else{
-      this.campoValido.miFormulario = this.formCancion;
-      this.banderas.mostrarFormularioUpdateDataCancion = true;
-      this.consultarTodosArtistas();
-    }
-  }
 
+    (this.banderas.mostrarFormularioUpdateDataCancion) 
+      ?(this.banderas.mostrarFormularioUpdateDataCancion = false)
+      :(this.campoValido.miFormulario = this.formCancion,
+        this.banderas.mostrarFormularioUpdateDataCancion = true,
+        this.consultarTodosArtistas());
+  }
 
   asignarDatosArtistasConsultados(data: any){
     this.arrayArtistas = data;
@@ -232,9 +219,6 @@ export class VerUnoComponent implements OnInit {
     this.arrayAlbum = data;
     this.formCancion.get('album')?.setValue('');
   }
-
-
-
   
   /* IMAGEN */
   
@@ -247,7 +231,6 @@ export class VerUnoComponent implements OnInit {
     const extensionesValidas = ['png', 'jng' , 'jpeg', 'gif', 'jpg'];
     
     if(!file) return ;
-
 
     if(!extensionesValidas.includes(extension)){
       this.alertService.alertaErrorMs('Archivo no permitido');
@@ -276,23 +259,19 @@ export class VerUnoComponent implements OnInit {
   guardarFoto(){
     if(!this.imagenASubir) return ;
         
-
     this.spinnerService.setSpinner = true;
-    this.cancionService.guardarImagenCancion(this.imagenASubir, this.cancion.id).subscribe(
-      (resp) => {
+    this.cancionService.guardarImagenCancion(this.imagenASubir, this.cancion.id)
+    .subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.activeRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
 
     this.cancelarFotoSeleccionado();
   }
-
-
 
   eliminarFoto(){
     const imagenURL = this.cancion.imagenURL;
@@ -305,29 +284,17 @@ export class VerUnoComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la foto', 'si')
     .then( (result) => {
       if(result.isConfirmed){
-        this.cancionService.eliminarImagenCancion(this.cancion.id).subscribe(
-          (resp) => {
+        this.cancionService.eliminarImagenCancion(this.cancion.id)
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito('Se elimino exitosamente');
             this.activeRouteConsulta();
           },
-          (error) => this.alertService.alertaErrorMs('Error en el servicio')
-        );
+          error: () =>  this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
   verArtista(idArtista: string){
     const role = this.menuService.getRole;
@@ -343,8 +310,4 @@ export class VerUnoComponent implements OnInit {
     this.cancion.fechaLanzamiento = newFormat[0];
   }
 
-
-
-
 }
-
