@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Services
 import { UsuarioService } from '../../../usuario/services/usuario.service';
@@ -8,19 +8,16 @@ import { CancionService } from '../../../cancion/services/cancion.service';
 import {ReproductorService} from '../../../services/reproductor.service';
 
 // Formularios
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 // Router
 import {Router, ActivatedRoute} from '@angular/router';
 
 //rxjs
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 
 // interfaces 
 import { ListaInterface } from '../../interfaces/lista.interface';
-
-
-
 
 @Component({
   selector: 'app-ver-uno-compartidos',
@@ -66,15 +63,11 @@ export class VerUnoCompartidosComponent implements OnInit {
     private router: Router,
     private reproductorService: ReproductorService
   )
-  {
-  }
-
-  /* VAMOS AQUI, SOLO FALTA OPTIMIZAR UN POCO EL CODIGO QUE VA AQUI */
+  {}
 
   ngOnInit(): void {
     this.activatedRouteConsulta();
   }
-
   
   activatedRouteConsulta() {
 
@@ -91,7 +84,7 @@ export class VerUnoCompartidosComponent implements OnInit {
       switchMap( (idListaReproduccion) => this.cancionListaReproduccion.consultarTodosCancionListaReproduccionPorLista(idListaReproduccion)),
       map( (resCancionListaService) => {
         this.ArrayCancionesId  = resCancionListaService;
-        let newArrayCancionesIds = resCancionListaService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
+        const newArrayCancionesIds = resCancionListaService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
         (newArrayCancionesIds) &&  (this.consultarCancionesPorIdMergeMap(newArrayCancionesIds)); 
         return this.listaReproduccion.id;
       })
@@ -99,37 +92,19 @@ export class VerUnoCompartidosComponent implements OnInit {
     .subscribe();
   }
 
-
   consultarCancionesPorIdMergeMap(arrayCancionesIds: any){
-    this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds).subscribe(
-      (res: any) => {
-        this.cancionesArray.push(res);
-      },
-      (error) => {
-        console.log('Error en la peticion del servicio :', error);
-      }
-    );
-  
+    this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds)
+    .subscribe({
+      next: (res) => this.cancionesArray.push(res)
+    });
   }
-
-
-   // Formulario Actulizar Lista
-
 
   consultarUsuariosPorIdMergeMap(arrayusuariosIds: any) {
-    this.usuarioService.consultarUsuarioPorIdMergeMap(arrayusuariosIds).subscribe(
-      (res: any) => {
-        this.usuariosInvitadoArray.push(res);
-      },
-      (error) => {
-        console.log('Error en la peticion del servicio :', error);
-      }
-    );    
+    this.usuarioService.consultarUsuarioPorIdMergeMap(arrayusuariosIds)
+    .subscribe({
+      next: (res) => this.usuariosInvitadoArray.push(res)
+    });
   }
-
-
-
-  /* CANCION */
 
   cancionListaReproduccionAReproducir(idCancion: string){
     this.reproductorService.isListaReproduccion = true;
@@ -138,20 +113,7 @@ export class VerUnoCompartidosComponent implements OnInit {
     this.reproductorService.cancionSeleccionadaDesdeLista(cancionAReproducir[0]._id);
   }
 
-
   verMasDelCancionListaReproduccion(idCancion: string){
-    console.log('Cancion ver Mas : ', idCancion);
     this.router.navigate(['usuario/cancion/verUno', idCancion]);
   }
-
 }
-
-
-
-
-
-
-
-
-
-

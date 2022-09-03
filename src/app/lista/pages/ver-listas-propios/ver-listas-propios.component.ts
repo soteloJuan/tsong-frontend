@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // services
@@ -9,9 +8,6 @@ import { UsuarioService } from '../../../usuario/services/usuario.service';
 // rxjs
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-
-// interface
-import { ListaInterface } from '../../interfaces/lista.interface';
 
 // Routes
 import {Router} from '@angular/router';
@@ -41,8 +37,6 @@ export class VerListasPropiosComponent implements OnInit {
     mostrarFormulario: false
   };
 
-
-
   arrayListas!: any[];
 
   @ViewChild('termino') termino!: ElementRef;
@@ -67,48 +61,35 @@ export class VerListasPropiosComponent implements OnInit {
       .subscribe((numeroPagina) => {
         const termino = this.termino.nativeElement.value
         this.listaService.consultarListaPorTermino(this.usuarioService.getUsuario.id, termino, numeroPagina)
-          .subscribe(
-            (res) => {
-              if (res == null) {
-                this.alertService.alertaAdvertercia('No se encontraron Listas de Reproducción');
-              } else {
-                this.asignarValoreDeRespuestaServicio(res);
-                this.banderas.busquedaTermino = true;
-              }
-            },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en la petición del servicio');
+          .subscribe({
+          next: (res) => {
+            if (res == null) {
+              this.alertService.alertaAdvertercia('No se encontraron Listas de Reproducción');
+            } else {
+              this.asignarValoreDeRespuestaServicio(res);
+              this.banderas.busquedaTermino = true;
             }
-          )
-      });
+          },
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+        })
+    });
   }
 
   consultarTodosListasPorUsuario(numeroPagina: number) {
     this.listaService.consultarTodosListaPorUsuarios(this.usuarioService.getUsuario.id, numeroPagina)
-      .subscribe(
-        (res: any) => {
-          (res) && this.asignarValoreDeRespuestaServicio(res);
-        },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
+    .subscribe({
+      next: (res) => (res) && this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
 
   consultarListaPorTermino(numeroPagina = 1) {
     const termino = this.termino.nativeElement.value;
-    if (!!termino || termino !== "") {
-      this.debouncer.next(numeroPagina);
-    }
+    if (!!termino || termino !== "") this.debouncer.next(numeroPagina);
   }
 
-
   cambiarPagina(numeroPagina: number) {
-    if (this.banderas.busquedaTermino) {
-      this.consultarListaPorTermino(numeroPagina);
-    } else {
-      this.consultarTodosListasPorUsuario(numeroPagina);
-    }
+    (this.banderas.busquedaTermino) ? (this.consultarListaPorTermino(numeroPagina)) :(this.consultarTodosListasPorUsuario(numeroPagina))
   }
 
   limpiarInputSearch() {
@@ -118,7 +99,6 @@ export class VerListasPropiosComponent implements OnInit {
   }
 
   asignarValoreDeRespuestaServicio(data: any) {
-
     this.arrayListas = data.docs;
     this.controlPaginacion.siguientePagina = data.nextPage;
     this.controlPaginacion.anteriorPagina = data.prevPage;
@@ -137,27 +117,18 @@ export class VerListasPropiosComponent implements OnInit {
   }
 
   eliminarListaReproduccion(idListaReproduccion: string){
-
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la Lista Reproducción', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.listaService.eliminarListaReproduccionPropio(idListaReproduccion)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Lista Reproducción Eliminado Exitosamente");
             this.consultarTodosListasPorUsuario(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-
   }
-
 }
-
-
-
-

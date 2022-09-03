@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Servicios
 import { ListaService } from '../../services/lista.service';
@@ -9,7 +9,6 @@ import { UsuarioService } from '../../../usuario/services/usuario.service';
 
 // Forms
 import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-
 
 // interfaces
 import { ListaInterface } from '../../interfaces/lista.interface';
@@ -79,38 +78,31 @@ export class CrearComponent implements OnInit {
       return;
     }
 
-    let data:any = {...this.formRegistroLista.value};
+    const data:any = {...this.formRegistroLista.value};
     data.usuario = this.usuarioService.getUsuario.id;
   
     this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
     .then( (result) => {
       if(result.isConfirmed){
         this.listaService.crearLista(data)
-        .subscribe(
-          (res: any) => {
+        .subscribe({
+          next: (res) => {
             if(res.ok){
-            this.alertService.alertaExito('Lista de Reproducción Creado Exitosamente');
-            this.resetearFormRegistroLista();
-            this.asignarDatosLista(res.data);
-
-            }else{
-              console.log(res);
-              const message = res.message.error.mensaje;
-              this.alertService.alertaErrorMs(message);
-            }
+              this.alertService.alertaExito('Lista de Reproducción Creado Exitosamente');
+              this.resetearFormRegistroLista();
+              this.asignarDatosLista(res.data);
+              }else{
+                const message = res.message.error.mensaje;
+                this.alertService.alertaErrorMs(message);
+              }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
 
   cerrarCardUpdatePhoto(){ this.banderas.mostrarCardUpdatePhoto = false; }
-
-
   
   seleccionarImagen(){
 
@@ -148,17 +140,15 @@ export class CrearComponent implements OnInit {
     if(!this.imagenASubir) return ;
           
     this.spinnerService.setSpinner = true;
-    this.listaService.guardarImagenLista(this.imagenASubir, this.listaAModificar.id).subscribe(
-      (resp) => {
+    this.listaService.guardarImagenLista(this.imagenASubir, this.listaAModificar.id)
+    .subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.cerrarCardUpdatePhoto();
-
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
 
     this.cancelarFotoSeleccionado();
   }

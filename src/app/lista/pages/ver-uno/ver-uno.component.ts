@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 
 // Services
@@ -102,7 +102,7 @@ export class VerUnoComponent implements OnInit {
       switchMap( (idListaReproduccion) => this.cancionListaReproduccion.consultarTodosCancionListaReproduccionPorLista(idListaReproduccion)),
       map( (resCancionListaService) => {
         this.ArrayCancionesId  = resCancionListaService;
-        let newArrayCancionesIds = resCancionListaService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
+        const newArrayCancionesIds = resCancionListaService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
         (newArrayCancionesIds) &&  (this.consultarCancionesPorIdMergeMap(newArrayCancionesIds)); 
         return this.listaReproduccion.id;
       }),
@@ -111,32 +111,22 @@ export class VerUnoComponent implements OnInit {
       switchMap( (idListaReproduccion) =>   this.usuariosInvitadosService.consultarUsuariosInvitadoPorListaReproduccion(idListaReproduccion)),
       tap( (resUsuariosInvitadosListaReproduccion) => {
         this.ArrayUsuariosIds = resUsuariosInvitadosListaReproduccion;
-        let newArrayUsuariosIds = resUsuariosInvitadosListaReproduccion.map( (usuarioInvitado: any) =>  usuarioInvitado.usuario);
+        const newArrayUsuariosIds = resUsuariosInvitadosListaReproduccion.map( (usuarioInvitado: any) =>  usuarioInvitado.usuario);
         (newArrayUsuariosIds) &&  (this.consultarUsuariosPorIdMergeMap(newArrayUsuariosIds));
       }),
     )
     .subscribe();
   }
 
-
   consultarCancionesPorIdMergeMap(arrayCancionesIds: any){
-    this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds).subscribe(
-      (res: any) => {
-        this.cancionesArray.push(res);
-      },
-      (error) => {
-        console.log('Error en la peticion del servicio :', error);
-      }
-    );
-  
+    this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds).subscribe({
+      next: (res) => this.cancionesArray.push(res)
+    });
   }
-
-
 
   /* IMAGEN */
 
   seleccionarImagen() {
-
     this.imagenASubir = this.inputChangeIMG.nativeElement.files[0];
     const file = this.inputChangeIMG.nativeElement.files[0];
     const arrayValorerFileName = file.type.split('/');
@@ -172,17 +162,15 @@ export class VerUnoComponent implements OnInit {
     if (!this.imagenASubir) return;
 
     this.spinnerService.setSpinner = true;
-    this.listaService.guardarImagenLista(this.imagenASubir, this.listaReproduccion.id).subscribe(
-      (resp) => {
+    this.listaService.guardarImagenLista(this.imagenASubir, this.listaReproduccion.id)
+    .subscribe({
+      next: () => {
         this.spinnerService.setSpinner = false;
         this.alertService.alertaExito('Imagen Guardado exitosamente');
         this.activatedRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
-
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
     this.cancelarFotoSeleccionado();
   }
 
@@ -197,32 +185,27 @@ export class VerUnoComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la imagen', 'si')
       .then((result) => {
         if (result.isConfirmed) {
-          this.listaService.eliminarImagenListaReproduccion(this.listaReproduccion.id).subscribe(
-            (resp) => {
+          this.listaService.eliminarImagenListaReproduccion(this.listaReproduccion.id)
+          .subscribe({
+            next: () => {
               this.alertService.alertaExito('Se elimino exitosamente');
               this.activatedRouteConsulta();
             },
-            (error) => this.alertService.alertaErrorMs('Error en el servicio')
-          );
+            error: () => this.alertService.alertaErrorMs('Error en el servicio')
+          });
         }
       });
-
   }
 
-
-
-   // Formulario Actulizar Lista
+  // Formulario Actulizar Lista
 
   mostrarFormularioActualizarData() {
 
-    if (this.banderas.mostrarFormularioUpdateDataListaReproduccion) {
-      this.banderas.mostrarFormularioUpdateDataListaReproduccion = false;
-    } else {
-      this.campoValido.miFormulario = this.formListaReproduccion;
-      this.banderas.mostrarFormularioUpdateDataListaReproduccion = true;
-      this.resetFormularioListaReproduccion();
-    }
-
+    (this.banderas.mostrarFormularioUpdateDataListaReproduccion) 
+      ?(this.banderas.mostrarFormularioUpdateDataListaReproduccion = false)
+      :(this.campoValido.miFormulario = this.formListaReproduccion,
+        this.banderas.mostrarFormularioUpdateDataListaReproduccion = true,
+        this.resetFormularioListaReproduccion())
   }
   
   esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo) }
@@ -253,8 +236,8 @@ export class VerUnoComponent implements OnInit {
       .then((result) => {
         if (result.isConfirmed) {
           this.listaService.actualizarDatosBasicosListaReproduccion(this.listaReproduccion.id, this.formListaReproduccion.value)
-            .subscribe(
-              (res) => {
+            .subscribe({
+              next: (res) => {
                 if (res.ok) {
                   this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
                   this.mostrarFormularioActualizarData();
@@ -264,16 +247,13 @@ export class VerUnoComponent implements OnInit {
                   this.alertService.alertaErrorMs(message);
                 }
               },
-              (error) => {
-                this.alertService.alertaErrorMs('Error en la petición del servicio.');
-              }
-            );
+              error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+          });
         }
       });
   }
 
-
-    // Formulario Agregar Invitados
+  // Formulario Agregar Invitados
 
   crearFormularioInvitados() {
     this.formInvitados = this.fb.group({
@@ -291,24 +271,20 @@ export class VerUnoComponent implements OnInit {
 
   mostrarFormularioAgregarInvitado() {
 
-    if (this.banderas.mostrarFormularioAgregarInvitado) {
-      this.banderas.mostrarFormularioAgregarInvitado = false;
-    } else {
-      this.campoValido.miFormulario = this.formInvitados;
-      this.banderas.mostrarFormularioAgregarInvitado = true;
-    }
+    (this.banderas.mostrarFormularioAgregarInvitado) 
+      ?(this.banderas.mostrarFormularioAgregarInvitado = false) 
+      :(this.campoValido.miFormulario = this.formInvitados,
+        this.banderas.mostrarFormularioAgregarInvitado = true);
   }
 
   guardarNuevoInvitado() {
-
-    let email;
 
     if (this.formInvitados.invalid) {
       this.formInvitados.markAllAsTouched();
       return;
     }
 
-    email = this.formInvitados.get('email')?.value;
+    const email = this.formInvitados.get('email')?.value;
 
     if (email === this.usuarioService.getUsuario.email) return this.alertService.alertaAdvertercia('Estás ingresando tu propío Email');
 
@@ -331,25 +307,22 @@ export class VerUnoComponent implements OnInit {
           }
           return '';
         })
-      ).subscribe(
-        (res) => {
+      ).subscribe({
+        next: (res: any) => {
           (res.ok) && (this.alertService.alertaExito('Se Agrego el invitado de manera exitosa'), this.activatedRouteConsulta() , this.resetFormularioInvitados());
-
           (res.ok) ?? (this.alertService.alertaErrorMs('No se pudo agregar el invitado'));
           this.mostrarFormularioAgregarInvitado();
         }
-      )
+      })
   }
 
+
+
   consultarUsuariosPorIdMergeMap(arrayusuariosIds: any) {
-    this.usuarioService.consultarUsuarioPorIdMergeMap(arrayusuariosIds).subscribe(
-      (res: any) => {
-        this.usuariosInvitadoArray.push(res);
-      },
-      (error) => {
-        console.log('Error en la peticion del servicio :', error);
-      }
-    );    
+    this.usuarioService.consultarUsuarioPorIdMergeMap(arrayusuariosIds)
+    .subscribe({
+      next: (res) => this.usuariosInvitadoArray.push(res)
+    });    
   }
 
   eliminarInvitado(correoUsuario: string) {
@@ -364,18 +337,14 @@ export class VerUnoComponent implements OnInit {
         })
       )
     )
-    .subscribe(
-      (res) => {
+    .subscribe({
+      next: () => {
         this.alertService.alertaExito("Usuario Invitado Eliminado Exitosamente");
         this.activatedRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    );
-
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
-
 
   /* CANCION */
 
@@ -395,19 +364,12 @@ export class VerUnoComponent implements OnInit {
     const cancionAEliminar = this.ArrayCancionesId.filter( (element: any) =>  element.cancion === idCancion );
 
     this.cancionListaReproduccion.eliminarCancionListaReproduccionPorLista(cancionAEliminar[0]._id)
-    .subscribe(
-      (res) => {
+    .subscribe({
+      next: () => {
         this.alertService.alertaExito("Canción Eliminado Exitosamente");
         this.activatedRouteConsulta();
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-    )
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    })
   }
-
-
 }
-
-
-

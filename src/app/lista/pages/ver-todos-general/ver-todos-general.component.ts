@@ -11,17 +11,8 @@ import { ReproductorService } from '../../../services/reproductor.service';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
-
-
-// interface
-import { ListaInterface } from '../../interfaces/lista.interface';
-
-
-
 // Routes
 import {Router} from '@angular/router';
-
-
 
 @Component({
   selector: 'app-ver-todos-general',
@@ -61,8 +52,6 @@ export class VerTodosGeneralComponent implements OnInit {
   ) {
   }
 
-  /*   AQUI VAMOS NECESITAMOS CAMBIAR LO QUE ES LA PETICION   */
-
   ngOnInit(): void {
     const SetTimeout = setTimeout(() => {
       this.consultarTodosListasPorUsuario(1);
@@ -74,8 +63,8 @@ export class VerTodosGeneralComponent implements OnInit {
       .subscribe((numeroPagina) => {
         const termino = this.termino.nativeElement.value
         this.listaService.consultarListaGeneralPorTermino(termino, numeroPagina)
-          .subscribe(
-            (res) => {
+          .subscribe({
+            next: (res) => {
               if (res == null) {
                 this.alertService.alertaAdvertercia('No se encontraron Listas de Reproducción');
               } else {
@@ -83,39 +72,26 @@ export class VerTodosGeneralComponent implements OnInit {
                 this.banderas.busquedaTermino = true;
               }
             },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en la petición del servicio');
-            }
-          )
-      });
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
+        })
+    });
   }
 
   consultarTodosListasPorUsuario(numeroPagina: number) {
     this.listaService.consultarListaReproduccionGeneral(numeroPagina)
-      .subscribe(
-        (res: any) => {
-          (res) && this.asignarValoreDeRespuestaServicio(res);
-        },
-        (error) => {
-          this.alertService.alertaErrorMs('Error en el servicio');
-        }
-      );
+    .subscribe({
+      next: (res) => (res) && this.asignarValoreDeRespuestaServicio(res),
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    });
   }
 
   consultarListaPorTermino(numeroPagina = 1) {
     const termino = this.termino.nativeElement.value;
-    if (!!termino || termino !== "") {
-      this.debouncer.next(numeroPagina);
-    }
+    if (!!termino || termino !== "") this.debouncer.next(numeroPagina)
   }
 
-
   cambiarPagina(numeroPagina: number) {
-    if (this.banderas.busquedaTermino) {
-      this.consultarListaPorTermino(numeroPagina);
-    } else {
-      this.consultarTodosListasPorUsuario(numeroPagina);
-    }
+    (this.banderas.busquedaTermino) ? (this.consultarListaPorTermino(numeroPagina)) :(this.consultarTodosListasPorUsuario(numeroPagina));
   }
 
   limpiarInputSearch() {
@@ -149,21 +125,15 @@ export class VerTodosGeneralComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.listaService.eliminarListaReproduccionPropio(idListaReproduccion)
-        .subscribe(
-          (res) => {
+        .subscribe({
+          next: () => {
             this.alertService.alertaExito("Lista Reproducción Eliminado Exitosamente");
             this.consultarTodosListasPorUsuario(1);
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en el servicio');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
-    });
-  
+    });  
   }
 
 }
-
-
-

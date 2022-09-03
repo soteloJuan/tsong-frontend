@@ -8,15 +8,10 @@ import { UsuariosInvitadosService } from '../../services/usuariosInvitados.servi
 import {ReproductorService} from '../../../services/reproductor.service';
 
 // rxjs
-import { Subject } from 'rxjs';
-import { debounceTime, switchMap, map } from 'rxjs/operators';
-
-// interface
-import { ListaInterface } from '../../interfaces/lista.interface';
+import { switchMap, map } from 'rxjs/operators';
 
 // Routes
 import {Router} from '@angular/router';
-
 
 @Component({
   selector: 'app-ver-listas-compartidos',
@@ -29,7 +24,6 @@ export class VerListasCompartidosComponent implements OnInit {
   arrayListas: any[] = [];
 
   @ViewChild('termino') termino!: ElementRef;
-
 
   constructor(
     private listaService: ListaService,
@@ -59,27 +53,19 @@ export class VerListasCompartidosComponent implements OnInit {
 
       switchMap((arrayIdsListasReproduccion: any) => this.listaService.consultarListaReproduccionPorIdMergeMap(arrayIdsListasReproduccion))
 
-    ).subscribe(
-      ((res) => {
-        // console.log('Estos son los valores: ',res)
-        this.arrayListas.push(res);
-      }
-      )
-    )
+      ).subscribe({
+        next: (res) => this.arrayListas.push(res)
+      })
   }
 
   reproducirListaReproduccion(idLista: string){
-
     this.reproductorService.isListaReproduccion = true;
     this.reproductorService.setActivo = true;
     this.reproductorService.listaSeleccionada(idLista);
-    
   }
 
-  verMasListaReproduccion(idListaReproduccion: string){/*  AQUI VAMOS AL PARECER SE TIENE QUE MODIFIAR EL METODO */
+  verMasListaReproduccion(idListaReproduccion: string){
     this.router.navigate(['usuario/lista/verUnoCompartidos', idListaReproduccion]);
   }
 
 }
-
-
