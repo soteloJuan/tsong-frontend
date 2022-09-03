@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 
-
-
 // servicios
 import { ArtistaService } from '../artista/services/artista.service';
 import { AlbumService } from '../album/services/album.service';
@@ -10,19 +8,14 @@ import { CancionService } from '../cancion/services/cancion.service';
 import {CancionListaReproduccionService} from '../lista/services/cancionListaReproduccion.service';
 import {AlertasServices} from '../services/alertas.service';
 
-
-
 // interface
 import { ArtistaInterface } from '../artista/interfaces/artista.interface';
 import { AlbumInterface } from '../album/interfaces/album.interface';
 import { ListaInterface } from '../lista/interfaces/lista.interface';
 import { CancionInterface } from '../cancion/interfaces/cancion.interface';
 
-
 // rxjs
 import { switchMap, map, tap } from 'rxjs/operators';
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -49,16 +42,16 @@ export class ReproductorService{
     track = document.createElement('audio');
 
 
-    numeroCancionReproduccion: number = 0;
-    indiceCancionEnReproduccion: number = 0;
+    numeroCancionReproduccion = 0;
+    indiceCancionEnReproduccion = 0;
     totalCanciones!: number;
-    porcantajeVolumen : number = 100;
+    porcantajeVolumen = 100;
     
-    tiempoDeReproduccionPresente: number = 0;
-    isPlay: boolean = false;
-    isMuteSong: boolean = false;
-    isAutoPlay: boolean = false;
-    isListaReproduccion: boolean = false;
+    tiempoDeReproduccionPresente = 0;
+    isPlay = false;
+    isMuteSong = false;
+    isAutoPlay = false;
+    isListaReproduccion = false;
 
 
     temp: any;
@@ -80,7 +73,6 @@ export class ReproductorService{
     ){}
 
 
-  // Primero vamos a consultar si ya habia antes una cancion, lista-reproduccion o un album reproducido. *********** ULTIMOREPRODUCIDO **************
     public consultarUltimaCancionReproducida(){
 
         // AQUI EN ULTIMA CANCION REPRODUCIDA SERIA BUENO DEJAER UNA CANCION POR DEFECTO, PARA QUE SIEMPRE HAYA UNA CANCION idCancion = "613d2e90fad78f0016fb8920"
@@ -92,13 +84,13 @@ export class ReproductorService{
             }),
 
             switchMap((idAlbum) =>  this.albumService.consultarAlbumPorId(idAlbum)),
-            map((resAlbum) => {
+            map((resAlbum: any) => {
                 this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
                 return this.album.artista;
             }),
 
             switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista)),
-            map((resArtista) => {
+            map((resArtista: any) => {
                 this.artista = this.artistaService.convertirAArtistaInterface(resArtista.data);
             })
         ).subscribe(
@@ -109,12 +101,8 @@ export class ReproductorService{
                 // this.consultarCancionesPorIdAlbum(this.album.id);
             }
         )
-
     }
 
-
-
-  //  CANCION de un ALBUM  FINISHED
     public cancionSeleccionadaDesdeAlbum(idCancion: string){    
 
         this.cancionService.consultarCancionPorId(idCancion)
@@ -123,32 +111,26 @@ export class ReproductorService{
                 this.cancion = this.cancionService.convertirACancionInterface(resCancion.data);
                 return this.cancion.album;
             }),
-
             switchMap((idAlbum) =>  this.albumService.consultarAlbumPorId(idAlbum)),
-            map((resAlbum) => {
-
+            map((resAlbum: any) => {
                 this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
                 return this.album.artista;
             }),
 
             switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista)),
-            map((resArtista) => {
+            map((resArtista: any) => {
                 this.artista = this.artistaService.convertirAArtistaInterface(resArtista.data);
             })
 
-        ).subscribe(
-            (res) => {                
+        ).subscribe({
+            next: () => {
                 this.playCancion();
                 this.isPlay = true;
                 this.consultarCancionesPorIdAlbum(this.album.id);
             }
-        )
-
+        }) 
     }
 
-
-
-  //  CANCION de uns Lista  FINISHED
     public cancionSeleccionadaDesdeLista(idCancion: string){    
 
         this.listaCanciones = [];
@@ -181,34 +163,28 @@ export class ReproductorService{
 
             tap( (resCancionListaReproduccionService: any) => {
                 this.arrayCancionesListaReproduccion = resCancionListaReproduccionService;
-                let newArrayCancionesIds = resCancionListaReproduccionService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
+                const newArrayCancionesIds = resCancionListaReproduccionService.map( (cancionListaReproduccion: any) =>  cancionListaReproduccion.cancion);
                 (newArrayCancionesIds) &&  (this.consultarCancionesPorIdMergeMap(newArrayCancionesIds));
             }),
         )
-        .subscribe(
-            (res) => {
+        .subscribe({
+            next: () => {
                 this.playCancion();
                 this.isPlay = true;
             }
-        );
-
-}
-
-    async consultarCancionesPorIdMergeMap(arrayCancionesIds: any) {
-        this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds).subscribe(
-            (res: any) => {
-                this.listaCanciones.push(res);
-                this.asignacionNumeros();
-            },
-            (error) => {
-                console.log('Error en la peticion del servicio :', error);
-            }
-        );
+        });
     }
 
+    async consultarCancionesPorIdMergeMap(arrayCancionesIds: any) {
+        this.cancionService.consultarCancionPorIdMergeMap(arrayCancionesIds)
+        .subscribe({
+            next: (res: any) => {
+                this.listaCanciones.push(res);
+                this.asignacionNumeros();
+            }
+        });
+    }
 
-
-  //   REPRODUCIR LISTA FINISHED
     async listaSeleccionada(idListaSeleccionada: string){
 
         this.listaCanciones = [];
@@ -227,12 +203,9 @@ export class ReproductorService{
                 (newArrayCancionesIds) &&  (this.consultarCancionesPorIdMergeMap(newArrayCancionesIds));
 
             })
-        ).subscribe(
-            (res) => {
-
-
+        ).subscribe({
+            next: () => {
                 setTimeout(() => {
-
                     if(this.listaCanciones.length !== 0){
                         this.cancion = this.cancionService.convertirACancionInterface(this.listaCanciones[0]);
                         this.consultarArtistaSegunCancion();
@@ -242,27 +215,23 @@ export class ReproductorService{
                         this.setActivo = false;
                         this.alertasServices.alertaAdvertercia('No tiene canciones para reproducir');
                     }
-
-                },2000)   
-
+                },2000);
             }
-        )
+        })
     }
-    
 
   // REPRODUCIR ALBUM FINISHED
     albumSeleccionada(idAlbumSeleccionada: string){
 
-
         this.albumService.consultarAlbumPorId(idAlbumSeleccionada)
         .pipe(
-            map((resAlbum) => {
+            map((resAlbum: any) => {
                 this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
                 return this.album.artista;
             }),
 
             switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista)),
-            map((resArtista) => {
+            map((resArtista: any) => {
                 this.artista = this.artistaService.convertirAArtistaInterface(resArtista.data);
                 return this.album.id;
             }),
@@ -274,31 +243,21 @@ export class ReproductorService{
                 this.asignacionNumeros();
             })
 
-        ).subscribe(
-            (res) => {                
-
+        ).subscribe({
+            next: () => {
                 this.playCancion();
                 this.isPlay = true;
             }
-        )
-
+        })
     }
 
-
-
-
-
-
-
-
-    playCancion(){ // Reproducir la cancion
-
+    playCancion(){
         this.track.src = this.cancion.cancionURL;
         this.track.load();
         this.track.play();
     }
 
-    playOrPause(){ // Para pausar o continuar reproducciendo
+    playOrPause(){
         (this.isPlay) ? (this.track.pause(), this.isPlay = false) : (this.track.play(), this.isPlay = true);
     }
     
@@ -337,44 +296,30 @@ export class ReproductorService{
     }
     
     muteSong(){
-
-        if(!this.isMuteSong){
-            this.isMuteSong = true;
-            this.track.volume = 0;
-        }else{
-            this.isMuteSong = false;
-            this.track.volume = this.porcantajeVolumen / 100;
-        }
+        (!this.isMuteSong) 
+            ? (this.isMuteSong = true,
+                this.track.volume = 0)
+            :(this.isMuteSong = false,
+                this.track.volume = this.porcantajeVolumen / 100)
     }
 
     cambioDeTiempoCancion(valorPorcentaje: any){
-
-        this.track.currentTime = this.track.duration * (valorPorcentaje / 100);// Calculamos el tiempo con el porcentaje
-
+        this.track.currentTime = this.track.duration * (valorPorcentaje / 100);
         this.tiempoDeReproduccionPresente = this.track.currentTime * (100 / this.track.duration);
-
     }
 
     repetirCancion(){
-        if(this.isAutoPlay){
-            this.isAutoPlay = false;
-        }else{
-            this.isAutoPlay = true;
-        }
-
+        (this.isAutoPlay) ?(this.isAutoPlay = false) :(this.isAutoPlay = true)
     }
-
-
-    // FUNCIONES REUTILIZABLES.
 
     consultarCancionesPorIdAlbum(idAlbum: string){
         this.cancionService.consultarCancionesPorAlbum(idAlbum)
-        .subscribe(
-            (res: any) => {
+        .subscribe({
+            next: (res: any) => {
                 this.listaCanciones = res.data;
                 this.asignacionNumeros();
             }
-        )
+        });
     }
 
     async asignacionNumeros(){
@@ -385,14 +330,9 @@ export class ReproductorService{
 
     consultarArtistaSegunCancion(){
         this.artistaService.consultarArtistasPorId(this.cancion.artista)
-        .subscribe((res: any) => {
-            this.artista = this.artistaService.convertirAArtistaInterface(res.data);
+        .subscribe({
+            next: (res: any) => this.artista = this.artistaService.convertirAArtistaInterface(res.data)
         });
     }
 
 }
-
-
-
-
-

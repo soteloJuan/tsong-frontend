@@ -56,11 +56,6 @@ export class AdministradorService{
     crearAdministrador(data: object){
         return this.http.post(`${this.baseUrl}api/administrador/create`, data, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Esta es la respuesta de crear un administrador: ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -106,11 +101,6 @@ export class AdministradorService{
     modificarDatosAdministrador(id: string, data: any){
         return this.http.put(`${this.baseUrl}api/administrador/update/${id}`, data, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    console.log('Respuesta de Modificar: ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -119,7 +109,7 @@ export class AdministradorService{
 
     guardarImagen(imagen: File, idAdministrador:string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('imagen', imagen);
 
         return this.http.put(`${this.baseUrl}api/administrador/updateImagen/${idAdministrador}`, formData, this.headers)
@@ -152,7 +142,6 @@ export class AdministradorService{
         return this.http.put(`${this.baseUrl}api/administrador/update/${idAdministrador}`, data, this.headers)
         .pipe(
             map( (res: any) => {
-                console.log('Res', res);
                 const dataFormateadoAdmin: AdministradorInterface = this.formatoParaAdministrador(res.data);
                 this.asignarDatos(dataFormateadoAdmin);
                 return res
@@ -167,26 +156,15 @@ export class AdministradorService{
 
         return  this.http.put(`${this.baseUrl}api/administrador/updatePassword/${idAdministrador}`, value, this.headers)
         .pipe(
-            tap( (res) => {
-                // console.log('Respuesta del servicio updatePassword: ', res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         );
-
-
-
     }
 
     eliminarAdministrador(idAdministrador: string){
         return this.http.delete(`${this.baseUrl}api/administrador/delete/${idAdministrador}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    console.log('Respuesta de servicio al eliminar : ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -215,8 +193,3 @@ export class AdministradorService{
     }
 
 }
-
-
-
-
-

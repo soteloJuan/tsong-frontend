@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 
-
-
 // Enviroment
 import {environment} from '../../../environments/environment.prod';
 
@@ -16,15 +14,9 @@ import { AlbumInterface } from '../interfaces/album.interface';
 import { map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-
-
 @Injectable({
     providedIn: 'root'
 })
-
-
-
-
 
 export class AlbumService{
     private baseUrl: string = environment.base_url;
@@ -47,12 +39,6 @@ export class AlbumService{
     crearAlbum(data: any){
         return this.http.post(`${this.baseUrl}api/album/create`, data, this.headers)
         .pipe(
-            map(
-                (res: any) => {
-                    console.log('Respuesta Crear Album: ', res);
-                    return res;
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -62,15 +48,11 @@ export class AlbumService{
     consultarAlbumPorId(idAlbum: string){
 
         return this.http.get(`${this.baseUrl}api/album/get/${idAlbum}`, this.headers).pipe(
-            map( (res: any) => {
-                return res;
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         )
     }
-
     
     consultarTodosAlbums(numeroPagina: number){
         return this.http.get(`${this.baseUrl}api/album/gets/${numeroPagina}`, this.headers).pipe(
@@ -86,11 +68,6 @@ export class AlbumService{
     consultarAlbumsPorIdArtista(idArtista: string){
         return this.http.get(`${this.baseUrl}api/album/gets/porArtista/${idArtista}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Esta es la respuesta de la consulta: ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -100,11 +77,6 @@ export class AlbumService{
     consultarAlbumsPorIdArtistaPaginado(idArtista: string, pagina: number){
         return this.http.get(`${this.baseUrl}api/album/gets/porArtistaPaginado/${idArtista}/${pagina}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Esta es la respuesta de la consulta: ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -126,17 +98,13 @@ export class AlbumService{
         )
     }
 
-
     guardarImagenAlbum(imagen: File, idAlbum:string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('imagen', imagen);
 
         return this.http.put(`${this.baseUrl}api/album/updateImagen/${idAlbum}`, formData, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta UpdataPhoto: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -147,9 +115,6 @@ export class AlbumService{
         
         return this.http.put(`${this.baseUrl}api/album/update/${idAlbum}`, data, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta Actualizacion de Album: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -161,9 +126,6 @@ export class AlbumService{
 
         return this.http.delete(`${this.baseUrl}api/album/deleteImagen/${idAlbum}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                // console.log(res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -174,18 +136,11 @@ export class AlbumService{
     eliminarAlbum(idAlbum: string){
         return this.http.delete(`${this.baseUrl}api/album/delete/${idAlbum}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Respuesta de servicio al eliminar : ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         );
     }
-
-
 
     convertirAAlbumInterface(data: any): AlbumInterface{
 
@@ -200,15 +155,6 @@ export class AlbumService{
             artista: data.artista,
         }
 
-        return album;;
-        
+        return album;
     }
-
-
-
-
-
-
 }
-
-

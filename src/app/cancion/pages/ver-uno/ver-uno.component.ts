@@ -103,7 +103,7 @@ export class VerUnoComponent implements OnInit {
       switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista))
       )
       .subscribe({
-        next: (res) => {
+        next: (res: any) => {
           this.artista = this.artistaService.convertirAArtistaInterface(res.data);
           this.formatoDate();
           this.resetFormularioCancion();

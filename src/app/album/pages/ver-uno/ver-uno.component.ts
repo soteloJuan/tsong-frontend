@@ -81,7 +81,7 @@ export class VerUnoComponent implements OnInit {
 
     this.activatedRoute.params.pipe(
       switchMap(({ idAlbum }) => this.albumService.consultarAlbumPorId(idAlbum)),
-      map((resAlbumService) => {
+      map((resAlbumService: any) => {
         this.album = this.albumService.convertirAAlbumInterface(resAlbumService.data);
         return this.album.artista;
       }),

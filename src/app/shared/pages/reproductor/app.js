@@ -72,7 +72,7 @@ load_track(index_no);
 //mute sound function
 function mute_sound() {
     track.volume = 0;
-    volume.value = 0;
+    this.volume.value = 0;
     volume_show.innerHTML = 0;
 }
 
@@ -147,11 +147,8 @@ function volume_change() {
 // change slider position 
 function change_duration() {
 
-    /* Aqui es donde cambiamos lo que es el volumen y tambien lo que es 
-    el punto de la linea visual. */
-
-    slider_position = track.duration * (slider.value / 100);
-    track.currentTime = slider_position;
+    this.slider_position = track.duration * (slider.value / 100);
+    track.currentTime = this.slider_position;
 }
 
 // autoplay function
@@ -165,7 +162,6 @@ function autoplay_switch() {
     }
 }
 
-
 function range_slider() {
     let position = 0;
 
@@ -175,11 +171,14 @@ function range_slider() {
         slider.value = position;
     }
 
-
-    // function will run when the song is over
     if (track.ended) {
+
+
         play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+
         if (autoplay == 1) {
+
+
             index_no += 1;
             load_track(index_no);
             playsong();

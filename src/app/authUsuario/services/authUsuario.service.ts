@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import {Injectable, NgZone} from '@angular/core';
-
 
 // Enviroment
 import {environment} from '../../../environments/environment.prod';
@@ -34,7 +34,7 @@ export class AuthUsuarioService{
 
     
     constructor(private http: HttpClient,
-        private ngZone: NgZone, // Este es porque estamos trabajando con librerias fuera de angular.
+        private ngZone: NgZone,
         private menuService: MenuService,
         private usuarioService: UsuarioService
         ){
@@ -61,7 +61,6 @@ export class AuthUsuarioService{
                     client_id: '947071755257-7rbgchpvlq32jlnec26s7sq05i40d0ll.apps.googleusercontent.com',
                     cookiepolicy: 'single_host_origin',
                 });
-
                 resolve();
             });
 
@@ -78,7 +77,6 @@ export class AuthUsuarioService{
             tap(
                 (res: any) => {
                     if(res.ok){
-                        console.log('Esta es la respuesta del login: ', res);
                         this.guardartoken(res.token);
                         const data: UsuarioInterface = this.usuarioService.formatoParaUsuario(res.data);
                         this.usuarioService.asignarDatos(data);
@@ -90,7 +88,6 @@ export class AuthUsuarioService{
                 return of ({ok: false, message: error})
             })
         )
-
     }
 
 
@@ -99,11 +96,9 @@ export class AuthUsuarioService{
         .pipe(
             tap(
                 (res: any) => {
-                    console.log('login Con Google: ', res);
                     if(res.ok){
                         this.guardartoken(res.token);
                         this.asignarMenuUsuario();
-                        // Ese servicio aun falta por adaptalo.
                     }
                 }
             ),
@@ -121,13 +116,7 @@ export class AuthUsuarioService{
     logout(){
         localStorage.removeItem('token');
         this.auth2.signOut().then(() =>{
-
-            this.ngZone.run( () => {
-
-                console.log('User signed out.');
-                // Aqui va la ruta a la pagina que lo vamos a redirigir.
-            });
-
+            this.ngZone.run( () => {});
         });
     
     }
@@ -136,16 +125,15 @@ export class AuthUsuarioService{
     validarToken(): Observable<boolean>{
         return this.http.get(`${this.base_url}api/authUsuario/renew`, this.headers).pipe(
             map( (res: any) => {
-                this.usuarioService.consultarUsuarioPorId(res.id).subscribe( (usuarioConsultado) => {
+                this.usuarioService.consultarUsuarioPorId(res.id)
+                .subscribe( (usuarioConsultado: any) => {
                     const data: UsuarioInterface = this.usuarioService.formatoParaUsuario(usuarioConsultado.data);
                     this.usuarioService.asignarDatos(data);
                 });
                 this.guardartoken(res.token);
                 return true;
             }),
-            catchError((error) => of (false)) // Trabajar error con observable
+            catchError(() => of (false))
         )
     }
-
-
-};
+}

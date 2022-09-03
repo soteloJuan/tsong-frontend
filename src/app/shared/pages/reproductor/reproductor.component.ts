@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 // Servicio
 import { ReproductorService } from '../../../services/reproductor.service';
@@ -11,13 +11,12 @@ import { ReproductorService } from '../../../services/reproductor.service';
 export class ReproductorComponent implements OnInit {
 
 
-  minutosCancion: number = 0;
-  segundosCancion: number = 0;
+  minutosCancion = 0;
+  segundosCancion = 0;
   duracionTotalCancionEnReproduccion!: number;
 
   constructor(
-    public reproductorService: ReproductorService,
-    private render2: Renderer2
+    public reproductorService: ReproductorService
     ) { }
 
   ngOnInit(): void {
@@ -46,5 +45,3 @@ export class ReproductorComponent implements OnInit {
   }
 
 }
-
-/***   VAMOS CON EL VOLUMEN DE LA CANCION Y TABIEN VAMOS CON LO QUE ES EL QUE CONTINUE CON LA SIGUIENTE CANCION CUANDO SE TERMINE DE REPRODUCIR */

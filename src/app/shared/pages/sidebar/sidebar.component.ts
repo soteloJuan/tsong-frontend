@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 // Services
 import { LogoutService } from '../../../services/logout.service';
@@ -14,9 +14,10 @@ import {Router} from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
 
-  bandera: boolean = false;
+export class SidebarComponent {
+
+  bandera = false;
 
   constructor(
     private render2: Renderer2,
@@ -28,10 +29,6 @@ export class SidebarComponent implements OnInit {
     ) {
       this.menuService.updateMenu();
     }
-
-  ngOnInit(): void {
-
-  }
 
   clickSubmenu(valor: any){
     const ul = valor.target.nextSibling;
@@ -58,11 +55,9 @@ export class SidebarComponent implements OnInit {
   }
 
   reproductorBandera(evento: any){
-    if(evento === "Play"){
-      this.reproductorService.setActivo = true
-    }else{
-      this.reproductorService.setActivo = false;
-    }
+    (evento === "Play") 
+      ?(this.reproductorService.setActivo = true) 
+      :(this.reproductorService.setActivo = false);
   }
 
 }

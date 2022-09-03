@@ -80,7 +80,7 @@ export class VerUnUsuarioComponent implements OnInit {
   activateRouteConsulta(){
     this.activatedRoute.params.pipe(
       switchMap( ({idUsuario}) => this.usuarioService.consultarUsuarioPorId(idUsuario)),
-      tap( (resUsuarioService) => {
+      tap( (resUsuarioService: any) => {
         this.usuario = this.usuarioService.formatoParaUsuario(resUsuarioService.data);
       }),
     ).subscribe({

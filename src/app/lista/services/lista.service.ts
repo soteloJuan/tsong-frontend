@@ -45,12 +45,6 @@ export class ListaService{
     crearLista(data: any){
         return this.http.post(`${this.baseUrl}api/listaReproduccion/create`, data, this.headers)
         .pipe(
-            map(
-                (res: any) => {
-                    // console.log('Respuesta Crear una Lista de Reproducción: ', res);
-                    return res;
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -61,26 +55,19 @@ export class ListaService{
         
         return this.http.put(`${this.baseUrl}api/listaReproduccion/update/${idListaReproduccion}`, data, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta Actualizacion de Lista Reproducción: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         );
     }
 
-
     guardarImagenLista(imagen: File, idArtista:string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('imagen', imagen);
 
         return this.http.put(`${this.baseUrl}api/listaReproduccion/updateImagen/${idArtista}`, formData, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta UpdataPhoto: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -169,9 +156,6 @@ export class ListaService{
     eliminarListaReproduccionPropio(idListaReproduccion: string){
         return this.http.delete(`${this.baseUrl}api/listaReproduccion/delete/${idListaReproduccion}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                console.log(res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -180,20 +164,13 @@ export class ListaService{
 
     eliminarImagenListaReproduccion(idListaReproduccion: string){
 
-        console.log('Se entro en el servicio');
-
         return this.http.delete(`${this.baseUrl}api/listaReproduccion/deleteImagen/${idListaReproduccion}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-            //     console.log('eliminar : ', res);
-                }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         );
     }
-
-
 
     convertirAListaReproduccionInterface(data: any): ListaInterface{
         const listaReproduccion: ListaInterface = {

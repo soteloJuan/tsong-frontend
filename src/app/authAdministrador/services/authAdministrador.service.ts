@@ -82,7 +82,7 @@ export class AuthAdministradorService{
                 this.guardartoken(res.token);
                 return true;
             }),
-            catchError((error) => of (false)) // Trabajar error con observable
+            catchError(() => of (false))
         );
     }
 

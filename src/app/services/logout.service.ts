@@ -7,8 +7,6 @@ import {Injectable} from '@angular/core';
 
 export  class LogoutService{
 
-    constructor(){}
-
     logout(){
         localStorage.removeItem('token');
         localStorage.removeItem('menu');    

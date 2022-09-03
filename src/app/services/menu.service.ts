@@ -1,7 +1,4 @@
 import {Injectable} from '@angular/core'
-
-
-
 @Injectable({
     providedIn: 'root'
 })
@@ -25,7 +22,6 @@ export class MenuService{
 
 
     menuAdminPro(){
-        // <i class="far fa-hand-scissors"></i>
 
         return JSON.stringify([
             {titulo: 'Welcome', url: '/administrador/welcome', icon: 'far fa-hand-scissors nav__icon'},

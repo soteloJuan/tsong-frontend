@@ -7,10 +7,7 @@ import {Injectable} from '@angular/core';
 
 export class SpinnerService{
 
-    private isLoading: boolean = false;
-
-    constructor(){
-    }
+    private isLoading = false;
 
     get getValueSpinner(){
         return this.isLoading;
@@ -19,7 +16,5 @@ export class SpinnerService{
     set setSpinner(value: boolean){
         this.isLoading = value;
     }
-
-
 
 }

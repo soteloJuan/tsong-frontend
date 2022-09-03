@@ -86,7 +86,7 @@ export class CrearComponent implements OnInit {
       if(result.isConfirmed){
         this.listaService.crearLista(data)
         .subscribe({
-          next: (res) => {
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Lista de Reproducción Creado Exitosamente');
               this.resetearFormRegistroLista();

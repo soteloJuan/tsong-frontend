@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 
-
-
 // Enviroment
 import {environment} from '../../../environments/environment.prod';
 
@@ -19,9 +17,6 @@ import { of, from, Observable } from 'rxjs';
 @Injectable({
     providedIn: 'root'
 })
-
-
-
 
 export class ArtistaService{
 
@@ -44,14 +39,11 @@ export class ArtistaService{
 
     guardarImagenArtista(imagen: File, idArtista:string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('imagen', imagen);
 
         return this.http.put(`${this.baseUrl}api/artista/updateImagen/${idArtista}`, formData, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta UpdataPhoto: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -61,12 +53,6 @@ export class ArtistaService{
     crearArtista(data: any){
         return this.http.post(`${this.baseUrl}api/artista/create`, data, this.headers)
         .pipe(
-            map(
-                (res: any) => {
-                    console.log('Respuesta Crear Artista: ', res);
-                    return res;
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -75,9 +61,6 @@ export class ArtistaService{
 
     consultarArtistasPorId(idArtista: string){        
         return this.http.get(`${this.baseUrl}api/artista/get/${idArtista}`, this.headers).pipe(
-            map( (res: any) => {
-                return res;
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -119,11 +102,6 @@ export class ArtistaService{
     consultarTodosArtistasSinFiltro(){
         return this.http.get(`${this.baseUrl}api/artista/gets/noPaginado`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Esta es la respuesta de la consulta: ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -135,9 +113,6 @@ export class ArtistaService{
         
         return this.http.put(`${this.baseUrl}api/artista/update/${idArtista}`, data, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta Actualizacion de Artista: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -149,9 +124,6 @@ export class ArtistaService{
 
         return this.http.delete(`${this.baseUrl}api/artista/deleteImagen/${idArtista}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                // console.log(res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -162,18 +134,11 @@ export class ArtistaService{
     eliminarArtista(idArtista: string){
         return this.http.delete(`${this.baseUrl}api/artista/delete/${idArtista}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    // console.log('Respuesta de servicio al eliminar : ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         )
     }
-
-
 
     convertirAArtistaInterface(data: any): ArtistaInterface{
 

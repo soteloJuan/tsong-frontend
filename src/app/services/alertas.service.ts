@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 
 // 
-import Swal from 'sweetalert2';;
+import Swal from 'sweetalert2';
 
 @Injectable({
     providedIn:'root'
@@ -53,7 +53,7 @@ export class AlertasServices{
 
     alertaPreguta(header: string, body: string, textConfirm: string){
 
-        let i = "info";
+        const i = "info";
         return Swal.fire({
             title: `${header} ?`,
             text: `${body} !`,
@@ -78,15 +78,3 @@ export class AlertasServices{
 
 }
 
-
-/*
-
-ICONS
-
--success
--error
--warning
--info
--question
-
-*/

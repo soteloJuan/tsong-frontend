@@ -237,7 +237,7 @@ export class VerUnoComponent implements OnInit {
         if (result.isConfirmed) {
           this.listaService.actualizarDatosBasicosListaReproduccion(this.listaReproduccion.id, this.formListaReproduccion.value)
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 if (res.ok) {
                   this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
                   this.mostrarFormularioActualizarData();
@@ -330,7 +330,7 @@ export class VerUnoComponent implements OnInit {
     this.usuarioService.consultarUsuarioPorEmail(correoUsuario)
     .pipe(
       (
-        switchMap( res => {
+        switchMap( (res: any) => {
           const usuarioId = res.data[0]._id;
           const usuarioInvitadoAEliminar = this.ArrayUsuariosIds.filter( (element: any) => element.usuario === usuarioId)
           return this.usuariosInvitadosService.eliminarUsuariosInvitadoPorListaReproduccion(usuarioInvitadoAEliminar[0]._id);

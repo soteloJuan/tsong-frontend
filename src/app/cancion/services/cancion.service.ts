@@ -13,7 +13,7 @@ import {HttpClient} from '@angular/common/http';
 import {CancionInterface} from '../interfaces/cancion.interface';
 
 // rxjs
-import { map, catchError, tap, concatMap, mergeMap } from 'rxjs/operators';
+import { map, catchError, tap, mergeMap } from 'rxjs/operators';
 import { of, from, Observable } from 'rxjs';
 
 
@@ -47,12 +47,6 @@ export class CancionService{
     crearCancion(data: any){
         return this.http.post(`${this.baseUrl}api/cancion/create`, data, this.headers)
         .pipe(
-            map(
-                (res: any) => {
-                    console.log('Respuesta Crear Cancion: ', res);
-                    return res;
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -61,14 +55,11 @@ export class CancionService{
 
     guardarImagenCancion(imagen: File, idCancion:string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('imagen', imagen);
 
         return this.http.put(`${this.baseUrl}api/cancion/updateImagen/${idCancion}`, formData, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta UpdataPhoto: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -79,9 +70,6 @@ export class CancionService{
         
         return this.http.put(`${this.baseUrl}api/cancion/update/${idCancion}`, data, this.headers)
         .pipe(
-            tap( (res: any) => {
-                // console.log('Respuesta Actualizacion de Cancion: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -90,14 +78,11 @@ export class CancionService{
 
     actualizarArchivoDeMusica(cancion: File, idCancion: string){
 
-        let formData = new FormData;
+        const formData = new FormData;
         formData.append('cancion', cancion);
 
         return this.http.put(`${this.baseUrl}api/cancion/updateCancion/${idCancion}`, formData, this.headers)
         .pipe(
-            tap( (res: any) => {
-                console.log('Respuesta UpdataCancion: ',res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -106,9 +91,6 @@ export class CancionService{
 
     consultarCancionPorId(idCancion: string){
         return this.http.get(`${this.baseUrl}api/cancion/get/${idCancion}`, this.headers).pipe(
-            map( (res: any) => {
-                return res;
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -147,31 +129,18 @@ export class CancionService{
         )
     }
 
-
-
-    consultarCancionesPorAlbum(idAlbum: string){ // Este es el servicio que acabamos de crear.
+    consultarCancionesPorAlbum(idAlbum: string){
         return this.http.get(`${this.baseUrl}api/cancion/gets/porAlbum/${idAlbum}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
         );
     }
 
-
-
     consultarCancionesPorAlbumPaginado(idAlbum: string, pagina: number){ 
         return this.http.get(`${this.baseUrl}api/cancion/gets/porAlbumPaginado/${idAlbum}/${pagina}`, this.headers)
         .pipe(
-            tap(
-                (res) => {
-                    console.log('Respuesta consulta : ', res);
-                }
-            ),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -182,9 +151,6 @@ export class CancionService{
 
         return this.http.delete(`${this.baseUrl}api/cancion/deleteImagen/${idCancion}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                // console.log(res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -195,9 +161,6 @@ export class CancionService{
 
         return this.http.delete(`${this.baseUrl}api/cancion/delete/${idCancion}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                // console.log(res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })
@@ -538,8 +501,3 @@ export class CancionService{
     }
 
 }
-
-
-
-
-

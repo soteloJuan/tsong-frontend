@@ -8,12 +8,9 @@ import {environment} from '../../../environments/environment.prod';
 // http
 import {HttpClient} from '@angular/common/http';
 
-// interfaces
-
-
 // rxjs
 import { map, catchError, tap, concatMap } from 'rxjs/operators';
-import { of, from, Subscribable } from 'rxjs';
+import { of } from 'rxjs';
 
 
 
@@ -68,9 +65,6 @@ export class CancionListaReproduccionService{
     eliminarCancionListaReproduccionPorLista(idCancionListaReproduccion: string){
         return this.http.delete(`${this.baseUrl}api/cancionListaReproduccion/delete/${idCancionListaReproduccion}`, this.headers)
         .pipe( 
-            tap( (res: any) => {
-                // console.log('eliminar : ', res);
-            }),
             catchError( (error) => {
                 return of ({ok: false, message: error})
             })

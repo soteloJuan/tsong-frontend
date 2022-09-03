@@ -82,7 +82,7 @@ export class VerUnoComponent implements OnInit {
 
     this.activatedRoute.params.pipe(
       switchMap( ({idArtista}) => this.artistaService.consultarArtistasPorId(idArtista)),
-      tap( (resArtistaService) => {
+      tap( (resArtistaService: any) => {
         this.artista = this.artistaService.convertirAArtistaInterface(resArtistaService.data);
       }),
     ).subscribe({
