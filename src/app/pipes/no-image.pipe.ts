@@ -7,7 +7,7 @@ export class NoImagePipe implements PipeTransform {
 
   transform(value: string): string{
 
-    const newValue: string = './assets/images/no-image.png';
+    const newValue  = './assets/images/no-image.png';
 
     if(!!value == false || value == null || value == 'null'){
       return newValue;
