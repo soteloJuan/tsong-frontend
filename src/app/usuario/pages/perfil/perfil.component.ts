@@ -3,7 +3,6 @@ import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/co
 // Formularios
 import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 
-
 // Services
 import { UsuarioService } from '../../services/usuario.service';
 import { AlertasServices } from '../../../services/alertas.service';
@@ -13,7 +12,6 @@ import { ValidadoresService } from '../../../services/validadores.service';
 
 // Interfaces
 import { UsuarioInterface } from '../../interfaces/usuarios.interfaces';
-
 
 @Component({
   selector: 'app-perfil',
@@ -63,9 +61,6 @@ export class PerfilComponent implements OnInit {
     this.crearFormularioPassword();
   }
 
-
-
-
   /* IMAGEN */
   
   seleccionarImagen(){
@@ -90,7 +85,6 @@ export class PerfilComponent implements OnInit {
     this.banderas.cancelarFoto = true;
     this.banderas.guardarFoto = true;
     this.banderas.agregarFoto = false;
-
   }
 
   cancelarFotoSeleccionado(){
@@ -129,18 +123,13 @@ export class PerfilComponent implements OnInit {
     this.alertService.alertaPreguta('Estas seguro', 'Quieres eliminar la foto', 'si')
     .then( (result) => {
       if(result.isConfirmed){
-        this.usuarioService.eliminarImagen().subscribe(
-          (resp) => {
-            this.alertService.alertaExito('Se elimino exitosamente');
-          },
-          (error) => this.alertService.alertaErrorMs('Error en el servicio')
-        );
+        this.usuarioService.eliminarImagen().subscribe({
+          next: () => this.alertService.alertaExito('Se elimino exitosamente'),
+          error: () => this.alertService.alertaErrorMs('Error en el servicio')
+        });
       }
     });
-    
   }
-
-
 
   /* UPDATE PROFILE */
 
@@ -150,6 +139,7 @@ export class PerfilComponent implements OnInit {
     this.formProfile = this.fb.group({
       nombre: [this.usuario.nombre , [Validators.required, Validators.minLength(2)]],
       apellidos: [this.usuario.apellidos , [Validators.required, Validators.minLength(2)]],
+      // eslint-disable-next-line no-useless-escape
       email: [this.usuario.email , [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       bloqueado: [this.usuario.bloqueado , [Validators.required]],
     });
@@ -176,8 +166,8 @@ export class PerfilComponent implements OnInit {
     .then( (result) => {
       if(result.isConfirmed){
         this.usuarioService.actualizarUsuario(this.formProfile.value, this.usuario.id)
-        .subscribe( 
-          (res) => {
+        .subscribe({
+          next: (res: any) => {
             if(res.ok){
               this.alertService.alertaExito('Se realizaron los cambios de manera exitosa');
               this.mostrarFormularioActualizarData();
@@ -186,15 +176,11 @@ export class PerfilComponent implements OnInit {
               this.alertService.alertaErrorMs(message);
             }
           },
-          (error) => {
-            this.alertService.alertaErrorMs('Error en la petición del servicio.');
-          }
-        );
+          error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+        });
       }
     });
-
   }
-
 
     /* CHANGE PASSWORD */
 
@@ -231,8 +217,8 @@ export class PerfilComponent implements OnInit {
       .then( (result) => {
         if(result.isConfirmed){
           this.usuarioService.actualizarUsuarioPassword(value, this.usuario.id)
-          .subscribe(
-            (res: any) => {
+          .subscribe({
+            next: (res: any) => {
               if(res.ok){
                 this.alertService.alertaExito('Password Actualizado exitosamente');
                 this.mostrarFormularioActualizarPassword();
@@ -241,45 +227,25 @@ export class PerfilComponent implements OnInit {
                 this.alertService.alertaAdvertercia(message);
               }
             },
-            (error) => {
-              this.alertService.alertaErrorMs('Error en la petición del servicio.');
-            }
-          );
-      
+            error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+          });
         }
       });
+  }
   
-  
-  
-    }
-  
-
-
-
-  
-  /* Funciones banderas para mostrar FORMULARIOS*/
-
   mostrarFormularioActualizarData(){
-    if(this.banderas.mostrarFormularioUpdateData){
-      this.banderas.mostrarFormularioUpdateData = false;
-      this.resetFormularioProfile();
-    }else{
-      this.campoValido.miFormulario = this.formProfile; // ASIGNAR nuestro formulario al formulario que tenemos en el servicio
-      this.banderas.mostrarFormularioUpdateData = true;
-    }
+    (this.banderas.mostrarFormularioUpdateData)
+      ?(this.banderas.mostrarFormularioUpdateData = false,
+        this.resetFormularioProfile())
+      :(this.campoValido.miFormulario = this.formProfile,
+        this.banderas.mostrarFormularioUpdateData = true);
   }
 
   mostrarFormularioActualizarPassword(){
-    if(this.banderas.mostrarFormularioUpdatePassword){
-      this.banderas.mostrarFormularioUpdatePassword = false;
-      this.resetFormularioPassword();
-    }else{
-      this.banderas.mostrarFormularioUpdatePassword = true;
-      this.campoValido.miFormulario = this.formPassword; // ASIGNAR el nuestro formulario al formulario que tenemos en el servicio
-    }
+    (this.banderas.mostrarFormularioUpdatePassword)
+      ?(this.banderas.mostrarFormularioUpdatePassword = false,
+        this.resetFormularioPassword())
+      :(this.banderas.mostrarFormularioUpdatePassword = true,
+        this.campoValido.miFormulario = this.formPassword)
   }
-
-
-
-
 }

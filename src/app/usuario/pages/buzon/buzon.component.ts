@@ -1,26 +1,18 @@
-
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 // Service
 import { AlertasServices } from '../../../services/alertas.service';
-
-
-
-
 @Component({
   selector: 'app-buzon',
   templateUrl: './buzon.component.html',
   styleUrls: ['./buzon.component.css']
 })
-export class BuzonComponent implements OnInit {
+export class BuzonComponent{
 
   @ViewChild('laSugerencia') sugerencia!: ElementRef;
 
   constructor(private alertaService: AlertasServices) { }
 
-  ngOnInit(): void {
-  }
-  
   enviar(){
     const alertHeader = 'Quiere enviar su sugerencia',
           alertBody = 'Ya no podra elimnarlo despues',
@@ -31,7 +23,7 @@ export class BuzonComponent implements OnInit {
 
     const valueSugerencia: string = this.sugerencia.nativeElement.value.trim();
 
-    if(!!valueSugerencia){
+    if(!valueSugerencia){
       this.alertaService.alertaPreguta(alertHeader, alertBody, alertButtonConfirm)
       .then((result) => {
         // result.isConfirmed == true && this.alertaService.alertaExito(alertTextExito); // Esto es short conditional
@@ -39,7 +31,6 @@ export class BuzonComponent implements OnInit {
           this.alertaService.alertaExito(alertTextExito);
           this.sugerencia.nativeElement.value = "";
         }
-
       });
     }else{
       this.alertaService.alertaAdvertercia(alertTextAdvertencia);

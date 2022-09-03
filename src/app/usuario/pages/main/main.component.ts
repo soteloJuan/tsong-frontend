@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 //Services
 import {ReproductorService} from '../../../services/reproductor.service';
@@ -8,14 +8,11 @@ import {ReproductorService} from '../../../services/reproductor.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent{
 
-  bandera: boolean = false;
+  bandera = false;
 
   constructor(public reproductorService: ReproductorService) { }
-
-  ngOnInit(): void {
-  }
 
   clickBandera(){
     (this.bandera)?(this.bandera = false):(this.bandera = true);
