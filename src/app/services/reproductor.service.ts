@@ -42,7 +42,7 @@ export class ReproductorService{
     track = document.createElement('audio');
 
 
-    numeroCancionReproduccion = 0;
+    numeroCancionReproduccion = 1;
     indiceCancionEnReproduccion = 0;
     totalCanciones!: number;
     porcantajeVolumen = 100;
