@@ -1,6 +1,6 @@
 
 // Modulos
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 
 // Routes
@@ -21,7 +21,7 @@ import { SpinnerService } from '../../../services/spinner.service';
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   formLogin:FormGroup = this.fb.group({});
 
@@ -29,10 +29,7 @@ export class LoginComponent implements OnInit {
     private authAdmin: AuthAdministradorService, private campoValido: CampoValidoService, public spinnerService: SpinnerService) {
 
       this.crearFormulario();
-      this.campoValido.miFormulario = this.formLogin; // ASIGNAR el nuestro formulario al formulario que tenemos en el servicio
-  }
-
-  ngOnInit(): void {
+      this.campoValido.miFormulario = this.formLogin;
   }
 
   regresarPaginaInicio(){
@@ -47,6 +44,7 @@ export class LoginComponent implements OnInit {
 
   crearFormulario(){
       this.formLogin = this.fb.group({
+      // eslint-disable-next-line no-useless-escape
       email:     ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -60,11 +58,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.spinnerService.setSpinner = true; // Active spinner
+    this.spinnerService.setSpinner = true;
 
-    this.authAdmin.login(this.formLogin.value).subscribe(
-      (resp: any) => {
-        this.spinnerService.setSpinner = false// Deactivate spinner
+    this.authAdmin.login(this.formLogin.value)
+    .subscribe({
+      next: (resp: any) => {
+        this.spinnerService.setSpinner = false;
         if (resp.ok) {
           this.alertService.alertaExito('Loguiado Exitosamente');
           this.router.navigateByUrl('administrador');
@@ -73,10 +72,8 @@ export class LoginComponent implements OnInit {
           this.alertService.alertaErrorMs(message);
         }
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en la petición del servicio.');
-      });
-
+      error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+    });
   }
 
 }

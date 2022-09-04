@@ -7,7 +7,6 @@ import {RouterModule, Routes} from '@angular/router';
 // Components.
 
 import { LoginComponent } from './pages/login/login.component';
-import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { MainComponent } from './pages/main/main.component';
 
 const routes: Routes = [
@@ -18,9 +17,6 @@ const routes: Routes = [
             {
                 path:'', component: LoginComponent
             },        
-            {
-                path:'forgotPassword', component: ForgotPasswordComponent
-            },
             {
                 path:'**', redirectTo: '404'
             }
