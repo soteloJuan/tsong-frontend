@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.campoValidoService.miFormulario = this.formLogin;
   }
 
-  esCampoValido(campo: string): Boolean{return this.campoValidoService.esValidoCampo(campo)};
+  esCampoValido(campo: string): Boolean{return this.campoValidoService.esValidoCampo(campo)}
 
   ngOnInit(): void {
     this.renderButton();
@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
 
   crearFormulario(){
     this.formLogin = this.fb.group({
+      // eslint-disable-next-line no-useless-escape
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
@@ -66,12 +67,12 @@ export class LoginComponent implements OnInit {
     }
 
     const data: any = this.formLogin.value;
-    this.spinnerService.setSpinner = true; // Active spinner
+    this.spinnerService.setSpinner = true;
 
     this.authUsuarioService.loginConEmailPassword(data)
-    .subscribe(
-      (res: any) => {
-        this.spinnerService.setSpinner = false// Deactivate spinner
+    .subscribe({
+      next: (res: any) => {
+        this.spinnerService.setSpinner = false;
         if (res.ok) {
           this.alertService.alertaExito('Loguiado Exitosamente');
           this.router.navigateByUrl('usuario');
@@ -80,12 +81,8 @@ export class LoginComponent implements OnInit {
           this.alertService.alertaErrorMs(message);
         }
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en la petición del servicio.');
-      }
-    )
-
-
+      error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
+    });
   }
 
   renderButton() {
@@ -107,35 +104,28 @@ export class LoginComponent implements OnInit {
     this.auth2 = this.authUsuarioService.auth2;
 
     this.attachSignin(document.getElementById('my-signin2'));
-  };
+  }
 
   attachSignin(element: any) {
 
     this.auth2.attachClickHandler(element, {},
       (googleUser: any) => {
-        var id_token = googleUser.getAuthResponse().id_token;
-
-        this.spinnerService.setSpinner = true; // Active spinner
+        const id_token = googleUser.getAuthResponse().id_token;
+        this.spinnerService.setSpinner = true; 
         this.authUsuarioService.loginConGoogle(id_token)
-        .subscribe(
-          (res) => {
-            this.ngZone.run( () => { // Esto es por que la funcion de arriba esta fuera de angular. Y por eso lo ocupamos
-              
-              this.spinnerService.setSpinner = false// Deactivate spinner
+        .subscribe({
+          next: () => {
+            this.ngZone.run( () => {              
+              this.spinnerService.setSpinner = false;
               this.alertService.alertaExito(' Bienvenido ');
               this.router.navigateByUrl('/usuario');
 
             });
-
           }
-        )
-
+        })
       }, function (error: any) {
         alert(JSON.stringify(error, undefined, 2));
       });
-
   }
-
-
 
 }

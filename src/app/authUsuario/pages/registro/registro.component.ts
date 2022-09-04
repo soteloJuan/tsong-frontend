@@ -12,13 +12,9 @@ import { CampoValidoService } from '../../../services/campoValido.service';
 import { SpinnerService } from '../../../services/spinner.service';
 import { ValidadoresService } from '../../../services/validadores.service';
 
-// Interfaces
-
-// rxjs
 
 
 declare const gapi: any;
-// declare const auth2: any;
 
 @Component({
   selector: 'app-registro',
@@ -55,9 +51,10 @@ export class RegistroComponent implements OnInit {
     this.formResgistroUsuario = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(3)]],
       apellidos: ['', [Validators.required, Validators.minLength(3)]],
+      // eslint-disable-next-line no-useless-escape
       email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmarPassword: ['', [Validators.required, Validators.minLength(6)]], // AQUI VAMOS EN VALIDAR LAS CONTRASEÑAS SEAN IGUALES
+      confirmarPassword: ['', [Validators.required, Validators.minLength(6)]],
     }, {
       validators: this.validadoresService.passwordsIguales('password', 'confirmarPassword')
     })
@@ -86,8 +83,8 @@ export class RegistroComponent implements OnInit {
     delete data.confirmPassword;
 
     this.spinnersService.setSpinner = true;
-    this.usuarioService.crearUsuarioNuevo(data).subscribe(
-      (res: any) => {
+    this.usuarioService.crearUsuarioNuevo(data).subscribe({
+      next: (res: any) => {
         if (res.ok) {
           const message = res.mensaje;
           this.alertService.alertaExito(message);
@@ -98,14 +95,9 @@ export class RegistroComponent implements OnInit {
         }
         this.spinnersService.setSpinner = false;
       },
-      (error) => {
-        this.alertService.alertaErrorMs('Error en el servicio');
-      }
-
-    )
-
+      error: () => this.alertService.alertaErrorMs('Error en el servicio')
+    })
   }
-
 
   /* registro con GOOGLE  */
 
@@ -131,30 +123,24 @@ export class RegistroComponent implements OnInit {
     this.auth2 = this.authUsuarioService.auth2;
 
     this.attachSignin(document.getElementById('my-signin2'));
-  };
+  }
 
 
   attachSignin(element: any) {
 
     this.auth2.attachClickHandler(element, {},
       (googleUser: any) => {
-        var id_token = googleUser.getAuthResponse().id_token;
+        const id_token = googleUser.getAuthResponse().id_token;
 
-        console.log('Este es el token que se manda: ', id_token);
         this.authUsuarioService.loginConGoogle(id_token)
-        .subscribe(
-          (res) => {
-
-            this.ngZone.run( () => { // Esto es por que la funcion de arriba esta fuera de angular. Y por eso lo ocupamos
-              
-              // Aqui va lo que es la ruta a la cual nos queremos dirigir.
+        .subscribe({
+          next: () => {
+            this.ngZone.run( () => {
               this.alertService.alertaExito(' Bienvenido ');
               this.router.navigateByUrl('/usuario');
-
             });
-
           }
-        )
+        })
 
       }, function (error: any) {
         alert(JSON.stringify(error, undefined, 2));
