@@ -29,7 +29,7 @@ export class CrearComponent implements OnInit {
     imagenURL: '',
     nombre: '',
     usuario: ''
-  }
+  };
 
   imagenASubir!: File;
   imagenTemporal: any;
@@ -57,7 +57,7 @@ export class CrearComponent implements OnInit {
     this.campoValido.miFormulario = this.formRegistroLista;
   }
   
-  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo); }
   
   crearFormRegistroLista(){
     this.formRegistroLista = this.fb.group({
@@ -155,7 +155,7 @@ export class CrearComponent implements OnInit {
 
   asignarDatosLista(data: any){
     const {_id, ...value} = data;
-    this.listaAModificar = {...value}
+    this.listaAModificar = {...value};
     this.listaAModificar.id = _id;
     this.banderas.mostrarCardUpdatePhoto = true;
 

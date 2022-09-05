@@ -61,7 +61,7 @@ export class VerTodosGeneralComponent implements OnInit {
     this.debouncer
       .pipe(debounceTime(500)) // Para emitir despues de 500 milisegundos.
       .subscribe((numeroPagina) => {
-        const termino = this.termino.nativeElement.value
+        const termino = this.termino.nativeElement.value;
         this.listaService.consultarListaGeneralPorTermino(termino, numeroPagina)
           .subscribe({
             next: (res) => {
@@ -73,7 +73,7 @@ export class VerTodosGeneralComponent implements OnInit {
               }
             },
             error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
-        })
+        });
     });
   }
 
@@ -87,7 +87,7 @@ export class VerTodosGeneralComponent implements OnInit {
 
   consultarListaPorTermino(numeroPagina = 1) {
     const termino = this.termino.nativeElement.value;
-    if (!!termino || termino !== "") this.debouncer.next(numeroPagina)
+    if (!!termino || termino !== "") this.debouncer.next(numeroPagina);
   }
 
   cambiarPagina(numeroPagina: number) {

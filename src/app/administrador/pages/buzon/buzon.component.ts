@@ -29,7 +29,7 @@ export class BuzonComponent implements OnInit {
 
     const valueSugerencia: string = this.sugerencia.nativeElement.value.trim();
 
-    if(!!valueSugerencia){
+    if(valueSugerencia){
       this.alertaService.alertaPreguta(alertHeader, alertBody, alertButtonConfirm)
       .then((result) => {
         // result.isConfirmed == true && this.alertaService.alertaExito(alertTextExito); // Esto es short conditional

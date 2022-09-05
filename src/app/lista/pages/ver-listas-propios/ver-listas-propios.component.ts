@@ -57,7 +57,7 @@ export class VerListasPropiosComponent implements OnInit {
     this.debouncer
       .pipe(debounceTime(500)) // Para emitir despues de 500 milisegundos.
       .subscribe((numeroPagina) => {
-        const termino = this.termino.nativeElement.value
+        const termino = this.termino.nativeElement.value;
         this.listaService.consultarListaPorTermino(this.usuarioService.getUsuario.id, termino, numeroPagina)
           .subscribe({
           next: (res) => {
@@ -69,7 +69,7 @@ export class VerListasPropiosComponent implements OnInit {
             }
           },
             error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
-        })
+        });
     });
   }
 
@@ -87,7 +87,7 @@ export class VerListasPropiosComponent implements OnInit {
   }
 
   cambiarPagina(numeroPagina: number) {
-    (this.banderas.busquedaTermino) ? (this.consultarListaPorTermino(numeroPagina)) :(this.consultarTodosListasPorUsuario(numeroPagina))
+    (this.banderas.busquedaTermino) ? (this.consultarListaPorTermino(numeroPagina)) :(this.consultarTodosListasPorUsuario(numeroPagina));
   }
 
   limpiarInputSearch() {

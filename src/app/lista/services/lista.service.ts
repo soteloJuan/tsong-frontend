@@ -46,9 +46,9 @@ export class ListaService{
         return this.http.post(`${this.baseUrl}api/listaReproduccion/create`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarDatosBasicosListaReproduccion(idListaReproduccion: string, data: any){
@@ -56,7 +56,7 @@ export class ListaService{
         return this.http.put(`${this.baseUrl}api/listaReproduccion/update/${idListaReproduccion}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -69,9 +69,9 @@ export class ListaService{
         return this.http.put(`${this.baseUrl}api/listaReproduccion/updateImagen/${idArtista}`, formData, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarListaReproduccionPorId(idListaReproduccion: string){
@@ -83,9 +83,9 @@ export class ListaService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -105,9 +105,9 @@ export class ListaService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarListaReproduccionGeneral(pagina: number){
@@ -119,9 +119,9 @@ export class ListaService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarListaPorTermino(idUsuario: string, termino: string, pagina = 1){
@@ -133,9 +133,9 @@ export class ListaService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarListaGeneralPorTermino(termino: string, pagina = 1){
@@ -147,7 +147,7 @@ export class ListaService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -157,9 +157,9 @@ export class ListaService{
         return this.http.delete(`${this.baseUrl}api/listaReproduccion/delete/${idListaReproduccion}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarImagenListaReproduccion(idListaReproduccion: string){
@@ -167,7 +167,7 @@ export class ListaService{
         return this.http.delete(`${this.baseUrl}api/listaReproduccion/deleteImagen/${idListaReproduccion}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -179,7 +179,7 @@ export class ListaService{
             imagenURL: data.imagenURL,
             nombre: data.nombre,
             usuario:data.usuario
-        }
+        };
         return listaReproduccion;
 
     }

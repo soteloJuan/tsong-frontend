@@ -85,9 +85,9 @@ export class AuthUsuarioService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -103,9 +103,9 @@ export class AuthUsuarioService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -134,6 +134,6 @@ export class AuthUsuarioService{
                 return true;
             }),
             catchError(() => of (false))
-        )
+        );
     }
 }

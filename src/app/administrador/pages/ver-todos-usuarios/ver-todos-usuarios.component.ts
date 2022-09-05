@@ -64,7 +64,7 @@ export class VerTodosUsuariosComponent implements OnInit {
       this.debouncer
       .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
       .subscribe( (numeroPagina) => {
-        const termino = this.termino.nativeElement.value
+        const termino = this.termino.nativeElement.value;
         this.usuarioService.consultarUsuarioPorTermino(termino, numeroPagina)
         .subscribe({
           next: (res) => {
@@ -76,11 +76,11 @@ export class VerTodosUsuariosComponent implements OnInit {
             }
           },
           error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
-        })
+        });
       });
     }
   
-    esCampoValido(campo: string) : Boolean{ return this.campoValidoService.esValidoCampo(campo) }
+    esCampoValido(campo: string) : Boolean{ return this.campoValidoService.esValidoCampo(campo); }
   
     crearFormularioModificarAdministrador(){
       this.formModificarUsuario = this.fb.group({
@@ -90,7 +90,7 @@ export class VerTodosUsuariosComponent implements OnInit {
         email: ['', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]],
         bloqueado: ['', [Validators.required]],
         confirmarCorreo: ['', [Validators.required]]
-      })
+      });
     }
   
     resetFormularioModificarAdministrador(){

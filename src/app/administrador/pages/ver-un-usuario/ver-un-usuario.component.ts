@@ -122,7 +122,7 @@ export class VerUnUsuarioComponent implements OnInit {
     }
   }
   
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo); }
   
   crearFormularioUsuario(){
     this.formUsuario = this.fb.group({

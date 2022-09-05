@@ -51,7 +51,7 @@ export class VerTodosComponent implements OnInit {
     this.debouncer
     .pipe(debounceTime(500)) // Para emitir despues de 300 milisegundos.
     .subscribe( (numeroPagina) => {
-      const termino = this.termino.nativeElement.value
+      const termino = this.termino.nativeElement.value;
       this.artistaService.consultarArtistasPorTermino(termino, numeroPagina)
       .subscribe({
         next: (res) => {
@@ -63,7 +63,7 @@ export class VerTodosComponent implements OnInit {
           }
         },
         error: () => this.alertService.alertaErrorMs('Error en la petición del servicio')
-      })
+      });
     });
   }
 

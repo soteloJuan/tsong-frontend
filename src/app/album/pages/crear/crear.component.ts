@@ -31,7 +31,7 @@ export class CrearComponent implements OnInit {
     imagenURL: '',
     nombre: '',
     artista: ''
-  }
+  };
 
   imagenASubir!: File;
   imagenTemporal: any;
@@ -60,7 +60,7 @@ export class CrearComponent implements OnInit {
 
   }
 
-  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo); }
   
     
   crearFormRegistroAlbum(){
@@ -175,12 +175,12 @@ export class CrearComponent implements OnInit {
           this.alertService.alertaErrorMs('Error en el servicio');
         }
       }
-    })
+    });
   }
 
   asignarDatosAlbum(data: any){
     const {_id, ...value} = data;
-    this.albumAModificar = {...value}
+    this.albumAModificar = {...value};
     this.albumAModificar.id = _id;
     this.banderas.mostrarCardUpdatePhoto = true;
   }

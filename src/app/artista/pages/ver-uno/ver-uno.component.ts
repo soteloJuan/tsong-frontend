@@ -115,11 +115,11 @@ export class VerUnoComponent implements OnInit {
           this.campoValido.miFormulario = this.formArtista,
           this.banderas.mostrarFormularioUpdateDataArtista = true,
           this.resetFormularioArtista()
-        )
+        );
   }
 
   
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo); }
 
 
   crearFormularioArtista(){

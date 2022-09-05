@@ -205,10 +205,10 @@ export class VerUnoComponent implements OnInit {
       ?(this.banderas.mostrarFormularioUpdateDataListaReproduccion = false)
       :(this.campoValido.miFormulario = this.formListaReproduccion,
         this.banderas.mostrarFormularioUpdateDataListaReproduccion = true,
-        this.resetFormularioListaReproduccion())
+        this.resetFormularioListaReproduccion());
   }
   
-  esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo); }
 
 
   crearFormularioListaReproduccion() {
@@ -302,7 +302,7 @@ export class VerUnoComponent implements OnInit {
             const data = {
               listaReproduccion: this.listaReproduccion.id,
               usuario: res._id
-            }
+            };
             return this.usuariosInvitadosService.crearUsuariosInvitados(data);
           }
           return '';
@@ -313,7 +313,7 @@ export class VerUnoComponent implements OnInit {
           (res.ok) ?? (this.alertService.alertaErrorMs('No se pudo agregar el invitado'));
           this.mostrarFormularioAgregarInvitado();
         }
-      })
+      });
   }
 
 
@@ -332,7 +332,7 @@ export class VerUnoComponent implements OnInit {
       (
         switchMap( (res: any) => {
           const usuarioId = res.data[0]._id;
-          const usuarioInvitadoAEliminar = this.ArrayUsuariosIds.filter( (element: any) => element.usuario === usuarioId)
+          const usuarioInvitadoAEliminar = this.ArrayUsuariosIds.filter( (element: any) => element.usuario === usuarioId);
           return this.usuariosInvitadosService.eliminarUsuariosInvitadoPorListaReproduccion(usuarioInvitadoAEliminar[0]._id);
         })
       )
@@ -370,6 +370,6 @@ export class VerUnoComponent implements OnInit {
         this.activatedRouteConsulta();
       },
       error: () => this.alertService.alertaErrorMs('Error en el servicio')
-    })
+    });
   }
 }

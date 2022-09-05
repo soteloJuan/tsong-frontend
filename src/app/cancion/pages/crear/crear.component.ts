@@ -36,7 +36,7 @@ export class CrearComponent implements OnInit {
     genero: "",
     artista: "",
     album: "",
-  }
+  };
 
   archivoMusicaASubir!: File;
   archivoMusicalTemporal!: any;
@@ -60,7 +60,7 @@ export class CrearComponent implements OnInit {
     cancelarMusica: false,
     guardarMusica: false,
       mostrarCardUpdateArchivoMusica: false
-  }
+  };
 
   
   @ViewChild('changeIMG') inputChangeIMG!: ElementRef;
@@ -87,7 +87,7 @@ export class CrearComponent implements OnInit {
     }
 
     // Formulario
-    esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
+    esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo); }
 
     crearFormRegistroCancion(){
       this.formRegistroCancion = this.fb.group({
@@ -227,7 +227,7 @@ export class CrearComponent implements OnInit {
     }
 
     cancelarArchivoMusicaSeleccionado(){
-      this.audio.nativeElement.src = ""
+      this.audio.nativeElement.src = "";
       this.archivoMusicalTemporal        = null;
       this.banderasMusica.cancelarMusica = false;
       this.banderasMusica.guardarMusica  = false;
@@ -264,7 +264,7 @@ export class CrearComponent implements OnInit {
           }    
         },
         error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
-      })
+      });
     }
     
     consultarAlbumsPorIdArtista(){
@@ -284,7 +284,7 @@ export class CrearComponent implements OnInit {
 
     asignarDatosCancionAModificar(data: any){
       const {_id, ...value} = data;
-      this.cancionAModificar = {...value}
+      this.cancionAModificar = {...value};
       this.cancionAModificar.id = _id;
       this.banderasMusica.mostrarCardUpdateArchivoMusica = true;  
     }

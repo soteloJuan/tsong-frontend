@@ -133,7 +133,7 @@ export class PerfilComponent implements OnInit {
 
   /* UPDATE PROFILE */
 
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo); }
 
   crearFormularioProfile(){
     this.formProfile = this.fb.group({
@@ -211,7 +211,7 @@ export class PerfilComponent implements OnInit {
       const value = {
         password: this.formPassword.value.password,
         newPassword: this.formPassword.value.newPassword
-      }
+      };
   
       this.alertService.alertaPreguta('Estas seguro', 'Quieres guardar los cambios', 'si')
       .then( (result) => {
@@ -246,6 +246,6 @@ export class PerfilComponent implements OnInit {
       ?(this.banderas.mostrarFormularioUpdatePassword = false,
         this.resetFormularioPassword())
       :(this.banderas.mostrarFormularioUpdatePassword = true,
-        this.campoValido.miFormulario = this.formPassword)
+        this.campoValido.miFormulario = this.formPassword);
   }
 }

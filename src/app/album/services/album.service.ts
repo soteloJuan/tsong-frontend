@@ -40,18 +40,18 @@ export class AlbumService{
         return this.http.post(`${this.baseUrl}api/album/create`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarAlbumPorId(idAlbum: string){
 
         return this.http.get(`${this.baseUrl}api/album/get/${idAlbum}`, this.headers).pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
     
     consultarTodosAlbums(numeroPagina: number){
@@ -60,16 +60,16 @@ export class AlbumService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarAlbumsPorIdArtista(idArtista: string){
         return this.http.get(`${this.baseUrl}api/album/gets/porArtista/${idArtista}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -78,7 +78,7 @@ export class AlbumService{
         return this.http.get(`${this.baseUrl}api/album/gets/porArtistaPaginado/${idArtista}/${pagina}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -93,9 +93,9 @@ export class AlbumService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     guardarImagenAlbum(imagen: File, idAlbum:string){
@@ -106,9 +106,9 @@ export class AlbumService{
         return this.http.put(`${this.baseUrl}api/album/updateImagen/${idAlbum}`, formData, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarDatosBasicosAlbum(idAlbum: string, data: any){
@@ -116,7 +116,7 @@ export class AlbumService{
         return this.http.put(`${this.baseUrl}api/album/update/${idAlbum}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -127,7 +127,7 @@ export class AlbumService{
         return this.http.delete(`${this.baseUrl}api/album/deleteImagen/${idAlbum}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -137,7 +137,7 @@ export class AlbumService{
         return this.http.delete(`${this.baseUrl}api/album/delete/${idAlbum}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -153,7 +153,7 @@ export class AlbumService{
             imagenURL: data.imagenURL,
             nombre: data.nombre,
             artista: data.artista,
-        }
+        };
 
         return album;
     }

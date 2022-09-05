@@ -12,7 +12,7 @@ import { ReproductorService } from '../../../services/reproductor.service';
 export class MainComponent implements OnInit {
 
 
-  bandera: boolean = false;
+  bandera = false;
 
   constructor(public reproductorService: ReproductorService) { 
   }

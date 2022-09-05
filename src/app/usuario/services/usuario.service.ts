@@ -54,7 +54,7 @@ export class UsuarioService {
         return this.http.post(`${this.baseUrl}api/usuario/create`, data ,this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -63,7 +63,7 @@ export class UsuarioService {
         return this.http.get(`${this.baseUrl}api/usuario/get/${idUsuario}`,this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -79,7 +79,7 @@ export class UsuarioService {
         return this.http.get(`${this.baseUrl}api/usuario/get/porEmail/${correoUsuario}`,this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -93,7 +93,7 @@ export class UsuarioService {
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -102,9 +102,9 @@ export class UsuarioService {
         return this.http.put(`${this.baseUrl}api/usuario/update/${id}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     guardarImagen(imagen: File, idAdministrador:string){
@@ -119,9 +119,9 @@ export class UsuarioService {
                 this.asignarDatos(dataFormateadoUsuario);
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarImagen(){
@@ -133,9 +133,9 @@ export class UsuarioService {
                 this.asignarDatos(dataFormateadoUsuario);
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarUsuario(data: Object, idUsuario: string){
@@ -144,19 +144,19 @@ export class UsuarioService {
             map( (res: any) => {
                 const dataFormateadoUsuario: UsuarioInterface = this.formatoParaUsuario(res.data);
                 this.asignarDatos(dataFormateadoUsuario);
-                return res
+                return res;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarUsuarioPassword(value: object, idUsuario: string){
         return  this.http.put(`${this.baseUrl}api/usuario/updatePassword/${idUsuario}`, value, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -170,18 +170,18 @@ export class UsuarioService {
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarUsuario(idUsuario: string){
         return this.http.delete(`${this.baseUrl}api/usuario/delete/${idUsuario}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     formatoParaUsuario(data: any): UsuarioInterface{

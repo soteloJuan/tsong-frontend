@@ -20,8 +20,8 @@
         "@typescript-eslint"
     ],
     "rules": {
-        // "semi":[2, "always"],
-        // "no-console": 2,
+        "semi":[2, "always"],
+        "no-console": 2,
         "implicit-arrow-linebreak": "off",
         "indent": "off",
         "operator-linebreak": "off",

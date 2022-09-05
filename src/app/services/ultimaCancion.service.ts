@@ -58,7 +58,7 @@ export class UltimaCancionService{
         const body = {
             cancion: idCancion,
             usuario: idUsuario
-        }
+        };
 
         return this.http.put(`${this.baseUrl}api/ultimaCancion/update/${idUltimaCancion}`, body, this.headers);
     }

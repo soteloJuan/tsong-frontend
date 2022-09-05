@@ -44,9 +44,9 @@ export class CancionListaReproduccionService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -57,18 +57,18 @@ export class CancionListaReproduccionService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarCancionListaReproduccionPorLista(idCancionListaReproduccion: string){
         return this.http.delete(`${this.baseUrl}api/cancionListaReproduccion/delete/${idCancionListaReproduccion}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 

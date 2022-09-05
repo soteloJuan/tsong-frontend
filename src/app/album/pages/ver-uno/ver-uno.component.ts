@@ -240,7 +240,7 @@ export class VerUnoComponent implements OnInit {
     }
   }
 
-  esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string): Boolean { return this.campoValido.esValidoCampo(campo); }
 
   crearFormularioAlbum() {
     this.formAlbum = this.fb.group({

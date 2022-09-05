@@ -42,9 +42,9 @@ export class CancionListaReproduccionService{
         return this.http.post(`${this.baseUrl}api/cancionListaReproduccion/create`, data ,this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
 
     }
 

@@ -40,7 +40,7 @@ export class LoginComponent {
     this.router.navigateByUrl('/authAdministrador/forgotPassword');
   }
 
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo); }
 
   crearFormulario(){
       this.formLogin = this.fb.group({

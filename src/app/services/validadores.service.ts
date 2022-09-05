@@ -15,7 +15,7 @@ export class ValidadoresService {
 
             (pass1Control.value === pass2Control.value)
                 ?(pass2Control.setErrors(null))
-                :(pass2Control.setErrors({ noEsIgual: true }))
-        }
+                :(pass2Control.setErrors({ noEsIgual: true }));
+        };
     }
 }

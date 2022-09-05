@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.campoValidoService.miFormulario = this.formLogin;
   }
 
-  esCampoValido(campo: string): Boolean{return this.campoValidoService.esValidoCampo(campo)}
+  esCampoValido(campo: string): Boolean{return this.campoValidoService.esValidoCampo(campo);}
 
   ngOnInit(): void {
     this.renderButton();
@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit {
 
             });
           }
-        })
+        });
       }, function (error: any) {
         alert(JSON.stringify(error, undefined, 2));
       });

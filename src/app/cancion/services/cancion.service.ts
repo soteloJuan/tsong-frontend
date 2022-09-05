@@ -48,9 +48,9 @@ export class CancionService{
         return this.http.post(`${this.baseUrl}api/cancion/create`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     guardarImagenCancion(imagen: File, idCancion:string){
@@ -61,7 +61,7 @@ export class CancionService{
         return this.http.put(`${this.baseUrl}api/cancion/updateImagen/${idCancion}`, formData, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -71,7 +71,7 @@ export class CancionService{
         return this.http.put(`${this.baseUrl}api/cancion/update/${idCancion}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -84,7 +84,7 @@ export class CancionService{
         return this.http.put(`${this.baseUrl}api/cancion/updateCancion/${idCancion}`, formData, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -92,24 +92,24 @@ export class CancionService{
     consultarCancionPorId(idCancion: string){
         return this.http.get(`${this.baseUrl}api/cancion/get/${idCancion}`, this.headers).pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarCancionAleatorio(){
         return this.http.get(`${this.baseUrl}api/cancion/getRandom`, this.headers).pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarCancionPorIdMergeMap(arrayIdsCanciones: string[]){
         return from(arrayIdsCanciones).pipe(
             mergeMap((id) => <Observable<any>> this.http.get(`${this.baseUrl}api/cancion/get/${id}`, this.headers) ),
             map( (res: any) => res.data)
-        )
+        );
     }
 
     consultarTodasCanciones(numeroPagina: number){
@@ -118,9 +118,9 @@ export class CancionService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarCancionesPorTermino(termino: string, pagina = 1){
@@ -132,16 +132,16 @@ export class CancionService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarCancionesPorAlbum(idAlbum: string){
         return this.http.get(`${this.baseUrl}api/cancion/gets/porAlbum/${idAlbum}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -150,7 +150,7 @@ export class CancionService{
         return this.http.get(`${this.baseUrl}api/cancion/gets/porAlbumPaginado/${idAlbum}/${pagina}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -160,9 +160,9 @@ export class CancionService{
         return this.http.delete(`${this.baseUrl}api/cancion/deleteImagen/${idCancion}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarCancion(idCancion: string){
@@ -170,9 +170,9 @@ export class CancionService{
         return this.http.delete(`${this.baseUrl}api/cancion/delete/${idCancion}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -191,7 +191,7 @@ export class CancionService{
             genero: data.genero,
             artista: data.artista,
             album: data.album,
-        }
+        };
         return cancion;
 
     }
@@ -505,7 +505,7 @@ export class CancionService{
             "ZAMBRA",
             "ZARZUELA",
             "ZORTZICO"
-        ]
+        ];
     }
 
 }

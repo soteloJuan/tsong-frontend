@@ -45,7 +45,7 @@ export class RegistroComponent implements OnInit {
     this.renderButton();
   }
 
-  esCampoValido(campo: string): Boolean { return this.campoValidoService.esValidoCampo(campo) }
+  esCampoValido(campo: string): Boolean { return this.campoValidoService.esValidoCampo(campo); }
 
   crearFormulario() {
     this.formResgistroUsuario = this.fb.group({
@@ -57,7 +57,7 @@ export class RegistroComponent implements OnInit {
       confirmarPassword: ['', [Validators.required, Validators.minLength(6)]],
     }, {
       validators: this.validadoresService.passwordsIguales('password', 'confirmarPassword')
-    })
+    });
   }
 
   resetearFormulario() {
@@ -69,7 +69,7 @@ export class RegistroComponent implements OnInit {
         password: '',
         confirmarPassword: ''
       }
-    )
+    );
   }
 
   crearUsuarioNuevo() {
@@ -96,7 +96,7 @@ export class RegistroComponent implements OnInit {
         this.spinnersService.setSpinner = false;
       },
       error: () => this.alertService.alertaErrorMs('Error en el servicio')
-    })
+    });
   }
 
   /* registro con GOOGLE  */
@@ -140,7 +140,7 @@ export class RegistroComponent implements OnInit {
               this.router.navigateByUrl('/usuario');
             });
           }
-        })
+        });
 
       }, function (error: any) {
         alert(JSON.stringify(error, undefined, 2));

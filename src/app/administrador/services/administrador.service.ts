@@ -57,9 +57,9 @@ export class AdministradorService{
         return this.http.post(`${this.baseUrl}api/administrador/create`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarAdministrador(idAdministrador: string){        
@@ -68,9 +68,9 @@ export class AdministradorService{
                 return resp.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarTodosAdministradores(numeroPagina: number){        
@@ -79,9 +79,9 @@ export class AdministradorService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarAdministradoresPorTermino(termino: string, pagina = 1){
@@ -93,18 +93,18 @@ export class AdministradorService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     modificarDatosAdministrador(id: string, data: any){
         return this.http.put(`${this.baseUrl}api/administrador/update/${id}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     guardarImagen(imagen: File, idAdministrador:string){
@@ -119,9 +119,9 @@ export class AdministradorService{
                 this.asignarDatos(dataFormateadoAdmin);
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     eliminarImagen(){
@@ -133,9 +133,9 @@ export class AdministradorService{
                 this.asignarDatos(dataFormateadoAdmin);
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarAdministrador(data: Object, idAdministrador: string){
@@ -144,12 +144,12 @@ export class AdministradorService{
             map( (res: any) => {
                 const dataFormateadoAdmin: AdministradorInterface = this.formatoParaAdministrador(res.data);
                 this.asignarDatos(dataFormateadoAdmin);
-                return res
+                return res;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     actualizarAdministradorPassword(value: object, idAdministrador: string){
@@ -157,7 +157,7 @@ export class AdministradorService{
         return  this.http.put(`${this.baseUrl}api/administrador/updatePassword/${idAdministrador}`, value, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -166,9 +166,9 @@ export class AdministradorService{
         return this.http.delete(`${this.baseUrl}api/administrador/delete/${idAdministrador}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     formatoParaAdministrador(data: any): AdministradorInterface{

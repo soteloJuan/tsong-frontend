@@ -31,7 +31,7 @@ export class CrearComponent implements OnInit {
     imagenURL: '',
     nombre: '',
     pais: ''
-  }
+  };
 
   imagenASubir!: File;
   imagenTemporal: any;
@@ -59,7 +59,7 @@ export class CrearComponent implements OnInit {
     }
   
   
-    esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo) }
+    esCampoValido(campo: string) :Boolean{ return this.campoValido.esValidoCampo(campo); }
   
   
     crearFormRegistroArtista(){
@@ -166,7 +166,7 @@ export class CrearComponent implements OnInit {
 
     asignarDatosArtista(data: any){
       const {_id, ...value} = data;
-      this.artistaAModificar = {...value}
+      this.artistaAModificar = {...value};
       this.artistaAModificar.id = _id;
       this.banderas.mostrarCardUpdatePhoto = true;
 

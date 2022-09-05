@@ -43,7 +43,7 @@ export class ReproductorComponent implements OnInit {
     });
 
     this.reproductorService.track.addEventListener('ended', () => {
-      (this.reproductorService.isAutoPlay)  ? (this.reproductorService.playCancion()) : (this.reproductorService.nextSong())
+      (this.reproductorService.isAutoPlay)  ? (this.reproductorService.playCancion()) : (this.reproductorService.nextSong());
     });
     
     setTimeout(() => {
@@ -72,7 +72,7 @@ export class ReproductorComponent implements OnInit {
             this.consultarCancionAleatorio();
           }
         }else{
-          this.alertasServices.alertaErrorMs('Contacte al Administrador')
+          this.alertasServices.alertaErrorMs('Contacte al Administrador');
         }
       }
     });
@@ -93,7 +93,7 @@ export class ReproductorComponent implements OnInit {
     this.ultimaCancionService.crearUltimaCancion(idUsuario, idCancion)
     .subscribe({
       next:() => {
-        this.alertasServices.alertaExito('Se creo la ultima cancion por defecto')
+        this.alertasServices.alertaExito('Se creo la ultima cancion por defecto');
       }
     });
   }

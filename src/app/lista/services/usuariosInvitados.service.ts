@@ -50,9 +50,9 @@ export class UsuariosInvitadosService {
                     }
                 ),
                 catchError((error) => {
-                    return of({ ok: false, message: error })
+                    return of({ ok: false, message: error });
                 })
-            )
+            );
     }
 
 
@@ -65,7 +65,7 @@ export class UsuariosInvitadosService {
                     }
                 ),
                 catchError((error) => {
-                    return of({ ok: false, message: error })
+                    return of({ ok: false, message: error });
                 })
             );
     }
@@ -84,7 +84,7 @@ export class UsuariosInvitadosService {
                     }
                 ),
                 catchError((error) => {
-                    return of({ ok: false, message: error })
+                    return of({ ok: false, message: error });
                 })
             );
 
@@ -101,7 +101,7 @@ export class UsuariosInvitadosService {
                 }
             ),
             catchError((error) => {
-                return of({ ok: false, message: error })
+                return of({ ok: false, message: error });
             })
         );
 
@@ -117,9 +117,9 @@ export class UsuariosInvitadosService {
                 tap((res: any) => {
                 }),
                 catchError((error) => {
-                    return of({ ok: false, message: error })
+                    return of({ ok: false, message: error });
                 })
-            )
+            );
 
     }
 

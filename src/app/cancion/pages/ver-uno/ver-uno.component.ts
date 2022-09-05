@@ -113,7 +113,7 @@ export class VerUnoComponent implements OnInit {
 
   /* UPDATE MUSIC INFO */
 
-  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo) }
+  esCampoValido(campo: string) : Boolean{ return this.campoValido.esValidoCampo(campo); }
 
 
   crearFormularioCancion(){
@@ -182,7 +182,7 @@ export class VerUnoComponent implements OnInit {
         }
       },
       error: () => this.alertService.alertaErrorMs('Error en la petición del servicio.')
-    })
+    });
   }
 
   consultarAlbumsPorIdArtista(){

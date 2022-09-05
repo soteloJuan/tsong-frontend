@@ -6,7 +6,7 @@ import { AuthAdministradorRoutingModule } from './authAdministrador-routing.modu
 
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule} from '@angular/common/http';
 
 // Components
 import { LoginComponent } from './pages/login/login.component';

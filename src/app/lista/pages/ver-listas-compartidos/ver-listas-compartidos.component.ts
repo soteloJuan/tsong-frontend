@@ -55,7 +55,7 @@ export class VerListasCompartidosComponent implements OnInit {
 
       ).subscribe({
         next: (res) => this.arrayListas.push(res)
-      })
+      });
   }
 
   reproducirListaReproduccion(idLista: string){

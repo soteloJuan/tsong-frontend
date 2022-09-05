@@ -55,7 +55,7 @@ export class ReproductorService{
     temp: any;
 
     set setActivo(activo: boolean){
-        this.activo = activo
+        this.activo = activo;
     }
     get getActivo(){
         return this.activo;
@@ -80,7 +80,7 @@ export class ReproductorService{
             }),
             switchMap((idAlbum) =>  this.albumService.consultarAlbumPorId(idAlbum)),
             map((resAlbum: any) => {
-                this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
+                this.album = this.albumService.convertirAAlbumInterface(resAlbum.data);
                 return this.album.artista;
             }),
 
@@ -95,7 +95,7 @@ export class ReproductorService{
                 this.isPlay = true;
                 this.consultarCancionesPorIdAlbum(this.album.id);
             }
-        }) 
+        }); 
     }
 
     public cancionSeleccionadaDesdeLista(idCancion: string){
@@ -184,7 +184,7 @@ export class ReproductorService{
                     }
                 },2000);
             }
-        })
+        });
     }
 
     albumSeleccionada(idAlbumSeleccionada: string){
@@ -192,7 +192,7 @@ export class ReproductorService{
         this.albumService.consultarAlbumPorId(idAlbumSeleccionada)
         .pipe(
             map((resAlbum: any) => {
-                this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
+                this.album = this.albumService.convertirAAlbumInterface(resAlbum.data);
                 return this.album.artista;
             }),
 
@@ -214,7 +214,7 @@ export class ReproductorService{
                 this.playCancion();
                 this.isPlay = true;
             }
-        })
+        });
     }
 
     playCancion(){
@@ -264,7 +264,7 @@ export class ReproductorService{
         this.track.volume = e.value / 100;
         this.porcantajeVolumen = this.track.volume * 100;
 
-        (this.track.volume === 0) ? (this.muteSong()) : (this.isMuteSong = false)
+        (this.track.volume === 0) ? (this.muteSong()) : (this.isMuteSong = false);
         
     }
     
@@ -273,7 +273,7 @@ export class ReproductorService{
             ? (this.isMuteSong = true,
                 this.track.volume = 0)
             :(this.isMuteSong = false,
-                this.track.volume = this.porcantajeVolumen / 100)
+                this.track.volume = this.porcantajeVolumen / 100);
     }
 
     cambioDeTiempoCancion(valorPorcentaje: any){
@@ -282,7 +282,7 @@ export class ReproductorService{
     }
 
     repetirCancion(){
-        (this.isAutoPlay) ?(this.isAutoPlay = false) :(this.isAutoPlay = true)
+        (this.isAutoPlay) ?(this.isAutoPlay = false) :(this.isAutoPlay = true);
     }
 
     consultarCancionesPorIdAlbum(idAlbum: string){

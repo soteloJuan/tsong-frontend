@@ -45,33 +45,33 @@ export class ArtistaService{
         return this.http.put(`${this.baseUrl}api/artista/updateImagen/${idArtista}`, formData, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     crearArtista(data: any){
         return this.http.post(`${this.baseUrl}api/artista/create`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarArtistasPorId(idArtista: string){        
         return this.http.get(`${this.baseUrl}api/artista/get/${idArtista}`, this.headers).pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarArtistaPorIdMergeMap(arrayIdsArtistas: string[]){
         return from(arrayIdsArtistas).pipe(
             mergeMap((id) => <Observable<any>> this.http.get(`${this.baseUrl}api/artista/get/${id}`, this.headers) ),
             map( (res: any) => res.data)
-        )
+        );
     }
 
     consultarTodosArtistas(numeroPagina: number){        
@@ -80,9 +80,9 @@ export class ArtistaService{
                 return res.data;
             }),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarArtistasPorTermino(termino: string, pagina = 1){
@@ -94,18 +94,18 @@ export class ArtistaService{
                 }
             ),
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     consultarTodosArtistasSinFiltro(){
         return this.http.get(`${this.baseUrl}api/artista/gets/noPaginado`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
 
@@ -114,7 +114,7 @@ export class ArtistaService{
         return this.http.put(`${this.baseUrl}api/artista/update/${idArtista}`, data, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
         );
     }
@@ -125,9 +125,9 @@ export class ArtistaService{
         return this.http.delete(`${this.baseUrl}api/artista/deleteImagen/${idArtista}`, this.headers)
         .pipe( 
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     
@@ -135,9 +135,9 @@ export class ArtistaService{
         return this.http.delete(`${this.baseUrl}api/artista/delete/${idArtista}`, this.headers)
         .pipe(
             catchError( (error) => {
-                return of ({ok: false, message: error})
+                return of ({ok: false, message: error});
             })
-        )
+        );
     }
 
     convertirAArtistaInterface(data: any): ArtistaInterface{
@@ -151,7 +151,7 @@ export class ArtistaService{
             imagenURL:  data.imagenURL,
             nombre:  data.nombre,
             pais: data.pais,
-        }
+        };
         return artista;
 
     }
