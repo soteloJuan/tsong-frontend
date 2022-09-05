@@ -7,7 +7,6 @@ import { AlertasServices } from '../../../services/alertas.service';
 import { ReproductorService } from '../../../services/reproductor.service';
 import { UltimaCancionService } from '../../../services/ultimaCancion.service';
 import { UsuarioService } from '../../../usuario/services/usuario.service';
-// import from ''
 
 // Routes
 import {Router} from '@angular/router';
@@ -51,20 +50,29 @@ export class SidebarComponent {
     
     this.alertaService.alertaPreguta(header, body, buttonConfirm).then((result) => {
       if(result.isConfirmed){
-        const idUltimaCancion = this.reproductorService.idUltimaCancion;
-        const idCancion = this.reproductorService.cancion.id;
-        const idUsuario = this.usuarioService.usuario.id;
-        this.ultimaCancionService.updateUltimaCancion(idUltimaCancion,idCancion, idUsuario)
-        .subscribe({
-          next: (res) => {
-            this.reproductorService.pause();
-            this.alertaService.alertaExito(alertTextExito);
-            this.logoutService.logout();
-            this.router.navigateByUrl('/');
-          }
-        });
+        (this.menuService.getRole === "USUARIO")
+          ? (this.updateUltimaCancion(alertTextExito))
+          : (this.close(alertTextExito));
       }  
     });
+  }
+
+  updateUltimaCancion(alertTextExito: string){
+    const idUltimaCancion = this.reproductorService.idUltimaCancion;
+    const idCancion = this.reproductorService.cancion.id;
+    const idUsuario = this.usuarioService.usuario.id;
+    this.ultimaCancionService.updateUltimaCancion(idUltimaCancion,idCancion, idUsuario)
+    .subscribe({
+      next: () => this.close(alertTextExito)
+    });
+  }
+
+  close(alertTextExito: string){
+    this.reproductorService.pause();
+    this.reproductorService.setActivo = false;
+    this.alertaService.alertaExito(alertTextExito);
+    this.logoutService.logout();
+    this.router.navigateByUrl('/');
   }
 
   reproductorBandera(evento: any){

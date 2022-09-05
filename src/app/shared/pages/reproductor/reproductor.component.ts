@@ -7,6 +7,7 @@ import { UltimaCancionService } from '../../../services/ultimaCancion.service';
 import { AlertasServices } from '../../../services/alertas.service';
 import { CancionService } from '../../../cancion/services/cancion.service';
 import { AdministradorService } from '../../../administrador/services/administrador.service';
+import { MenuService } from '../../../services/menu.service';
 
 @Component({
   selector: 'app-reproductor',
@@ -27,7 +28,8 @@ export class ReproductorComponent implements OnInit {
     public ultimaCancionService: UltimaCancionService,
     public alertasServices: AlertasServices,
     public cancionService: CancionService,
-    public administradorService: AdministradorService
+    public administradorService: AdministradorService,
+    public menuService: MenuService
     ) {
     }
 
@@ -47,7 +49,10 @@ export class ReproductorComponent implements OnInit {
     });
     
     setTimeout(() => {
-      this.consultarUltimaCancionReproducida();
+      (this.menuService.getRole === "USUARIO")
+        ? (this.consultarUltimaCancionReproducida())
+        : (this.reproducirCancionAleatoria());
+
     }, 1000);
   }
   
@@ -65,11 +70,11 @@ export class ReproductorComponent implements OnInit {
 
             this.reproductorService.idUltimaCancion = idUltimaCancion;
             this.reproductorService.setActivo = true;
-            this.reproductorService.isListaReproduccion = true;
+            this.reproductorService.isListaReproduccion = false;
             
             this.reproductorService.cancionSeleccionadaDesdeAlbum(idCancion);
           }else{
-            this.consultarCancionAleatorio();
+            this.consultarCancionAleatorioYCrearUltimaCancion();
           }
         }else{
           this.alertasServices.alertaErrorMs('Contacte al Administrador');
@@ -78,7 +83,7 @@ export class ReproductorComponent implements OnInit {
     });
   }
 
-  consultarCancionAleatorio(){
+  consultarCancionAleatorioYCrearUltimaCancion(){
     this.cancionService.consultarCancionAleatorio()
       .subscribe({
         next: (result: any) => {
@@ -93,9 +98,22 @@ export class ReproductorComponent implements OnInit {
     this.ultimaCancionService.crearUltimaCancion(idUsuario, idCancion)
     .subscribe({
       next:() => {
-        this.alertasServices.alertaExito('Se creo la ultima cancion por defecto');
+        this.consultarUltimaCancionReproducida();
       }
     });
+  }
+
+  reproducirCancionAleatoria(){
+    this.cancionService.consultarCancionAleatorio()
+      .subscribe({
+        next: (result: any) => {
+          const idCancion = result.data._id;
+          this.reproductorService.setActivo = true;
+          this.reproductorService.isListaReproduccion = false;
+          
+          this.reproductorService.cancionSeleccionadaDesdeAlbum(idCancion);
+        }
+      });
   }
 
   cerrarReproductor(){
