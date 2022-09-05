@@ -97,6 +97,14 @@ export class CancionService{
         )
     }
 
+    consultarCancionAleatorio(){
+        return this.http.get(`${this.baseUrl}api/cancion/getRandom`, this.headers).pipe(
+            catchError( (error) => {
+                return of ({ok: false, message: error})
+            })
+        )
+    }
+
     consultarCancionPorIdMergeMap(arrayIdsCanciones: string[]){
         return from(arrayIdsCanciones).pipe(
             mergeMap((id) => <Observable<any>> this.http.get(`${this.baseUrl}api/cancion/get/${id}`, this.headers) ),

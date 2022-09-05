@@ -13,8 +13,6 @@ import { debounceTime } from 'rxjs/operators';
 import {Router} from '@angular/router';
 import { ReproductorService } from '../../../services/reproductor.service';
 
-
-
 @Component({
   selector: 'app-ver-listas-propios',
   templateUrl: './ver-listas-propios.component.html',
@@ -53,7 +51,7 @@ export class VerListasPropiosComponent implements OnInit {
   ngOnInit(): void {
     const SetTimeout = setTimeout(() => {
       this.consultarTodosListasPorUsuario(1);
-    }, 300);
+    }, 500);
     SetTimeout;
 
     this.debouncer

@@ -20,12 +20,9 @@ import { switchMap, map, tap } from 'rxjs/operators';
     providedIn: 'root'
 })
 
-
 export class ReproductorService{
 
-
     private activo =  false;
-
 
     cancion!: CancionInterface;
     artista!: ArtistaInterface;
@@ -53,6 +50,7 @@ export class ReproductorService{
     isAutoPlay = false;
     isListaReproduccion = false;
 
+    idUltimaCancion!: string;
 
     temp: any;
 
@@ -72,38 +70,7 @@ export class ReproductorService{
         private alertasServices: AlertasServices
     ){}
 
-
-    public consultarUltimaCancionReproducida(){
-
-        // AQUI EN ULTIMA CANCION REPRODUCIDA SERIA BUENO DEJAER UNA CANCION POR DEFECTO, PARA QUE SIEMPRE HAYA UNA CANCION idCancion = "613d2e90fad78f0016fb8920"
-        this.cancionService.consultarCancionPorId("613d2e90fad78f0016fb8920")
-        .pipe(
-            map((resCancion: any) => {
-                this.cancion = this.cancionService.convertirACancionInterface(resCancion.data);
-                return this.cancion.album;
-            }),
-
-            switchMap((idAlbum) =>  this.albumService.consultarAlbumPorId(idAlbum)),
-            map((resAlbum: any) => {
-                this.album = this.albumService.convertirAAlbumInterface(resAlbum.data)
-                return this.album.artista;
-            }),
-
-            switchMap((idArtista) => this.artistaService.consultarArtistasPorId(idArtista)),
-            map((resArtista: any) => {
-                this.artista = this.artistaService.convertirAArtistaInterface(resArtista.data);
-            })
-        ).subscribe(
-            (res) => {
-                // console.log('Este es el artista : ', this.artista);
-                // console.log('Este es el Album : ', this.album);
-                // console.log('Este es la cancion : ', this.cancion);
-                // this.consultarCancionesPorIdAlbum(this.album.id);
-            }
-        )
-    }
-
-    public cancionSeleccionadaDesdeAlbum(idCancion: string){    
+    public cancionSeleccionadaDesdeAlbum(idCancion: string){
 
         this.cancionService.consultarCancionPorId(idCancion)
         .pipe(
@@ -131,7 +98,7 @@ export class ReproductorService{
         }) 
     }
 
-    public cancionSeleccionadaDesdeLista(idCancion: string){    
+    public cancionSeleccionadaDesdeLista(idCancion: string){
 
         this.listaCanciones = [];
 
@@ -220,7 +187,6 @@ export class ReproductorService{
         })
     }
 
-  // REPRODUCIR ALBUM FINISHED
     albumSeleccionada(idAlbumSeleccionada: string){
 
         this.albumService.consultarAlbumPorId(idAlbumSeleccionada)
@@ -259,6 +225,13 @@ export class ReproductorService{
 
     playOrPause(){
         (this.isPlay) ? (this.track.pause(), this.isPlay = false) : (this.track.play(), this.isPlay = true);
+    }
+
+    pause(){
+        if(this.isPlay) {
+            this.track.pause();
+            this.isPlay = false;
+        }
     }
     
     async nextSong(){
